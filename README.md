@@ -6,12 +6,15 @@ Tools:
  - Platform - `Node.js`
  - Web Framework - `Express.js`
  - View engine - `Ejs`
+ - CSS framework - `Twitter Bootstrap`
  - Database - `MongoDB`
+ - Promises - `Q`
  - Task runner - `Gulp`
  - JS lint - `JsHint`
  - Testing - `Mocha`, `Should`, `Supertest`, `Sinon`
  - Client dependencies resolver - `Bower`
  - Logger - `Express-Winston`
+ - Client modules defining - `Browserify`
 
 Project structure:
 - client (_client side files_)
