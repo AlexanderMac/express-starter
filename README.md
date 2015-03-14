@@ -1,5 +1,5 @@
 # express-starter
-`Express` basic project configuration.
+`Express` project basic configuration.
 
 ## Overview
 Tools:
