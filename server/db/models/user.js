@@ -1,4 +1,6 @@
-var mongoose   = require('mongoose');
+'use strict';
+
+var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
   name: {

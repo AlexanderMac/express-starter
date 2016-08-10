@@ -1,37 +1,31 @@
-var expressWinston = require('express-winston');
+'use strict';
+
+var _              = require('lodash');
 var winston        = require('winston');
+var expressWinston = require('express-winston');
+var config         = require('../../config/environment');
 
-var winstonInstance = new winston.Logger({
-  transports: [
-    new winston.transports.Console({
-      colorize: true,
-      prettyPrint: true
-    })
-  ]
+var transports = _.map(config.get('winston:transports'), (transportOpts, transportName) => {
+    switch (transportName) {
+        case 'console':
+            return new (winston.transports.Console)(transportOpts);
+        default:
+            throw new Error(`Invalid transport name: ${transportName}`);
+    }
 });
 
-module.exports.commonLogger = expressWinston.logger({
-  winstonInstance: winstonInstance,
-  ignoredRoutes: ['/assets'],
-  requestWhitelist: [
-    'url', 'originalUrl', 'query', 'params', 'body'
-  ],
-  responseWhitelist: [
-    '_headers', 'statusCode'
-  ],
-  meta: true,
-  expressFormat: true
-});
+exports.logger = new (winston.Logger)({ transports });
 
-module.exports.assetsLogger = expressWinston.logger({
-  winstonInstance: winstonInstance,
+exports.common = expressWinston.logger({
+  winstonInstance: exports.logger,
   meta: false,
-  expressFormat: true
+  expressFormat: true,
+  colorize: true
 });
-  
-module.exports.errorLogger = expressWinston.errorLogger({
-  winstonInstance: winstonInstance,
-  requestWhitelist: [
-    'url', 'originalUrl', 'query', 'params', 'body'
-  ]
+
+exports.error = expressWinston.errorLogger({
+  winstonInstance: exports.logger,
+  meta: false,
+  expressFormat: true,
+  colorize: true
 });
