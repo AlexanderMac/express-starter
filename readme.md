@@ -3,20 +3,20 @@
 
 
 ### Used packages
- - Backend - `Express`
- - View engine - `Jade`
- - Database - `Mongodb`
- - Promises - `Bluebird`
- - Task runner - `Gulp`
- - JS linter - `JsHint`
- - Testing - `Mocha`, `Should`, `Supertest`, `Sinon`
- - Logger - `Winston`
+ - Backend - `express`
+ - View engine - `jade`
+ - Database - `mongodb`
+ - Promises - `bluebird`
+ - Task runner - `gulp`
+ - JS linter - `jshint`
+ - Testing - `mocha`, `should`, `supertest`, `sinon`
+ - Logger - `winston, express-winston`
 
 
 ### How to use
 1. Clone this repository.
 2. Install dependencies: `npm i`
-3. Configure database.
+3. Configure database (here - `config/environment/development.json`)
 
 
 ### Commands
@@ -25,7 +25,7 @@
 # Install dependencies
 $ npm i
 # Run tests (one of the commands):
-$ npm test # run all the tests
+$ gulp test # run all tests
 $ gulp test --grep 'test-name'
 $ gulp test --filter 'path to test file/folder'
 # Run code coverage tool:
