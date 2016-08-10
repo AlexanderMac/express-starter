@@ -1,0 +1,18 @@
+{
+  "extends": "../.jshintrc",
+
+  "maxparams"     : 6,    // {int} Max number of formal params allowed per function
+  "maxlen"        : 160,  // {int} Max number of characters per line
+  "expr"          : true, // true: Tolerate `ExpressionStatement` as Programs
+
+  // Custom Globals
+  "globals": {
+    "describe"    : true,
+    "before"      : true,
+    "beforeEach"  : true,
+    "after"       : true,
+    "afterEach"   : true,
+    "it"          : true,
+    "expect"      : true
+  }
+}

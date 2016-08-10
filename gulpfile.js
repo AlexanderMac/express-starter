@@ -1,3 +1,5 @@
+'use strict';
+
 var requireDir = require('require-dir');
 
-requireDir('./gulp', { recurse: true });
+requireDir('./tasks', { recurse: true });
