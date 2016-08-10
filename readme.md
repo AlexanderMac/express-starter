@@ -13,7 +13,7 @@
  - Logger - `Winston`
 
 
- ## How to use
+### How to use
 1. Clone this repository.
 2. Install dependencies: `npm i`
 3. Configure database.
@@ -51,9 +51,9 @@ $ npm start
 - [tasks] - gulp tasks
 - [test] - unit and functional tests
 
-## License
+### License
 This code available under the MIT License.
 See License.md for details.
 
-## Authors
+### Authors
 **Alexander Mac** ([amatsibarov@gmail.com](mailto:amatsibarov@gmail.com))
