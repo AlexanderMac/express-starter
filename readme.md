@@ -1,84 +1,59 @@
 # express-starter
-`Express` project basic configuration.
+`Express` project template.
 
-## Overview
-Tools:
- - Platform - `Node.js`
- - Web Framework - `Express.js`
- - View engine - `Ejs`
- - CSS framework - `Twitter Bootstrap`
- - Database - `MongoDB`
- - Promises - `Q`
+
+### Used packages
+ - Backend - `Express`
+ - View engine - `Jade`
+ - Database - `Mongodb`
+ - Promises - `Bluebird`
  - Task runner - `Gulp`
- - JS lint - `JsHint`
+ - JS linter - `JsHint`
  - Testing - `Mocha`, `Should`, `Supertest`, `Sinon`
- - Client dependencies resolver - `Bower`
- - Logger - `Express-Winston`
- - Client modules defining - `Browserify`
-
-Project structure:
-- client (_client side files_)
-  - css (_client css files_)
-  - js  (_javascript source files_)
-- config (_project configuration files_)
-- gulp (_gulp tasks_)
-- public (_public files (compiled css, js, fonts), static files_)
-- server (_server side files_)
-  - models (_models declarations_)
-  - routes (_app routes_)
-  - services (_business logic_)
-  - util (_app common utilities_)
-  - views (_views_)
-  - app.js (_main app file_)
-- test (_tests_)
-
-## How to use
-1.Clone this repository.
-2.Install dependencies:
-```
-npm install
-```
-3.Configure database:
-``` js
-// ./config/mongo.js
-module.exports = {
-  test: {
-    connectionString: 'mongodb://localhost:27017/{your test db name}'
-  },
-  development: {
-    connectionString: 'mongodb://localhost:27017/{your dev db name}'
-  },
-  production: {
-    connectionString: 'mongodb:{path and name your prod db}'
-  }
-};
-```
+ - Logger - `Winston`
 
 
-## Commands
+ ## How to use
+1. Clone this repository.
+2. Install dependencies: `npm i`
+3. Configure database.
 
-- Build sources:
+
+### Commands
+
+```sh
+# Install dependencies
+$ npm i
+# Run tests (one of the commands):
+$ npm test # run all the tests
+$ gulp test --grep 'test-name'
+$ gulp test --filter 'path to test file/folder'
+# Run code coverage tool:
+$ npm run coverage
+# Run jshint tool (one of the commands):
+$ npm run lint # check for all the sources
+$ gulp lint --filter 'path to source file/folder'
+# Start app:
+$ npm start
 ```
-npm run build
-```
-- Run linter and tests
-```
-npm test
-<OR>
-npm test --grep (specify required tests)
-```
-- Run server:
-```
-npm start
-```
-- Watch and rebuild changed files:
-```
-npm run watch
-```
+
+### Service structure
+- [config] - app configuration options
+- [server]
+  - [controllers] - controllers
+  - [db] - database manager and models
+  - [data-services] - local data services
+  - [routes] - API end points
+  - [services] - remote service wrappers
+  - [util]
+    - [validation-util] - validation utils
+    - [logger] - app logger
+- [tasks] - gulp tasks
+- [test] - unit and functional tests
 
 ## License
 This code available under the MIT License.
-See License.md for details.  
+See License.md for details.
 
 ## Authors
 **Alexander Mac** ([amatsibarov@gmail.com](mailto:amatsibarov@gmail.com))
