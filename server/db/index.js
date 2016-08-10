@@ -32,12 +32,9 @@ exports.connection = connection;
 exports.connect = function() {
     var open = Promise.promisify(connection.open, { context: connection });
     return open(config.get('db'));
-
-    //var connect = Promise.promisify(mongoose.connect, { context: mongoose });
-    //return connect(config.get('db:connection'), config.get('db:options'));
 };
 
 exports.disconnect = function() {
-    var close = Promise.promisify(connection.close, connection);
+    var close = Promise.promisify(connection.close, { context: connection });
     return close();
 };

@@ -10,7 +10,7 @@ exports.getUser = function(filter, keys) {
     .exec()
     .then(user => {
       if (!user) {
-        return customErrors.rejectWithObjectNotFoundError('user');
+        return customErrors.rejectWithObjectNotFoundError('user is not found');
       }
       return user;
     });
@@ -30,6 +30,6 @@ exports.saveUser = function(user) {
 
 exports.deleteUserById = function(userId) {
   return exports
-    .getUser(userId)
-    .then(user => user.delete());
+    .getUser({ _id: userId })
+    .then(user => user.remove());
 };

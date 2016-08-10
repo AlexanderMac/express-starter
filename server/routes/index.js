@@ -17,7 +17,15 @@ module.exports = function(app) {
       var errData = { reason: err.message, info: err.info };
       res.status(err.statusCode).send(errData);
     } else {
-      log.error('Unexpected server error', err);
+      switch (process.env.NODE_ENV) {
+        case 'test':
+        case 'development':
+          console.log('Unexpected server error', err, err.stack);
+          break;
+        case 'production':
+          log.error('Unexpected server error', err);
+          break;
+      }
       err = new Error('Unexpected server error');
       err.statusCode = err.statusCode || 500;
       next(err);

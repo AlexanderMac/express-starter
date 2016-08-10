@@ -3,20 +3,18 @@
 var _              = require('lodash');
 var Promise        = require('bluebird');
 var customErrors   = require('n-custom-errors');
-var userSrvc       = require('../data-services/users');
+var usersSrvc      = require('../data-services/users');
 var validationUtil = require('../util/validation-util');
 
-// TODO: test it
 exports.getUsers = function(req, res, next) {
-  userSrvc
+  usersSrvc
     .getUsers({}, 'name email')
     .then(users => res.send(users))
     .catch(next);
 };
 
-// TODO: test it
 exports.getUserById = function(req, res, next) {
-  var userId = req.params.id;
+  var userId = req.params._id;
 
   function validateParams() {
     if (!validationUtil.isValidObjectId(userId)) {
@@ -26,50 +24,99 @@ exports.getUserById = function(req, res, next) {
   }
 
   validateParams()
-    .then(() => userSrvc.getUser({ _id: userId }, 'name email'))
+    .then(() => usersSrvc.getUser({ _id: userId }, 'name email'))
     .then(user => res.send(user))
     .catch(next);
 };
 
-// TODO: test it
 exports.createUser = function(req, res, next) {
-  var userData = _.pick(req.body, ['name', 'email']);
+  function parseParams() {
+    var allowedFields = ['name', 'email'];
+    var userData = _.pick(req.body, allowedFields);
+    return Promise.resolve(userData);
+  }
 
-  // TODO: parse params
-  // TODO: validate params
-  
-  userSrvc
-    .save(userData)
+  function validateParams(userData) {
+    if (!userData.name) {
+      return customErrors.rejectWithUnprocessableRequestError({
+        paramName: 'name',
+        errMsg: 'is required'
+      });
+    }
+    if (!validationUtil.isValidEmail(userData.email)) {
+      return customErrors.rejectWithUnprocessableRequestError({
+        paramName: 'email',
+        errMsg: 'is required and must be a valid email'
+      });
+    }
+    return userData;
+  }
+
+  function doEdits(userData) {
+    var user = _.assign({}, userData);
+    return user;
+  }
+
+  parseParams()
+    .then(validateParams)
+    .then(doEdits)
+    .then(user => usersSrvc.createUser(user))
     .then(user => res.send(user))
     .catch(next);
 };
 
-// TODO: test it
 exports.updateUser = function(req, res, next) {
-  var userId = req.params.id;
-  var userData = _.pick(req.body, ['name', 'email']);
+  function parseParams() {
+    var allowedFields = ['name', 'email'];
+    var userData = _.pick(req.body, allowedFields);
+    userData._id = req.params._id;
+    return Promise.resolve(userData);
+  }
 
-  // TODO: parse params
-  // TODO: validate params
+  function validateParams(userData) {
+    if (!validationUtil.isValidObjectId(userData._id)) {
+      return customErrors.rejectWithUnprocessableRequestError({
+        paramName: 'id',
+        errMsg: 'must be a valid id'
+      });
+    }
+    if (!userData.name) {
+      return customErrors.rejectWithUnprocessableRequestError({
+        paramName: 'name',
+        errMsg: 'is required'
+      });
+    }
+    if (!validationUtil.isValidEmail(userData.email)) {
+      return customErrors.rejectWithUnprocessableRequestError({
+        paramName: 'email',
+        errMsg: 'is required and must be a valid email'
+      });
+    }
+    return userData;
+  }
 
-  validationUtil
-    .validateObjectId(userId)
-    .then(() => userSrvc.getUser({ _id: userId }))
-    .then(user => {
-      user.name = userData.name;
-      user.email = userData.email;
-      return userSrvc.save(user);
-    })  
+  function doEdits(data) {
+    _.extend(data.user, data.userData);
+    return data.user;
+  }
+
+  parseParams()
+    .then(validateParams)
+    .then(userData => usersSrvc
+      .getUser({ _id: userData._id })
+      .then(user => {
+        return { user, userData };
+      })
+    )
+    .then(doEdits)
+    .then(user => usersSrvc.saveUser(user))
     .then(user => res.send(user))
     .catch(next);
 };
 
-// TODO: test it
 exports.deleteUser = function(req, res, next) {
-  var userId = req.params.id;
+  var userId = req.params._id;
 
-  // TODO: validate params
-  
   function validateParams() {
     if (!validationUtil.isValidObjectId(userId)) {
       return customErrors.rejectWithUnprocessableRequestError({ paramName: 'id', errMsg: 'must be a valid id'});
@@ -78,7 +125,7 @@ exports.deleteUser = function(req, res, next) {
   }
 
   validateParams()
-    .then(() => userSrvc.deleteUserById(userId))
+    .then(() => usersSrvc.deleteUserById(userId))
     .then(() => res.status(203).end())
     .catch(next);
 };

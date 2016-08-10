@@ -29,10 +29,12 @@ $ npm test # run all the tests
 $ gulp test --grep 'test-name'
 $ gulp test --filter 'path to test file/folder'
 # Run code coverage tool:
-$ npm run coverage
+$ gulp coverage
 # Run jshint tool (one of the commands):
-$ npm run lint # check for all the sources
+$ gulp lint # check all sources
 $ gulp lint --filter 'path to source file/folder'
+$ gulp lint-server # check server sources
+$ gulp lint-test # check test sources
 # Start app:
 $ npm start
 ```

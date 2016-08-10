@@ -7,5 +7,5 @@ module.exports = function(app) {
   app.get('/api/users', users.getUsers);
   app.post('/api/users', users.createUser);
   app.put('/api/users/:_id', users.updateUser);
-  app.delete('/api/users', users.deleteUser);
+  app.delete('/api/users/:_id', users.deleteUser);
 };

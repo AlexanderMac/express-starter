@@ -7,7 +7,10 @@ var userSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  email: String
+  email: {
+    type: String,
+    required: true
+  }
 });
 
 var UserModel = mongoose.model('user', userSchema);

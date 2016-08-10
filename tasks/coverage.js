@@ -15,6 +15,8 @@ gulp.task('coverage', cb => {
       paths.server + filters.jsDeep,
       '!' + paths.server + 'app.js',
       '!' + paths.server + '/routes/index.js',
+      '!' + paths.server + '/db/index.js',
+      '!' + paths.server + '/util/logger.js'
     ])
     .pipe(gistanbul({ includeUntested: true }))
     .pipe(gistanbul.hookRequire())

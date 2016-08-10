@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "Express-starter",
   "private": true,
+  "scripts": {
+    "start": "./node_modules/.bin/gulp",
+    "test": "./node_modules/.bin/gulp lint && ./node_modules/.bin/gulp test --reporter dot"
+  },
   "dependencies": {
     "bluebird": "^3.4.1",
     "body-parser": "^1.15.2",
@@ -31,12 +35,9 @@
     "mocha": "^3.0.2",
     "should": "^11.0.0",
     "sinon": "^1.17.5",
+    "sinon-as-promised": "^4.0.2",
     "supertest": "^2.0.0",
     "yargs": "^4.8.1"
-  },
-  "scripts": {
-    "start": "./node_modules/.bin/gulp",
-    "test": "./node_modules/.bin/gulp lint && ./node_modules/.bin/gulp test --reporter dot"
   },
   "repository": {
     "type": "git",
