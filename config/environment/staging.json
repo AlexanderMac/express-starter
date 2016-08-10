@@ -1,0 +1,16 @@
+{
+  "port": 3000,
+
+  "db": "mongodb://localhost/express-starter-stag",
+
+  "winston": {
+    "transports": {
+      "console": {
+        "colorize": true,
+        "stringify": true,
+        "prettyPrint": true,
+        "level": "info"
+      }
+    }
+  }
+}
