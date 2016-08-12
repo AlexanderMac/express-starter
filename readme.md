@@ -2,6 +2,14 @@
 `Express` project template.
 
 
+### Features
+- Clean code:)
+- Advanced project structure with separation for routes, controllers, data-services.
+- Basic User CRUD operations.
+- Configuration per environment.
+- Gulp tasks.
+- Functional and unit tests.
+
 ### Used packages
  - Backend - `express`
  - View engine - `jade`
@@ -11,12 +19,22 @@
  - JS linter - `jshint`
  - Testing - `mocha`, `should`, `supertest`, `sinon`
  - Logger - `winston, express-winston`
+ - Configuration: `n-conf`
+ - Custom errors: `n-custom-errors`
 
 
 ### How to use
-1. Clone this repository.
-2. Install dependencies: `npm i`
-3. Configure database (here - `config/environment/development.json`)
+##### Clone this repo:
+`git clone https://github.com/AlexanderMac/express-starter.git`
+
+##### Install dependencies:
+`cd express-starter && npm i`
+
+##### Configure database:
+Open `./config/environment/development.json` and change `db` key to your own database connection string.
+
+#### Start app:
+`npm start`
 
 
 ### Commands
