@@ -3,12 +3,15 @@
 
 
 ### Features
-- Clean code:)
 - Advanced project structure with separation for routes, controllers, data-services.
-- Basic User CRUD operations.
+- RESTful User CRUD api.
+- Parameters validation.
+- Promises everywhere.
 - Configuration per environment.
 - Gulp tasks.
 - Functional and unit tests.
+- Clean code:)
+
 
 ### Used packages
  - Backend - `express`
@@ -27,8 +30,11 @@
 ##### Clone this repo:
 `git clone https://github.com/AlexanderMac/express-starter.git`
 
+##### Init your repo:
+`cd express-starter && rm -rf .git && git init` 
+
 ##### Install dependencies:
-`cd express-starter && npm i`
+`npm i`
 
 ##### Configure database:
 Open `./config/environment/development.json` and change `db` key to your own database connection string.
