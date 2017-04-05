@@ -4,7 +4,7 @@
 
 ### Features
 - Advanced project structure with separation for routes, controllers, data-services.
-- RESTful User CRUD api.
+- RESTful User CRUD API.
 - Parameters validation.
 - Promises everywhere.
 - Configuration per environment.
