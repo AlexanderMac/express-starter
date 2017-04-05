@@ -27,21 +27,22 @@
 
 
 ### How to use
-##### Clone this repo:
+```sh
+# Clone this repo:
 `git clone https://github.com/AlexanderMac/express-starter.git`
 
-##### Init your repo:
+# Init your repo:
 `cd express-starter && rm -rf .git && git init` 
 
-##### Install dependencies:
+# Install dependencies:
 `npm i`
 
-##### Configure database:
-Open `./config/environment/development.json` and change `db` key to your own database connection string.
+# Configure database:
+# Open `./config/environment/development.json` and change `db` key to your own database connection string.
 
-#### Start app:
+# Start app:
 `npm start`
-
+```
 
 ### Commands
 
@@ -77,9 +78,10 @@ $ npm start
 - [tasks] - gulp tasks
 - [test] - unit and functional tests
 
-### License
-This code available under the MIT License.
-See License.md for details.
 
-### Authors
-**Alexander Mac** ([amatsibarov@gmail.com](mailto:amatsibarov@gmail.com))
+### Author
+Alexander Mac
+
+
+### License
+[MIT License](license.md)
