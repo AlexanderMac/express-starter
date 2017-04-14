@@ -1,6 +1,8 @@
 # express-starter
 `Express` project template.
 
+[![Build Status](https://travis-ci.org/AlexanderMac/express-starter.svg?branch=master)](https://travis-ci.org/AlexanderMac/express-starter)
+
 
 ### Features
 - Advanced project structure with separation for routes, controllers, data-services.
