@@ -6,12 +6,12 @@ var expressWinston = require('express-winston');
 var config         = require('../../config/environment');
 
 var transports = _.map(config.get('winston:transports'), (transportOpts, transportName) => {
-    switch (transportName) {
-        case 'console':
-            return new (winston.transports.Console)(transportOpts);
-        default:
-            throw new Error(`Invalid transport name: ${transportName}`);
-    }
+  switch (transportName) {
+    case 'console':
+      return new (winston.transports.Console)(transportOpts);
+    default:
+      throw new Error(`Invalid transport name: ${transportName}`);
+  }
 });
 
 exports.logger = new (winston.Logger)({ transports });
