@@ -86,4 +86,4 @@ Alexander Mac
 
 
 ### License
-[MIT License](LICENSE)
+[MIT License](license)
