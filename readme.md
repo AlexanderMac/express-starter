@@ -31,39 +31,33 @@
 ### How to use
 ```sh
 # Clone this repo:
-`git clone https://github.com/AlexanderMac/express-starter.git`
+git clone https://github.com/AlexanderMac/express-starter.git
 
 # Init your repo:
-`cd express-starter && rm -rf .git && git init` 
+cd express-starter && rm -rf .git && git init
 
 # Install dependencies:
-`npm i`
+npm i
 
 # Configure database:
 # Open `./config/environment/development.json` and change `db` key to your own database connection string.
 
 # Start app:
-`npm start`
-```
+npm start
 
-### Commands
-
-```sh
-# Install dependencies
-$ npm i
 # Run tests (one of the commands):
 $ gulp test # run all tests
 $ gulp test --grep 'test-name'
 $ gulp test --filter 'path to test file/folder'
+
 # Run code coverage tool:
 $ gulp coverage
+
 # Run jshint tool (one of the commands):
 $ gulp lint # check all sources
 $ gulp lint --filter 'path to source file/folder'
 $ gulp lint-server # check server sources
 $ gulp lint-test # check test sources
-# Start app:
-$ npm start
 ```
 
 ### Service structure
