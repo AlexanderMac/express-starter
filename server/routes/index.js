@@ -2,10 +2,10 @@
 
 const logger = require('../util/logger');
 
-module.exports = function(app) {
+module.exports = (app) => {
   require('./users')(app);
 
-  app.use(function(req, res, next) {
+  app.use((req, res, next) => {
     let err = new Error('Invalid end point');
     err.statusCode = 404;
     next(err);

@@ -18,7 +18,7 @@ nconf.set('env', process.env.NODE_ENV);
 nconf.set('rootPath', path.normalize(__dirname + '/../../'));
 
 function _convertKeysLoLowerCase(obj) {
-  _.each(obj, function(value, key) {
+  _.each(obj, (value, key) => {
     delete obj[key];
     key = key.toLowerCase();
     obj[key] = value;
@@ -58,19 +58,4 @@ function get(key) {
   return value;
 }
 
-function getMany() {
-  let keys = Array.prototype.slice.apply(arguments);
-  if (keys.length === 0) {
-    return null;
-  }
-
-  let values = {};
-  _.each(keys, function(key) {
-    values[key] = get(key);
-  });
-
-  return values;
-}
-
 exports.get = get;
-exports.getMany = getMany;

@@ -2,7 +2,7 @@
 
 const users = require('../controllers/users');
 
-module.exports = function(app) {
+module.exports = (app) => {
   app.get('/api/users/:_id', users.getUserById);
   app.get('/api/users', users.getUsers);
   app.post('/api/users', users.createUser);

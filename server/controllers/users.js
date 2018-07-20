@@ -5,14 +5,14 @@ const customErrors = require('n-custom-errors');
 const validators   = require('n-validators');
 const usersSrvc    = require('../data-services/users');
 
-exports.getUsers = function(req, res, next) {
+exports.getUsers = (req, res, next) => {
   usersSrvc
     .getUsers({}, 'name email')
     .then(users => res.send(users))
     .catch(next);
 };
 
-exports.getUserById = function(req, res, next) {
+exports.getUserById = (req, res, next) => {
   let userId = req.params._id;
 
   function validateParams() {
@@ -28,7 +28,7 @@ exports.getUserById = function(req, res, next) {
     .catch(next);
 };
 
-exports.createUser = function(req, res, next) {
+exports.createUser = (req, res, next) => {
   function parseParams() {
     let allowedFields = ['name', 'email'];
     let userData = _.pick(req.body, allowedFields);
@@ -64,7 +64,7 @@ exports.createUser = function(req, res, next) {
     .catch(next);
 };
 
-exports.updateUser = function(req, res, next) {
+exports.updateUser = (req, res, next) => {
   function parseParams() {
     let allowedFields = ['name', 'email'];
     let userData = _.pick(req.body, allowedFields);
@@ -113,7 +113,7 @@ exports.updateUser = function(req, res, next) {
     .catch(next);
 };
 
-exports.deleteUser = function(req, res, next) {
+exports.deleteUser = (req, res, next) => {
   let userId = req.params._id;
 
   function validateParams() {

@@ -3,7 +3,7 @@
 const customErrors = require('n-custom-errors');
 const User         = require('mongoose').model('user');
 
-exports.getUser = function(filter, keys) {
+exports.getUser = (filter, keys) => {
   return User
     .findOne(filter)
     .select(keys)
@@ -16,19 +16,19 @@ exports.getUser = function(filter, keys) {
     });
 };
 
-exports.getUsers = function(filter, keys) {
+exports.getUsers = (filter, keys) => {
   return User.find(filter, keys);
 };
 
-exports.createUser = function(userData) {
+exports.createUser = (userData) => {
   return User.create(userData);
 };
 
-exports.saveUser = function(user) {
+exports.saveUser = (user) => {
   return user.save();
 };
 
-exports.deleteUserById = function(userId) {
+exports.deleteUserById = (userId) => {
   return exports
     .getUser({ _id: userId })
     .then(user => user.remove());
