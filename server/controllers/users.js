@@ -1,9 +1,9 @@
 'use strict';
 
-const _              = require('lodash');
-const customErrors   = require('n-custom-errors');
-const usersSrvc      = require('../data-services/users');
-const validationUtil = require('../util/validation-util');
+const _            = require('lodash');
+const customErrors = require('n-custom-errors');
+const validators   = require('n-validators');
+const usersSrvc    = require('../data-services/users');
 
 exports.getUsers = function(req, res, next) {
   usersSrvc
@@ -16,7 +16,7 @@ exports.getUserById = function(req, res, next) {
   let userId = req.params._id;
 
   function validateParams() {
-    if (!validationUtil.isValidObjectId(userId)) {
+    if (!validators.isObjectId(userId)) {
       customErrors.throwUnprocessableRequestError({ paramName: 'id', errMsg: 'must be a valid id' });
     }
     return Promise.resolve();
@@ -42,7 +42,7 @@ exports.createUser = function(req, res, next) {
         errMsg: 'is required'
       });
     }
-    if (!validationUtil.isValidEmail(userData.email)) {
+    if (!validators.isEmail(userData.email)) {
       customErrors.throwUnprocessableRequestError({
         paramName: 'email',
         errMsg: 'is required and must be a valid email'
@@ -73,7 +73,7 @@ exports.updateUser = function(req, res, next) {
   }
 
   function validateParams(userData) {
-    if (!validationUtil.isValidObjectId(userData._id)) {
+    if (!validators.isObjectId(userData._id)) {
       customErrors.throwUnprocessableRequestError({
         paramName: 'id',
         errMsg: 'must be a valid id'
@@ -85,7 +85,7 @@ exports.updateUser = function(req, res, next) {
         errMsg: 'is required'
       });
     }
-    if (!validationUtil.isValidEmail(userData.email)) {
+    if (!validators.isEmail(userData.email)) {
       customErrors.throwUnprocessableRequestError({
         paramName: 'email',
         errMsg: 'is required and must be a valid email'
@@ -117,7 +117,7 @@ exports.deleteUser = function(req, res, next) {
   let userId = req.params._id;
 
   function validateParams() {
-    if (!validationUtil.isValidObjectId(userId)) {
+    if (!validators.isObjectId(userId)) {
       customErrors.throwUnprocessableRequestError({ paramName: 'id', errMsg: 'must be a valid id' });
     }
     return Promise.resolve();

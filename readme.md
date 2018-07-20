@@ -15,12 +15,12 @@
 
 ### Used packages
  - Backend - `express`
- - View engine - `jade`
+ - View engine - `pug`
  - Database - `mongodb`
  - Promises - `bluebird`
- - JS linter - `jshint`
+ - Linter - `eshint`
  - Testing - `mocha`, `should`, `supertest`, `sinon`
- - Logger - `winston, express-winston`
+ - Logger - `winston, morgan`
  - Configuration: `n-conf`
  - Custom errors: `n-custom-errors`
 
@@ -62,7 +62,6 @@ npm lint
   - [routes] - API end points
   - [services] - remote service wrappers
   - [util]
-    - [validation-util] - validation utils
     - [logger] - app logger
 - [test] - unit and functional tests
 

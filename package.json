@@ -19,6 +19,7 @@
     "mongoose": "^5.2.4",
     "morgan": "^1.9.0",
     "n-custom-errors": "^2.0.0",
+    "n-validators": "^2.0.0-alpha-2",
     "nconf": "^0.10.0",
     "serve-favicon": "^2.5.0",
     "winston": "^2.4.3"
