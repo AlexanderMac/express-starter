@@ -78,12 +78,12 @@ describe('controllers', () => {
         User
           .create(initialUsers)
           .then(() => new Promise((resolve, reject) => {
-              request(app)
-                .get('/api/users/' + userId)
-                .expect(expectedStatus)
-                .expect('Content-Type', /json/)
-                .expect(res => testUtil.assert(res.body, expectedBody))
-                .end(err => testUtil.resolveOrReject(err, resolve, reject));
+            request(app)
+              .get('/api/users/' + userId)
+              .expect(expectedStatus)
+              .expect('Content-Type', /json/)
+              .expect(res => testUtil.assert(res.body, expectedBody))
+              .end(err => testUtil.resolveOrReject(err, resolve, reject));
           }))
           .then(() => done())
           .catch(done);
@@ -142,13 +142,13 @@ describe('controllers', () => {
         User
           .create(initialUsers)
           .then(() => new Promise((resolve, reject) => {
-              request(app)
-                .post('/api/users')
-                .send(userData)
-                .expect(expectedStatus)
-                .expect('Content-Type', /application\/json/)
-                .expect(res => testUtil.assert(res.body, expectedBody))
-                .end(err => testUtil.resolveOrReject(err, resolve, reject));
+            request(app)
+              .post('/api/users')
+              .send(userData)
+              .expect(expectedStatus)
+              .expect('Content-Type', /application\/json/)
+              .expect(res => testUtil.assert(res.body, expectedBody))
+              .end(err => testUtil.resolveOrReject(err, resolve, reject));
           }))
           .then(() => done())
           .catch(done);
@@ -228,13 +228,13 @@ describe('controllers', () => {
         User
           .create(initialUsers)
           .then(() => new Promise((resolve, reject) => {
-              request(app)
-                .put('/api/users/' + userId)
-                .send(userData)
-                .expect(expectedStatus)
-                .expect('Content-Type', /application\/json/)
-                .expect(res => testUtil.assert(res.body, expectedBody))
-                .end(err => testUtil.resolveOrReject(err, resolve, reject));
+            request(app)
+              .put('/api/users/' + userId)
+              .send(userData)
+              .expect(expectedStatus)
+              .expect('Content-Type', /application\/json/)
+              .expect(res => testUtil.assert(res.body, expectedBody))
+              .end(err => testUtil.resolveOrReject(err, resolve, reject));
           }))
           .then(() => done())
           .catch(done);
@@ -343,18 +343,18 @@ describe('controllers', () => {
         User
           .create(initialUsers)
           .then(() => new Promise((resolve, reject) => {
-              request(app)
-                .delete('/api/users/' + userId)
-                .expect(expectedStatus)
-                .expect(res => {
-                  if (expectedStatus !== 203) {
-                    should(res.headers['content-type']).be.match(/json/);
-                    testUtil.assert(res.body, expectedBody);
-                  } else {
-                    should(res.body).eql({});
-                  }
-                })  
-                .end(err => testUtil.resolveOrReject(err, resolve, reject));
+            request(app)
+              .delete('/api/users/' + userId)
+              .expect(expectedStatus)
+              .expect(res => {
+                if (expectedStatus !== 203) {
+                  should(res.headers['content-type']).be.match(/json/);
+                  testUtil.assert(res.body, expectedBody);
+                } else {
+                  should(res.body).eql({});
+                }
+              })
+              .end(err => testUtil.resolveOrReject(err, resolve, reject));
           }))
           .then(() => done())
           .catch(done);

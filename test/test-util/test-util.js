@@ -39,8 +39,8 @@ var testUtil = {
     return dst;
   },
 
+  // eslint-disable-next-line max-compexity
   assert: function(actual, expected) {
-    /* jshint maxcomplexity: 8 */
     var self = this;
 
     if (_assertIfExpectedIsUndefined(actual, expected) ||
@@ -93,10 +93,10 @@ var testUtil = {
   },
 
   isSimplePrim: function(prim) {
-    return _.isBoolean(prim) || 
-         _.isNumber(prim) ||
-         _.isString(prim) ||
-         _.isDate(prim);
+    return _.isBoolean(prim) ||
+           _.isNumber(prim) ||
+           _.isString(prim) ||
+           _.isDate(prim);
   },
 
   buildQuery: function(params) {
@@ -112,7 +112,7 @@ var testUtil = {
       try {
         should(actual).eql(expected);
         done();
-      } catch(err) {
+      } catch (err) {
         done(err);
       }
     } else {

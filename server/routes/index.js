@@ -11,7 +11,7 @@ module.exports = function(app) {
     next(err);
   });
 
-  /* jshint unused: false */
+  // eslint-disable-next-line max-params
   app.use((err, req, res, next) => {
     if (err.statusCode < 500) {
       var errData = { reason: err.message, info: err.info };
@@ -20,7 +20,7 @@ module.exports = function(app) {
       switch (process.env.NODE_ENV) {
         case 'test':
         case 'development':
-          console.log('Unexpected server error', err, err.stack);
+          log.error('Unexpected server error', err, err.stack);
           break;
         case 'production':
           log.error('Unexpected server error', err);

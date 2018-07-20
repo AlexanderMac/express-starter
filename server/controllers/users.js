@@ -18,7 +18,7 @@ exports.getUserById = function(req, res, next) {
 
   function validateParams() {
     if (!validationUtil.isValidObjectId(userId)) {
-      return customErrors.rejectWithUnprocessableRequestError({ paramName: 'id', errMsg: 'must be a valid id'});
+      return customErrors.rejectWithUnprocessableRequestError({ paramName: 'id', errMsg: 'must be a valid id' });
     }
     return Promise.resolve();
   }
@@ -119,7 +119,7 @@ exports.deleteUser = function(req, res, next) {
 
   function validateParams() {
     if (!validationUtil.isValidObjectId(userId)) {
-      return customErrors.rejectWithUnprocessableRequestError({ paramName: 'id', errMsg: 'must be a valid id'});
+      return customErrors.rejectWithUnprocessableRequestError({ paramName: 'id', errMsg: 'must be a valid id' });
     }
     return Promise.resolve();
   }
