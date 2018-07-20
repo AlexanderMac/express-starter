@@ -2,12 +2,12 @@
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-var _     = require('lodash');
-var nconf = require('nconf');
-var path  = require('path');
+const _     = require('lodash');
+const nconf = require('nconf');
+const path  = require('path');
 
-var envConfigFilepath = path.join(__dirname, process.env.NODE_ENV + '.json');
-var defConfigFilepath = path.join(__dirname, 'default.json');
+const envConfigFilepath = path.join(__dirname, process.env.NODE_ENV + '.json');
+const defConfigFilepath = path.join(__dirname, 'default.json');
 
 nconf
   .env({ separator: '_' })
@@ -33,7 +33,7 @@ function _convertKeysLoLowerCase(obj) {
 
 // eslint-disable-next-line max-statements
 function get(key) {
-  var value = nconf.get(key.toUpperCase());
+  let value = nconf.get(key.toUpperCase());
   if (_.isUndefined(value)) {
     value = nconf.get(key);
     if (_.isUndefined(value)) {
@@ -59,12 +59,12 @@ function get(key) {
 }
 
 function getMany() {
-  var keys = Array.prototype.slice.apply(arguments);
+  let keys = Array.prototype.slice.apply(arguments);
   if (keys.length === 0) {
     return null;
   }
 
-  var values = {};
+  let values = {};
   _.each(keys, function(key) {
     values[key] = get(key);
   });

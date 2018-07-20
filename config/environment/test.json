@@ -6,7 +6,10 @@
   "winston": {
     "transports": {
       "console": {
-        "silent": true
+        "colorize": true,
+        "stringify": true,
+        "prettyPrint": true,
+        "level": "error"
       }
     }
   }

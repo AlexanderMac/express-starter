@@ -1,10 +1,9 @@
 'use strict';
 
-var _              = require('lodash');
-var Promise        = require('bluebird');
-var customErrors   = require('n-custom-errors');
-var usersSrvc      = require('../data-services/users');
-var validationUtil = require('../util/validation-util');
+const _              = require('lodash');
+const customErrors   = require('n-custom-errors');
+const usersSrvc      = require('../data-services/users');
+const validationUtil = require('../util/validation-util');
 
 exports.getUsers = function(req, res, next) {
   usersSrvc
@@ -14,11 +13,11 @@ exports.getUsers = function(req, res, next) {
 };
 
 exports.getUserById = function(req, res, next) {
-  var userId = req.params._id;
+  let userId = req.params._id;
 
   function validateParams() {
     if (!validationUtil.isValidObjectId(userId)) {
-      return customErrors.rejectWithUnprocessableRequestError({ paramName: 'id', errMsg: 'must be a valid id' });
+      customErrors.throwUnprocessableRequestError({ paramName: 'id', errMsg: 'must be a valid id' });
     }
     return Promise.resolve();
   }
@@ -31,20 +30,20 @@ exports.getUserById = function(req, res, next) {
 
 exports.createUser = function(req, res, next) {
   function parseParams() {
-    var allowedFields = ['name', 'email'];
-    var userData = _.pick(req.body, allowedFields);
+    let allowedFields = ['name', 'email'];
+    let userData = _.pick(req.body, allowedFields);
     return Promise.resolve(userData);
   }
 
   function validateParams(userData) {
     if (!userData.name) {
-      return customErrors.rejectWithUnprocessableRequestError({
+      customErrors.throwUnprocessableRequestError({
         paramName: 'name',
         errMsg: 'is required'
       });
     }
     if (!validationUtil.isValidEmail(userData.email)) {
-      return customErrors.rejectWithUnprocessableRequestError({
+      customErrors.throwUnprocessableRequestError({
         paramName: 'email',
         errMsg: 'is required and must be a valid email'
       });
@@ -53,7 +52,7 @@ exports.createUser = function(req, res, next) {
   }
 
   function doEdits(userData) {
-    var user = _.assign({}, userData);
+    let user = _.assign({}, userData);
     return user;
   }
 
@@ -67,27 +66,27 @@ exports.createUser = function(req, res, next) {
 
 exports.updateUser = function(req, res, next) {
   function parseParams() {
-    var allowedFields = ['name', 'email'];
-    var userData = _.pick(req.body, allowedFields);
+    let allowedFields = ['name', 'email'];
+    let userData = _.pick(req.body, allowedFields);
     userData._id = req.params._id;
     return Promise.resolve(userData);
   }
 
   function validateParams(userData) {
     if (!validationUtil.isValidObjectId(userData._id)) {
-      return customErrors.rejectWithUnprocessableRequestError({
+      customErrors.throwUnprocessableRequestError({
         paramName: 'id',
         errMsg: 'must be a valid id'
       });
     }
     if (!userData.name) {
-      return customErrors.rejectWithUnprocessableRequestError({
+      customErrors.throwUnprocessableRequestError({
         paramName: 'name',
         errMsg: 'is required'
       });
     }
     if (!validationUtil.isValidEmail(userData.email)) {
-      return customErrors.rejectWithUnprocessableRequestError({
+      customErrors.throwUnprocessableRequestError({
         paramName: 'email',
         errMsg: 'is required and must be a valid email'
       });
@@ -115,11 +114,11 @@ exports.updateUser = function(req, res, next) {
 };
 
 exports.deleteUser = function(req, res, next) {
-  var userId = req.params._id;
+  let userId = req.params._id;
 
   function validateParams() {
     if (!validationUtil.isValidObjectId(userId)) {
-      return customErrors.rejectWithUnprocessableRequestError({ paramName: 'id', errMsg: 'must be a valid id' });
+      customErrors.throwUnprocessableRequestError({ paramName: 'id', errMsg: 'must be a valid id' });
     }
     return Promise.resolve();
   }

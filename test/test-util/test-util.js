@@ -1,17 +1,17 @@
 'use strict';
 
-var _        = require('lodash');
-var mongoose = require('mongoose');
-var should   = require('should');
+const _        = require('lodash');
+const mongoose = require('mongoose');
+const should   = require('should');
 require('./index');
 
-var testUtil = {
+let testUtil = {
   ObjectId: mongoose.Types.ObjectId,
 
   addMockKeys: function(src, isSubColl) {
-    var self = this;
+    let self = this;
 
-    var dst = _.clone(src, true, function(val) {
+    let dst = _.clone(src, true, function(val) {
       if (val instanceof self.ObjectId) {
         return self.ObjectId(val);
       }
@@ -22,7 +22,7 @@ var testUtil = {
         dst[index] = self.addMockKeys(item, true);
       });
     } else {
-      var ownKeys = _.keys(dst);
+      let ownKeys = _.keys(dst);
       _.each(ownKeys, function(key) {
         if (_.isArray(dst[key])) {
           dst[key] = self.addMockKeys(dst[key], true);
@@ -41,7 +41,7 @@ var testUtil = {
 
   // eslint-disable-next-line max-compexity
   assert: function(actual, expected) {
-    var self = this;
+    let self = this;
 
     if (_assertIfExpectedIsUndefined(actual, expected) ||
       _assertIfExpectedIsArray(actual, expected) ||
@@ -54,12 +54,12 @@ var testUtil = {
       actual = actual.toObject();
     }
 
-    var expectedKeys = _.keys(expected);
+    let expectedKeys = _.keys(expected);
     should(actual).have.properties(expectedKeys);
 
     _.each(expectedKeys, function(key) {
-      var actualVal = actual[key];
-      var expectedVal = expected[key];
+      let actualVal = actual[key];
+      let expectedVal = expected[key];
 
       if (_.isArray(expectedVal)) {
         self.assert(actualVal, expectedVal);
@@ -100,7 +100,7 @@ var testUtil = {
   },
 
   buildQuery: function(params) {
-    var query = '';
+    let query = '';
     _.each(params, function(value, key) {
       query += key + '=' + value + '&';
     });
@@ -140,7 +140,7 @@ function _assertIfExpectedIsUndefined(actual, expected) {
 function _assertIfExpectedIsArray(actual, expected) {
   if (_.isArray(expected)) {
     should(actual).have.length(expected.length);
-    for (var i = 0; i < expected.length; i++) {
+    for (let i = 0; i < expected.length; i++) {
       testUtil.assert(actual[i], expected[i]);
     }
     return true;

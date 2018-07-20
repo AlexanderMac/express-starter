@@ -1,9 +1,8 @@
 'use strict';
 
-var _        = require('lodash');
-var Promise  = require('bluebird');
-var mongoose = require('mongoose');
-var db       = require('../../server/db');
+const _        = require('lodash');
+const mongoose = require('mongoose');
+const db       = require('../../server/db');
 require('../../server/util/errors');
 
 before(done => {
@@ -28,7 +27,7 @@ after(done => {
 });
 
 function _clearDb() {
-  var ops = _(mongoose.models)
+  let ops = _(mongoose.models)
     .keys()
     .map(modelName => mongoose.model(modelName).remove())
     .value();

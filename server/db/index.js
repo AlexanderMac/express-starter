@@ -1,39 +1,38 @@
 'use strict';
 
-var mongoose   = require('mongoose');
-var Promise    = require('bluebird');
-var config     = require('../../config/environment');
-var log        = require('../util/logger').logger;
+const mongoose = require('mongoose');
+const config   = require('../../config/environment');
+const logger   = require('../util/logger');
+require('../util/promisify');
 
 mongoose.Promise = Promise;
+
 mongoose.models = {};
 
 require('./models/user');
 
-var connection = mongoose.connection;
+const conn = mongoose.connection;
 
 if (process.env.NODE_ENV !== 'test') {
-  connection.on('error', err => {
-    log.info('Database connection error', err);
+  conn.on('error', (err) => {
+    logger.error('mongodb connection error', err);
   });
 
-  connection.on('connected', () => {
-    log.info('Connected to database: ' + config.get('db'));
+  conn.on('connected', () => {
+    logger.info(`Connected to mongodb: ${config.get('db:mongo')}`);
   });
 
-  connection.on('disconnected', () => {
-    log.info('Disconnected from database');
+  conn.on('disconnected', () => {
+    logger.info('Disconnected from mongodb');
   });
 }
 
-exports.connection = connection;
+exports.conn = conn;
 
-exports.connect = function() {
-  var open = Promise.promisify(connection.open, { context: connection });
-  return open(config.get('db'));
+exports.connect = () => {
+  return mongoose.connect(config.get('db'));
 };
 
-exports.disconnect = function() {
-  var close = Promise.promisify(connection.close, { context: connection });
-  return close();
+exports.disconnect = () => {
+  return conn.close();
 };

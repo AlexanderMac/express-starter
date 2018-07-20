@@ -1,16 +1,16 @@
 'use strict';
 
-var _        = require('lodash');
-var request  = require('supertest');
-var should   = require('should');
-var app      = require('../../../server/app');
-var testUtil = require('../../test-util/test-util');
-var User     = require('mongoose').model('user');
+const _        = require('lodash');
+const request  = require('supertest');
+const should   = require('should');
+const app      = require('../../../server/app');
+const testUtil = require('../../test-util/test-util');
+const User     = require('mongoose').model('user');
 
 describe('controllers', () => {
   describe('users', () => {
     describe('getUsers', () => {
-      var initialUsers = [
+      let initialUsers = [
         {
           _id: testUtil.ObjectId(),
           name: 'user1',
@@ -44,9 +44,9 @@ describe('controllers', () => {
       }
 
       it('should return status 200 and users', done => {
-        var expectedStatus = 200;
-        var expectedBody = _.map(initialUsers, user => {
-          var userCopy = _.cloneDeep(user);
+        let expectedStatus = 200;
+        let expectedBody = _.map(initialUsers, user => {
+          let userCopy = _.cloneDeep(user);
           userCopy._id = user._id; // rewrite id after clone
           return userCopy;
         });
@@ -56,7 +56,7 @@ describe('controllers', () => {
     });
 
     describe('getUserById', () => {
-      var initialUsers = [
+      let initialUsers = [
         {
           _id: testUtil.ObjectId(),
           name: 'user1',
@@ -90,9 +90,9 @@ describe('controllers', () => {
       }
 
       it('should return status 422 when req.params._id is invalid', done => {
-        var userId = 'Invalid Id';
-        var expectedStatus = 422;
-        var expectedBody = {
+        let userId = 'Invalid Id';
+        let expectedStatus = 422;
+        let expectedBody = {
           reason: 'id must be a valid id'
         };
 
@@ -100,9 +100,9 @@ describe('controllers', () => {
       });
 
       it('should return status 404 when user is not found by req.params._id', done => {
-        var userId = testUtil.ObjectId();
-        var expectedStatus = 404;
-        var expectedBody = {
+        let userId = testUtil.ObjectId();
+        let expectedStatus = 404;
+        let expectedBody = {
           reason: 'user is not found'
         };
 
@@ -110,9 +110,9 @@ describe('controllers', () => {
       });
 
       it('should return status 200 and user when user is found by req.params._id', done => {
-        var userId = initialUsers[0]._id;
-        var expectedStatus = 200;
-        var expectedBody = _.cloneDeep(initialUsers[0]);
+        let userId = initialUsers[0]._id;
+        let expectedStatus = 200;
+        let expectedBody = _.cloneDeep(initialUsers[0]);
         expectedBody._id = userId;
 
         test(userId, expectedStatus, expectedBody, done);
@@ -120,7 +120,7 @@ describe('controllers', () => {
     });
 
     describe('createUser', function() {
-      var initialUsers = [
+      let initialUsers = [
         {
           _id: testUtil.ObjectId(),
           name: 'user1',
@@ -155,9 +155,9 @@ describe('controllers', () => {
       }
 
       it('should return status 422 when req.body is empty', done => {
-        var userData;
-        var expectedStatus = 422;
-        var expectedBody = {
+        let userData;
+        let expectedStatus = 422;
+        let expectedBody = {
           reason: 'name is required'
         };
 
@@ -165,11 +165,11 @@ describe('controllers', () => {
       });
 
       it('should return status 422 when req.body.name is not defined', done => {
-        var userData = {
+        let userData = {
           email: 'new-user@mail.com'
         };
-        var expectedStatus = 422;
-        var expectedBody = {
+        let expectedStatus = 422;
+        let expectedBody = {
           reason: 'name is required'
         };
 
@@ -177,12 +177,12 @@ describe('controllers', () => {
       });
 
       it('should return status 422 when req.body.email is not valid email', done => {
-        var userData = {
+        let userData = {
           name: 'new-user',
           email: 'invalidEmail'
         };
-        var expectedStatus = 422;
-        var expectedBody = {
+        let expectedStatus = 422;
+        let expectedBody = {
           reason: 'email is required and must be a valid email'
         };
 
@@ -190,12 +190,12 @@ describe('controllers', () => {
       });
 
       it('should return status 200 and create a new user when req.body is valid', done => {
-        var userData = {
+        let userData = {
           name: 'new-user',
           email: 'new-user@mail.com'
         };
-        var expectedStatus = 200;
-        var expectedBody = {
+        let expectedStatus = 200;
+        let expectedBody = {
           _id: '_mock_',
           name: 'new-user',
           email: 'new-user@mail.com'
@@ -206,7 +206,7 @@ describe('controllers', () => {
     });
 
     describe('updateUser', function() {
-      var initialUsers = [
+      let initialUsers = [
         {
           _id: testUtil.ObjectId(),
           name: 'user1',
@@ -241,13 +241,13 @@ describe('controllers', () => {
       }
 
       it('should return status 422 when req.params._id is invalid', done => {
-        var userId = 'InvalidId';
-        var userData = {
+        let userId = 'InvalidId';
+        let userData = {
           name: 'user1-new',
           email: 'user1-new@mail.com'
         };
-        var expectedStatus = 422;
-        var expectedBody = {
+        let expectedStatus = 422;
+        let expectedBody = {
           reason: 'id must be a valid id'
         };
 
@@ -255,10 +255,10 @@ describe('controllers', () => {
       });
 
       it('should return status 422 when req.body is empty', done => {
-        var userId = initialUsers[0]._id;
-        var userData;
-        var expectedStatus = 422;
-        var expectedBody = {
+        let userId = initialUsers[0]._id;
+        let userData;
+        let expectedStatus = 422;
+        let expectedBody = {
           reason: 'name is required'
         };
 
@@ -266,12 +266,12 @@ describe('controllers', () => {
       });
 
       it('should return status 422 when req.body.name is not defined', done => {
-        var userId = initialUsers[0]._id;
-        var userData = {
+        let userId = initialUsers[0]._id;
+        let userData = {
           email: 'user1-new@mail.com'
         };
-        var expectedStatus = 422;
-        var expectedBody = {
+        let expectedStatus = 422;
+        let expectedBody = {
           reason: 'name is required'
         };
 
@@ -279,13 +279,13 @@ describe('controllers', () => {
       });
 
       it('should return status 422 when req.body.email is not valid email', done => {
-        var userId = initialUsers[0]._id;
-        var userData = {
+        let userId = initialUsers[0]._id;
+        let userData = {
           name: 'user1-new',
           email: 'invalidEmail'
         };
-        var expectedStatus = 422;
-        var expectedBody = {
+        let expectedStatus = 422;
+        let expectedBody = {
           reason: 'email is required and must be a valid email'
         };
 
@@ -293,13 +293,13 @@ describe('controllers', () => {
       });
 
       it('should return status 404 when user is not found by req.params._id', done => {
-        var userId = testUtil.ObjectId();
-        var userData = {
+        let userId = testUtil.ObjectId();
+        let userData = {
           name: 'user1-new',
           email: 'user1-new@mail.com'
         };
-        var expectedStatus = 404;
-        var expectedBody = {
+        let expectedStatus = 404;
+        let expectedBody = {
           reason: 'user is not found'
         };
 
@@ -307,13 +307,13 @@ describe('controllers', () => {
       });
 
       it('should return status 200 and update an user when req.body is valid', done => {
-        var userId = initialUsers[0]._id;
-        var userData = {
+        let userId = initialUsers[0]._id;
+        let userData = {
           name: 'user1-new',
           email: 'user1-new@mail.com'
         };
-        var expectedStatus = 200;
-        var expectedBody = _.cloneDeep(userData);
+        let expectedStatus = 200;
+        let expectedBody = _.cloneDeep(userData);
         expectedBody._id = initialUsers[0]._id;
 
         test(userId, userData, expectedStatus, expectedBody, done);
@@ -321,7 +321,7 @@ describe('controllers', () => {
     });
 
     describe('deleteUser', () => {
-      var initialUsers = [
+      let initialUsers = [
         {
           _id: testUtil.ObjectId(),
           name: 'user1',
@@ -361,9 +361,9 @@ describe('controllers', () => {
       }
 
       it('should return status 422 when req.params._id is invalid', done => {
-        var userId = 'Invalid Id';
-        var expectedStatus = 422;
-        var expectedBody = {
+        let userId = 'Invalid Id';
+        let expectedStatus = 422;
+        let expectedBody = {
           reason: 'id must be a valid id'
         };
 
@@ -371,9 +371,9 @@ describe('controllers', () => {
       });
 
       it('should return status 404 when user is not found by req.params._id', done => {
-        var userId = testUtil.ObjectId();
-        var expectedStatus = 404;
-        var expectedBody = {
+        let userId = testUtil.ObjectId();
+        let expectedStatus = 404;
+        let expectedBody = {
           reason: 'user is not found'
         };
 
@@ -381,9 +381,9 @@ describe('controllers', () => {
       });
 
       it('should return status 203 and delete user', done => {
-        var userId = initialUsers[0]._id;
-        var expectedStatus = 203;
-        var expectedBody;
+        let userId = initialUsers[0]._id;
+        let expectedStatus = 203;
+        let expectedBody;
 
         test(userId, expectedStatus, expectedBody, done);
       });

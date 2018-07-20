@@ -1,7 +1,7 @@
 'use strict';
 
-var customErrors = require('n-custom-errors');
-var User         = require('mongoose').model('user');
+const customErrors = require('n-custom-errors');
+const User         = require('mongoose').model('user');
 
 exports.getUser = function(filter, keys) {
   return User
@@ -10,7 +10,7 @@ exports.getUser = function(filter, keys) {
     .exec()
     .then(user => {
       if (!user) {
-        return customErrors.rejectWithObjectNotFoundError('user is not found');
+        customErrors.throwObjectNotFoundError('user is not found');
       }
       return user;
     });

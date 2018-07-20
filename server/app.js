@@ -1,13 +1,14 @@
 'use strict';
 
-var express = require('express');
-var config  = require('../config/environment');
-var db      = require('./db');
-var log     = require('./util/logger').logger;
+const express = require('express');
+const config  = require('../config/environment');
+const db      = require('./db');
+const logger  = require('./util/logger');
 
 require('./util/errors');
+require('./util/promisify');
 
-var app = express();
+const app = express();
 require('./express')(app);
 require('./routes')(app);
 
@@ -15,7 +16,7 @@ if (app.get('env') !== 'test') {
   db.connect();
 
   app.listen(app.get('port'), function() {
-    log.info('Express server started', 'environment=' + config.get('env'), 'listening on port=' + config.get('port'));
+    logger.info('Express server started', 'environment=' + config.get('env'), 'listening on port=' + config.get('port'));
   });
 }
 

@@ -1,6 +1,6 @@
 'use strict';
 
-var users = require('../controllers/users');
+const users = require('../controllers/users');
 
 module.exports = function(app) {
   app.get('/api/users/:_id', users.getUserById);
