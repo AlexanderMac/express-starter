@@ -3,8 +3,8 @@
 const _        = require('lodash');
 const request  = require('supertest');
 const should   = require('should');
+const nassert  = require('n-assert');
 const app      = require('../../../server/app');
-const testUtil = require('../../test-util/test-util');
 const User     = require('mongoose').model('user');
 
 describe('controllers', () => {
@@ -12,17 +12,17 @@ describe('controllers', () => {
     describe('getUsers', () => {
       let initialUsers = [
         {
-          _id: testUtil.ObjectId(),
+          _id: nassert.getObjectId(),
           name: 'user1',
           email: 'user1@mail.com'
         },
         {
-          _id: testUtil.ObjectId(),
+          _id: nassert.getObjectId(),
           name: 'user2',
           email: 'user2@mail.com'
         },
         {
-          _id: testUtil.ObjectId(),
+          _id: nassert.getObjectId(),
           name: 'user3',
           email: 'user3@mail.com'
         }
@@ -36,8 +36,8 @@ describe('controllers', () => {
               .get('/api/users/')
               .expect(expectedStatus)
               .expect('Content-Type', /json/)
-              .expect(res => testUtil.assert(res.body[1], expectedBody[1]))
-              .end(err => testUtil.resolveOrReject(err, resolve, reject));
+              .expect(res => nassert.assert(res.body[1], expectedBody[1]))
+              .end(err => nassert.resolveOrReject(err, resolve, reject));
           }))
           .then(() => done())
           .catch(done);
@@ -58,17 +58,17 @@ describe('controllers', () => {
     describe('getUserById', () => {
       let initialUsers = [
         {
-          _id: testUtil.ObjectId(),
+          _id: nassert.getObjectId(),
           name: 'user1',
           email: 'user1@mail.com'
         },
         {
-          _id: testUtil.ObjectId(),
+          _id: nassert.getObjectId(),
           name: 'user2',
           email: 'user2@mail.com'
         },
         {
-          _id: testUtil.ObjectId(),
+          _id: nassert.getObjectId(),
           name: 'user3',
           email: 'user3@mail.com'
         }
@@ -82,8 +82,8 @@ describe('controllers', () => {
               .get('/api/users/' + userId)
               .expect(expectedStatus)
               .expect('Content-Type', /json/)
-              .expect(res => testUtil.assert(res.body, expectedBody))
-              .end(err => testUtil.resolveOrReject(err, resolve, reject));
+              .expect(res => nassert.assert(res.body, expectedBody))
+              .end(err => nassert.resolveOrReject(err, resolve, reject));
           }))
           .then(() => done())
           .catch(done);
@@ -100,7 +100,7 @@ describe('controllers', () => {
       });
 
       it('should return status 404 when user is not found by req.params._id', done => {
-        let userId = testUtil.ObjectId();
+        let userId = nassert.getObjectId();
         let expectedStatus = 404;
         let expectedBody = {
           reason: 'user is not found'
@@ -122,17 +122,17 @@ describe('controllers', () => {
     describe('createUser', function() {
       let initialUsers = [
         {
-          _id: testUtil.ObjectId(),
+          _id: nassert.getObjectId(),
           name: 'user1',
           email: 'user1@mail.com'
         },
         {
-          _id: testUtil.ObjectId(),
+          _id: nassert.getObjectId(),
           name: 'user2',
           email: 'user2@mail.com'
         },
         {
-          _id: testUtil.ObjectId(),
+          _id: nassert.getObjectId(),
           name: 'user3',
           email: 'user3@mail.com'
         }
@@ -147,8 +147,8 @@ describe('controllers', () => {
               .send(userData)
               .expect(expectedStatus)
               .expect('Content-Type', /application\/json/)
-              .expect(res => testUtil.assert(res.body, expectedBody))
-              .end(err => testUtil.resolveOrReject(err, resolve, reject));
+              .expect(res => nassert.assert(res.body, expectedBody))
+              .end(err => nassert.resolveOrReject(err, resolve, reject));
           }))
           .then(() => done())
           .catch(done);
@@ -208,17 +208,17 @@ describe('controllers', () => {
     describe('updateUser', function() {
       let initialUsers = [
         {
-          _id: testUtil.ObjectId(),
+          _id: nassert.getObjectId(),
           name: 'user1',
           email: 'user1@mail.com'
         },
         {
-          _id: testUtil.ObjectId(),
+          _id: nassert.getObjectId(),
           name: 'user2',
           email: 'user2@mail.com'
         },
         {
-          _id: testUtil.ObjectId(),
+          _id: nassert.getObjectId(),
           name: 'user3',
           email: 'user3@mail.com'
         }
@@ -233,8 +233,8 @@ describe('controllers', () => {
               .send(userData)
               .expect(expectedStatus)
               .expect('Content-Type', /application\/json/)
-              .expect(res => testUtil.assert(res.body, expectedBody))
-              .end(err => testUtil.resolveOrReject(err, resolve, reject));
+              .expect(res => nassert.assert(res.body, expectedBody))
+              .end(err => nassert.resolveOrReject(err, resolve, reject));
           }))
           .then(() => done())
           .catch(done);
@@ -293,7 +293,7 @@ describe('controllers', () => {
       });
 
       it('should return status 404 when user is not found by req.params._id', done => {
-        let userId = testUtil.ObjectId();
+        let userId = nassert.getObjectId();
         let userData = {
           name: 'user1-new',
           email: 'user1-new@mail.com'
@@ -323,17 +323,17 @@ describe('controllers', () => {
     describe('deleteUser', () => {
       let initialUsers = [
         {
-          _id: testUtil.ObjectId(),
+          _id: nassert.getObjectId(),
           name: 'user1',
           email: 'user1@mail.com'
         },
         {
-          _id: testUtil.ObjectId(),
+          _id: nassert.getObjectId(),
           name: 'user2',
           email: 'user2@mail.com'
         },
         {
-          _id: testUtil.ObjectId(),
+          _id: nassert.getObjectId(),
           name: 'user3',
           email: 'user3@mail.com'
         }
@@ -349,12 +349,12 @@ describe('controllers', () => {
               .expect(res => {
                 if (expectedStatus !== 203) {
                   should(res.headers['content-type']).be.match(/json/);
-                  testUtil.assert(res.body, expectedBody);
+                  nassert.assert(res.body, expectedBody);
                 } else {
                   should(res.body).eql({});
                 }
               })
-              .end(err => testUtil.resolveOrReject(err, resolve, reject));
+              .end(err => nassert.resolveOrReject(err, resolve, reject));
           }))
           .then(() => done())
           .catch(done);
@@ -371,7 +371,7 @@ describe('controllers', () => {
       });
 
       it('should return status 404 when user is not found by req.params._id', done => {
-        let userId = testUtil.ObjectId();
+        let userId = nassert.getObjectId();
         let expectedStatus = 404;
         let expectedBody = {
           reason: 'user is not found'
