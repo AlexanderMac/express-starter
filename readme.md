@@ -2,7 +2,7 @@
 `Express` project template.
 
 [![Build Status](https://travis-ci.org/AlexanderMac/express-starter.svg?branch=master)](https://travis-ci.org/AlexanderMac/express-starter)
-
+[![Code Coverage](https://codecov.io/gh/AlexanderMac/express-starter/branch/master/graph/badge.svg)](https://codecov.io/gh/AlexanderMac/express-starter)
 
 ### Features
 - Advanced project structure with separation for routes, controllers, data-services.
@@ -10,23 +10,19 @@
 - Parameters validation.
 - Promises everywhere.
 - Configuration per environment.
-- Gulp tasks.
 - Functional and unit tests.
 - Clean code:)
-
 
 ### Used packages
  - Backend - `express`
  - View engine - `jade`
  - Database - `mongodb`
  - Promises - `bluebird`
- - Task runner - `gulp`
  - JS linter - `jshint`
  - Testing - `mocha`, `should`, `supertest`, `sinon`
  - Logger - `winston, express-winston`
  - Configuration: `n-conf`
  - Custom errors: `n-custom-errors`
-
 
 ### How to use
 ```sh
@@ -40,27 +36,24 @@ cd express-starter && rm -rf .git && git init
 npm i
 
 # Configure database:
-# Open `./config/environment/development.json` and change `db` key to your own database connection string.
+# Open `./config/environment/development.json` and change `db` key to your database connection string.
 
 # Start app:
 npm start
 
 # Run tests (one of the commands):
-$ gulp test # run all tests
-$ gulp test --grep 'test-name'
-$ gulp test --filter 'path to test file/folder'
+npm test # run all tests
+npm test --grep 'test-name'
+npm test --filter 'path to test file/folder'
 
 # Run code coverage tool:
-$ gulp coverage
+npm run coverage
 
-# Run jshint tool (one of the commands):
-$ gulp lint # check all sources
-$ gulp lint --filter 'path to source file/folder'
-$ gulp lint-server # check server sources
-$ gulp lint-test # check test sources
+# Run linter tool:
+npm lint
 ```
 
-### Service structure
+### Project structure
 - [config] - app configuration options
 - [server]
   - [controllers] - controllers
@@ -71,13 +64,10 @@ $ gulp lint-test # check test sources
   - [util]
     - [validation-util] - validation utils
     - [logger] - app logger
-- [tasks] - gulp tasks
 - [test] - unit and functional tests
-
 
 ### Author
 Alexander Mac
-
 
 ### License
 [MIT License](license)

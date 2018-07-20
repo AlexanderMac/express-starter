@@ -4,7 +4,7 @@
   "description": "Express-starter",
   "private": true,
   "scripts": {
-    "start": "./node_modules/.bin/gulp",
+    "start": "nodemon --config .nodemon.json ./server/app.js",
     "lint": "eslint -f stylish 'server/**/*.js' 'test/**/*.js'",
     "test": "NODE_ENV=test mocha",
     "coverage": "nyc npm test"
@@ -19,23 +19,18 @@
     "mongoose": "^4.13.14",
     "n-custom-errors": "^1.4.0",
     "nconf": "^0.8.5",
-    "require-dir": "^0.3.2",
     "serve-favicon": "^2.5.0",
     "winston": "^2.4.3"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-if": "^2.0.1",
-    "gulp-nodemon": "^2.1.0",
-    "gulp-util": "~3.0.3",
     "eslint": "^5.1.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.5.3",
+    "nodemon": "^1.18.3",
     "nyc": "^12.0.2",
     "should": "^11.0.0",
     "sinon": "^2.4.1",
-    "supertest": "^3.1.0",
-    "yargs": "^7.1.0"
+    "supertest": "^3.1.0"
   },
   "repository": {
     "type": "git",

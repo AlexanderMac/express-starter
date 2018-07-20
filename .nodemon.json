@@ -1,0 +1,16 @@
+{
+  "ext": "js",
+  "ignore": [
+    ".git",
+    "node_modules"
+  ],
+  "watch": [
+    "./config/",
+    "./server/"
+  ],
+  "env": {
+    "NODE_ENV": "development",
+    "PORT": 3000,
+    "HOST": "localhost"
+  }
+}

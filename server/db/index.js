@@ -2,14 +2,13 @@
 
 var mongoose   = require('mongoose');
 var Promise    = require('bluebird');
-var requireDir = require('require-dir');
 var config     = require('../../config/environment');
 var log        = require('../util/logger').logger;
 
 mongoose.Promise = Promise;
 mongoose.models = {};
 
-requireDir('./models');
+require('./models/user');
 
 var connection = mongoose.connection;
 
