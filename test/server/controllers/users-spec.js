@@ -36,7 +36,7 @@ describe('controllers / users', () => {
         .get('/api/users/')
         .expect(expectedStatus)
         .expect('Content-Type', /json/)
-        .expect(res => nassert.assert(res.body[1], expectedBody[1]));
+        .expect(res => nassert.assert(_.sortBy(res.body, '_id'), _.sortBy(expectedBody, '_id')));
     }
 
     it('should return status 200 and list of users', () => {
