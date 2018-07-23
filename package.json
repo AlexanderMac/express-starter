@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "Express-starter",
   "private": true,
+  "engines": {
+    "node": "^8",
+    "npm": "^5"
+  },
   "scripts": {
     "start": "nodemon --config .nodemon.json ./server/app.js",
     "lint": "eslint -f stylish 'server/**/*.js' 'test/**/*.js'",
@@ -14,18 +18,18 @@
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.3",
-    "helmet": "^3.12.1",
+    "helmet": "^3.13.0",
     "lodash": "^4.17.10",
     "mongoose": "^5.2.4",
     "morgan": "^1.9.0",
     "n-custom-errors": "^2.0.0",
-    "n-validators": "^2.0.0-alpha-2",
+    "n-params-processor": "^2.3.0",
     "nconf": "^0.10.0",
     "serve-favicon": "^2.5.0",
     "winston": "^2.4.3"
   },
   "devDependencies": {
-    "eslint": "^5.1.0",
+    "eslint": "^5.2.0",
     "mocha": "^5.2.0",
     "n-assert": "^3.0.0",
     "nodemon": "^1.18.3",

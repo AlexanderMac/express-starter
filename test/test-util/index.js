@@ -1,36 +1,34 @@
 'use strict';
 
-const _        = require('lodash');
-const mongoose = require('mongoose');
-const db       = require('../../server/db');
+const _         = require('lodash');
+const Promise   = require('bluebird');
+const mongoose  = require('mongoose');
+const mongoDb   = require('../../server/db');
 require('../../server/util/errors');
+require('../../server/util/promisify');
 
-before(done => {
-  db
-    .connect()
-    .then(_clearDb)
-    .then(() => done())
-    .catch(done);
+before(async function() {
+  this.timeout(0);
+  await mongoDb.connect();
+  await _clearDbs();
 });
 
-afterEach(done => {
-  _clearDb()
-    .then(() => done())
-    .catch(done);
+afterEach(function() {
+  this.timeout(0);
+  return _clearDbs();
 });
 
-after(done => {
-  _clearDb()
-    .then(db.disconnect)
-    .then(() => done())
-    .catch(done);
+after(async function() {
+  this.timeout(0);
+  await _clearDbs();
+  await mongoDb.disconnect();
 });
 
-function _clearDb() {
-  let ops = _(mongoose.models)
+function _clearDbs() {
+  let mongoDel = _(mongoose.models)
     .keys()
-    .map(modelName => mongoose.model(modelName).remove())
+    .map(model => mongoose.model(model).remove())
     .value();
 
-  return Promise.all(ops);
+  return Promise.all(mongoDel);
 }

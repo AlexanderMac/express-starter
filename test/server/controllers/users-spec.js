@@ -1,11 +1,13 @@
 'use strict';
 
 const _        = require('lodash');
+const mongoose = require('mongoose');
 const request  = require('supertest');
 const should   = require('should');
 const nassert  = require('n-assert');
 const app      = require('../../../server/app');
-const User     = require('mongoose').model('user');
+
+const User = mongoose.model('user');
 
 describe('controllers / users', () => {
   describe('getUsers', () => {
@@ -27,22 +29,17 @@ describe('controllers / users', () => {
       }
     ];
 
-    function test(expectedStatus, expectedBody, done) {
-      User
-        .create(initialUsers)
-        .then(() => new Promise((resolve, reject) => {
-          request(app)
-            .get('/api/users/')
-            .expect(expectedStatus)
-            .expect('Content-Type', /json/)
-            .expect(res => nassert.assert(res.body[1], expectedBody[1]))
-            .end(err => nassert.resolveOrReject(err, resolve, reject));
-        }))
-        .then(() => done())
-        .catch(done);
+    async function test({ expectedStatus, expectedBody }) {
+      await User.create(initialUsers);
+
+      return request(app)
+        .get('/api/users/')
+        .expect(expectedStatus)
+        .expect('Content-Type', /json/)
+        .expect(res => nassert.assert(res.body[1], expectedBody[1]));
     }
 
-    it('should return status 200 and users', done => {
+    it('should return status 200 and list of users', () => {
       let expectedStatus = 200;
       let expectedBody = _.map(initialUsers, user => {
         let userCopy = _.cloneDeep(user);
@@ -50,7 +47,7 @@ describe('controllers / users', () => {
         return userCopy;
       });
 
-      test(expectedStatus, expectedBody, done);
+      return test({ expectedStatus, expectedBody });
     });
   });
 
@@ -73,48 +70,43 @@ describe('controllers / users', () => {
       }
     ];
 
-    function test(userId, expectedStatus, expectedBody, done) {
-      User
-        .create(initialUsers)
-        .then(() => new Promise((resolve, reject) => {
-          request(app)
-            .get('/api/users/' + userId)
-            .expect(expectedStatus)
-            .expect('Content-Type', /json/)
-            .expect(res => nassert.assert(res.body, expectedBody))
-            .end(err => nassert.resolveOrReject(err, resolve, reject));
-        }))
-        .then(() => done())
-        .catch(done);
+    async function test({ userId, expectedStatus, expectedBody }) {
+      await User.create(initialUsers);
+
+      return request(app)
+        .get('/api/users/' + userId)
+        .expect(expectedStatus)
+        .expect('Content-Type', /json/)
+        .expect(res => nassert.assert(res.body, expectedBody));
     }
 
-    it('should return status 422 when req.params._id is invalid', done => {
+    it('should return status 422 when req.params._id is invalid', () => {
       let userId = 'Invalid Id';
       let expectedStatus = 422;
       let expectedBody = {
-        reason: 'id must be a valid id'
+        reason: '_id must be a valid ObjectId'
       };
 
-      test(userId, expectedStatus, expectedBody, done);
+      return test({ userId, expectedStatus, expectedBody });
     });
 
-    it('should return status 404 when user is not found by req.params._id', done => {
+    it('should return status 404 when user is not found by req.params._id', () => {
       let userId = nassert.getObjectId();
       let expectedStatus = 404;
       let expectedBody = {
         reason: 'user is not found'
       };
 
-      test(userId, expectedStatus, expectedBody, done);
+      return test({ userId, expectedStatus, expectedBody });
     });
 
-    it('should return status 200 and user when user is found by req.params._id', done => {
+    it('should return status 200 and user', () => {
       let userId = initialUsers[0]._id;
       let expectedStatus = 200;
       let expectedBody = _.cloneDeep(initialUsers[0]);
       expectedBody._id = userId;
 
-      test(userId, expectedStatus, expectedBody, done);
+      return test({ userId, expectedStatus, expectedBody });
     });
   });
 
@@ -137,33 +129,28 @@ describe('controllers / users', () => {
       }
     ];
 
-    function test(userData, expectedStatus, expectedBody, done) {
-      User
-        .create(initialUsers)
-        .then(() => new Promise((resolve, reject) => {
-          request(app)
-            .post('/api/users')
-            .send(userData)
-            .expect(expectedStatus)
-            .expect('Content-Type', /application\/json/)
-            .expect(res => nassert.assert(res.body, expectedBody))
-            .end(err => nassert.resolveOrReject(err, resolve, reject));
-        }))
-        .then(() => done())
-        .catch(done);
+    async function test({ userData, expectedStatus, expectedBody }) {
+      await User.create(initialUsers);
+
+      return request(app)
+        .post('/api/users')
+        .send(userData)
+        .expect(expectedStatus)
+        .expect('Content-Type', /application\/json/)
+        .expect(res => nassert.assert(res.body, expectedBody));
     }
 
-    it('should return status 422 when req.body is empty', done => {
+    it('should return status 422 when req.body is empty', () => {
       let userData;
       let expectedStatus = 422;
       let expectedBody = {
         reason: 'name is required'
       };
 
-      test(userData, expectedStatus, expectedBody, done);
+      return test({ userData, expectedStatus, expectedBody });
     });
 
-    it('should return status 422 when req.body.name is not defined', done => {
+    it('should return status 422 when req.body.name is undefined', () => {
       let userData = {
         email: 'new-user@mail.com'
       };
@@ -172,35 +159,47 @@ describe('controllers / users', () => {
         reason: 'name is required'
       };
 
-      test(userData, expectedStatus, expectedBody, done);
+      return test({ userData, expectedStatus, expectedBody });
     });
 
-    it('should return status 422 when req.body.email is not valid email', done => {
+    it('should return status 422 when req.body.email is undefined', () => {
+      let userData = {
+        name: 'new-user'
+      };
+      let expectedStatus = 422;
+      let expectedBody = {
+        reason: 'email is required'
+      };
+
+      return test({ userData, expectedStatus, expectedBody });
+    });
+
+    it('should return status 422 when req.body.email is not valid email', () => {
       let userData = {
         name: 'new-user',
         email: 'invalidEmail'
       };
       let expectedStatus = 422;
       let expectedBody = {
-        reason: 'email is required and must be a valid email'
+        reason: 'email must be a valid email address'
       };
 
-      test(userData, expectedStatus, expectedBody, done);
+      return test({ userData, expectedStatus, expectedBody });
     });
 
-    it('should return status 200 and create a new user when req.body is valid', done => {
+    it('should return status 200 and create a new user when req.body is valid', () => {
       let userData = {
         name: 'new-user',
         email: 'new-user@mail.com'
       };
-      let expectedStatus = 200;
+      let expectedStatus = 201;
       let expectedBody = {
         _id: '_mock_',
         name: 'new-user',
         email: 'new-user@mail.com'
       };
 
-      test(userData, expectedStatus, expectedBody, done);
+      return test({ userData, expectedStatus, expectedBody });
     });
   });
 
@@ -223,23 +222,24 @@ describe('controllers / users', () => {
       }
     ];
 
-    function test(userId, userData, expectedStatus, expectedBody, done) {
-      User
-        .create(initialUsers)
-        .then(() => new Promise((resolve, reject) => {
-          request(app)
-            .put('/api/users/' + userId)
-            .send(userData)
-            .expect(expectedStatus)
-            .expect('Content-Type', /application\/json/)
-            .expect(res => nassert.assert(res.body, expectedBody))
-            .end(err => nassert.resolveOrReject(err, resolve, reject));
-        }))
-        .then(() => done())
-        .catch(done);
+    async function test({ userId, userData, expectedStatus, expectedBody }) {
+      await User.create(initialUsers);
+
+      return request(app)
+        .put('/api/users/' + userId)
+        .send(userData)
+        .expect(expectedStatus)
+        .expect(res => {
+          if (expectedStatus === 204) {
+            should(res.headers['content-type']).is.undefined;
+          } else {
+            should(res.headers['content-type']).match(/application\/json/);
+          }
+          nassert.assert(res.body, expectedBody, true);
+        });
     }
 
-    it('should return status 422 when req.params._id is invalid', done => {
+    it('should return status 422 when req.params._id is invalid', () => {
       let userId = 'InvalidId';
       let userData = {
         name: 'user1-new',
@@ -247,13 +247,13 @@ describe('controllers / users', () => {
       };
       let expectedStatus = 422;
       let expectedBody = {
-        reason: 'id must be a valid id'
+        reason: '_id must be a valid ObjectId'
       };
 
-      test(userId, userData, expectedStatus, expectedBody, done);
+      return test({ userId, userData, expectedStatus, expectedBody });
     });
 
-    it('should return status 422 when req.body is empty', done => {
+    it('should return status 422 when req.body is empty', () => {
       let userId = initialUsers[0]._id;
       let userData;
       let expectedStatus = 422;
@@ -261,10 +261,10 @@ describe('controllers / users', () => {
         reason: 'name is required'
       };
 
-      test(userId, userData, expectedStatus, expectedBody, done);
+      return test({ userId, userData, expectedStatus, expectedBody });
     });
 
-    it('should return status 422 when req.body.name is not defined', done => {
+    it('should return status 422 when req.body.name is undefined', () => {
       let userId = initialUsers[0]._id;
       let userData = {
         email: 'user1-new@mail.com'
@@ -274,10 +274,23 @@ describe('controllers / users', () => {
         reason: 'name is required'
       };
 
-      test(userId, userData, expectedStatus, expectedBody, done);
+      return test({ userId, userData, expectedStatus, expectedBody });
     });
 
-    it('should return status 422 when req.body.email is not valid email', done => {
+    it('should return status 422 when req.body.email is undefined', () => {
+      let userId = initialUsers[0]._id;
+      let userData = {
+        name: 'user1-new'
+      };
+      let expectedStatus = 422;
+      let expectedBody = {
+        reason: 'email is required'
+      };
+
+      return test({ userId, userData, expectedStatus, expectedBody });
+    });
+
+    it('should return status 422 when req.body.email is not valid email', () => {
       let userId = initialUsers[0]._id;
       let userData = {
         name: 'user1-new',
@@ -285,13 +298,13 @@ describe('controllers / users', () => {
       };
       let expectedStatus = 422;
       let expectedBody = {
-        reason: 'email is required and must be a valid email'
+        reason: 'email must be a valid email address'
       };
 
-      test(userId, userData, expectedStatus, expectedBody, done);
+      return test({ userId, userData, expectedStatus, expectedBody });
     });
 
-    it('should return status 404 when user is not found by req.params._id', done => {
+    it('should return status 404 when user is not found by req.params._id', () => {
       let userId = nassert.getObjectId();
       let userData = {
         name: 'user1-new',
@@ -302,20 +315,19 @@ describe('controllers / users', () => {
         reason: 'user is not found'
       };
 
-      test(userId, userData, expectedStatus, expectedBody, done);
+      return test({ userId, userData, expectedStatus, expectedBody });
     });
 
-    it('should return status 200 and update an user when req.body is valid', done => {
+    it('should return status 200 and update an user when req.body is valid', () => {
       let userId = initialUsers[0]._id;
       let userData = {
         name: 'user1-new',
         email: 'user1-new@mail.com'
       };
-      let expectedStatus = 200;
-      let expectedBody = _.cloneDeep(userData);
-      expectedBody._id = initialUsers[0]._id;
+      let expectedStatus = 204;
+      let expectedBody = {};
 
-      test(userId, userData, expectedStatus, expectedBody, done);
+      return test({ userId, userData, expectedStatus, expectedBody });
     });
   });
 
@@ -338,53 +350,48 @@ describe('controllers / users', () => {
       }
     ];
 
-    function test(userId, expectedStatus, expectedBody, done) {
-      User
-        .create(initialUsers)
-        .then(() => new Promise((resolve, reject) => {
-          request(app)
-            .delete('/api/users/' + userId)
-            .expect(expectedStatus)
-            .expect(res => {
-              if (expectedStatus !== 203) {
-                should(res.headers['content-type']).be.match(/json/);
-                nassert.assert(res.body, expectedBody);
-              } else {
-                should(res.body).eql({});
-              }
-            })
-            .end(err => nassert.resolveOrReject(err, resolve, reject));
-        }))
-        .then(() => done())
-        .catch(done);
+    async function test({ userId, expectedStatus, expectedBody }) {
+      await User.create(initialUsers);
+
+      return request(app)
+        .delete('/api/users/' + userId)
+        .expect(expectedStatus)
+        .expect(res => {
+          if (expectedStatus === 204) {
+            should(res.headers['content-type']).is.undefined;
+          } else {
+            should(res.headers['content-type']).match(/application\/json/);
+          }
+          nassert.assert(res.body, expectedBody, true);
+        });
     }
 
-    it('should return status 422 when req.params._id is invalid', done => {
+    it('should return status 422 when req.params._id is invalid', () => {
       let userId = 'Invalid Id';
       let expectedStatus = 422;
       let expectedBody = {
-        reason: 'id must be a valid id'
+        reason: '_id must be a valid ObjectId'
       };
 
-      test(userId, expectedStatus, expectedBody, done);
+      return test({ userId, expectedStatus, expectedBody });
     });
 
-    it('should return status 404 when user is not found by req.params._id', done => {
+    it('should return status 404 when user is not found by req.params._id', () => {
       let userId = nassert.getObjectId();
       let expectedStatus = 404;
       let expectedBody = {
         reason: 'user is not found'
       };
 
-      test(userId, expectedStatus, expectedBody, done);
+      return test({ userId, expectedStatus, expectedBody });
     });
 
-    it('should return status 203 and delete user', done => {
+    it('should return status 204 and delete user', () => {
       let userId = initialUsers[0]._id;
-      let expectedStatus = 203;
-      let expectedBody;
+      let expectedStatus = 204;
+      let expectedBody = {};
 
-      test(userId, expectedStatus, expectedBody, done);
+      return test({ userId, expectedStatus, expectedBody });
     });
   });
 });

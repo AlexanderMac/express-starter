@@ -1,8 +1,8 @@
 'use strict';
 
-const bodyParser = require('body-parser');
-const logger     = require('morgan');
+const morgan     = require('morgan');
 const helmet     = require('helmet');
+const bodyParser = require('body-parser');
 const config     = require('../config/environment');
 
 module.exports = (app) => {
@@ -11,7 +11,7 @@ module.exports = (app) => {
   app.set('view engine', 'pug');
 
   if (process.env.NODE_ENV !== 'test') {
-    app.use(logger('dev'));
+    app.use(morgan('dev'));
   }
   app.use(helmet());
   // TODO: uncomment for favicon:

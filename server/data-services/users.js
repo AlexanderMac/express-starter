@@ -1,35 +1,46 @@
 'use strict';
 
-const customErrors = require('n-custom-errors');
-const User         = require('mongoose').model('user');
+const _          = require('lodash');
+const mongoose   = require('mongoose');
+const commonUtil = require('../util');
 
-exports.getUser = (filter, keys) => {
-  return User
-    .findOne(filter)
-    .select(keys)
-    .exec()
-    .then(user => {
-      if (!user) {
-        customErrors.throwObjectNotFoundError('user is not found');
-      }
-      return user;
-    });
+const User = mongoose.model('user');
+
+exports.getUser = async ({ filter, fields }) => {
+  let user = await User.findOne(filter, fields);
+  return commonUtil.getObjectOrThrowError(user, 'user');
 };
 
-exports.getUsers = (filter, keys) => {
-  return User.find(filter, keys);
+exports.getUserOrNull = async (params) => {
+  try {
+    let user = await exports.getUser(params);
+    return user;
+  } catch (err) {
+    return commonUtil.processObjectNotFoundError(err);
+  }
 };
 
-exports.createUser = (userData) => {
+exports.getUsers = ({ filter, fields }) => {
+  return User.find(filter, fields);
+};
+
+exports.createUser = ({ userData }) => {
   return User.create(userData);
 };
 
-exports.saveUser = (user) => {
+exports.findAndUpdateUser = async ({ filter, userData }) => {
+  let user = await exports.getUser({ filter });
+
+  _.extend(user, userData);
+
+  return exports.saveUser({ user });
+};
+
+exports.saveUser = ({ user }) => {
   return user.save();
 };
 
-exports.deleteUserById = (userId) => {
-  return exports
-    .getUser({ _id: userId })
-    .then(user => user.remove());
+exports.deleteUser = async (params) => {
+  let user = await exports.getUser(params);
+  return user.remove();
 };

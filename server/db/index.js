@@ -19,7 +19,7 @@ if (process.env.NODE_ENV !== 'test') {
   });
 
   conn.on('connected', () => {
-    logger.info(`Connected to mongodb: ${config.get('db:mongo')}`);
+    logger.info(`Connected to mongodb: ${config.get('db')}`);
   });
 
   conn.on('disconnected', () => {

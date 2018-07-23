@@ -1,130 +1,75 @@
 'use strict';
 
-const _            = require('lodash');
-const customErrors = require('n-custom-errors');
-const validators   = require('n-validators');
-const usersSrvc    = require('../data-services/users');
+const DataBuilder = require('n-params-processor').DataBuilder;
+const usersSrvc   = require('../data-services/users');
 
-exports.getUsers = (req, res, next) => {
-  usersSrvc
-    .getUsers({}, 'name email')
-    .then(users => res.send(users))
-    .catch(next);
+exports.getUsers = async (req, res, next) => {
+  try {
+    let users = await usersSrvc.getUsers({
+      filter: {},
+      fields: 'name email'
+    });
+    res.send(users);
+  } catch (err) {
+    next(err);
+  }
 };
 
-exports.getUserById = (req, res, next) => {
-  let userId = req.params._id;
+exports.getUserById = async (req, res, next) => {
+  try {
+    let dataBuilder = new DataBuilder({ source: req.params });
+    dataBuilder.parseObjectId({ name: '_id', required: true });
 
-  function validateParams() {
-    if (!validators.isObjectId(userId)) {
-      customErrors.throwUnprocessableRequestError({ paramName: 'id', errMsg: 'must be a valid id' });
-    }
-    return Promise.resolve();
+    let user = await usersSrvc.getUser({
+      filter: dataBuilder.build(),
+      fields: 'name email'
+    });
+    res.send(user);
+  } catch (err) {
+    next(err);
   }
-
-  validateParams()
-    .then(() => usersSrvc.getUser({ _id: userId }, 'name email'))
-    .then(user => res.send(user))
-    .catch(next);
 };
 
-exports.createUser = (req, res, next) => {
-  function parseParams() {
-    let allowedFields = ['name', 'email'];
-    let userData = _.pick(req.body, allowedFields);
-    return Promise.resolve(userData);
-  }
+exports.createUser = async (req, res, next) => {
+  try {
+    let dataBuilder = new DataBuilder({ source: req.body });
+    dataBuilder.parseString({ name: 'name', required: true });
+    dataBuilder.parseEmail({ name: 'email', required: true });
 
-  function validateParams(userData) {
-    if (!userData.name) {
-      customErrors.throwUnprocessableRequestError({
-        paramName: 'name',
-        errMsg: 'is required'
-      });
-    }
-    if (!validators.isEmail(userData.email)) {
-      customErrors.throwUnprocessableRequestError({
-        paramName: 'email',
-        errMsg: 'is required and must be a valid email'
-      });
-    }
-    return userData;
+    let user = await usersSrvc.createUser({ userData: dataBuilder.build() });
+    res.status(201).send(user);
+  } catch (err) {
+    next(err);
   }
-
-  function doEdits(userData) {
-    let user = _.assign({}, userData);
-    return user;
-  }
-
-  parseParams()
-    .then(validateParams)
-    .then(doEdits)
-    .then(user => usersSrvc.createUser(user))
-    .then(user => res.send(user))
-    .catch(next);
 };
 
-exports.updateUser = (req, res, next) => {
-  function parseParams() {
-    let allowedFields = ['name', 'email'];
-    let userData = _.pick(req.body, allowedFields);
-    userData._id = req.params._id;
-    return Promise.resolve(userData);
-  }
+exports.updateUser = async (req, res, next) => {
+  try {
+    let filterBuilder = new DataBuilder({ source: req.params });
+    filterBuilder.parseObjectId({ source: req.params, name: '_id', required: true });
 
-  function validateParams(userData) {
-    if (!validators.isObjectId(userData._id)) {
-      customErrors.throwUnprocessableRequestError({
-        paramName: 'id',
-        errMsg: 'must be a valid id'
-      });
-    }
-    if (!userData.name) {
-      customErrors.throwUnprocessableRequestError({
-        paramName: 'name',
-        errMsg: 'is required'
-      });
-    }
-    if (!validators.isEmail(userData.email)) {
-      customErrors.throwUnprocessableRequestError({
-        paramName: 'email',
-        errMsg: 'is required and must be a valid email'
-      });
-    }
-    return userData;
-  }
+    let dataBuilder = new DataBuilder({ source: req.body });
+    dataBuilder.parseString({ name: 'name', required: true });
+    dataBuilder.parseEmail({ name: 'email', required: true });
 
-  function doEdits(data) {
-    _.extend(data.user, data.userData);
-    return data.user;
+    await usersSrvc.findAndUpdateUser({
+      filter: filterBuilder.build(),
+      userData: dataBuilder.build()
+    });
+    res.status(204).end();
+  } catch (err) {
+    next(err);
   }
-
-  parseParams()
-    .then(validateParams)
-    .then(userData => usersSrvc
-      .getUser({ _id: userData._id })
-      .then(user => {
-        return { user, userData };
-      })
-    )
-    .then(doEdits)
-    .then(user => usersSrvc.saveUser(user))
-    .then(user => res.send(user))
-    .catch(next);
 };
 
-exports.deleteUser = (req, res, next) => {
-  let userId = req.params._id;
+exports.deleteUser = async (req, res, next) => {
+  try {
+    let filterBuilder = new DataBuilder();
+    filterBuilder.parseObjectId({ source: req.params, name: '_id', required: true });
 
-  function validateParams() {
-    if (!validators.isObjectId(userId)) {
-      customErrors.throwUnprocessableRequestError({ paramName: 'id', errMsg: 'must be a valid id' });
-    }
-    return Promise.resolve();
+    await usersSrvc.deleteUser({ filter: filterBuilder.build() });
+    res.status(204).end();
+  } catch (err) {
+    next(err);
   }
-
-  validateParams()
-    .then(() => usersSrvc.deleteUserById(userId))
-    .then(() => res.status(203).end())
-    .catch(next);
 };
