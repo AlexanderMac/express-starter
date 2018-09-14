@@ -1,6 +1,6 @@
 {
   "name": "express-starter",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Express-starter",
   "private": true,
   "engines": {
@@ -14,29 +14,29 @@
     "coverage": "nyc npm test"
   },
   "dependencies": {
-    "bluebird": "^3.5.1",
+    "bluebird": "^3.5.2",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.3",
     "helmet": "^3.13.0",
-    "lodash": "^4.17.10",
-    "mongoose": "^5.2.4",
-    "morgan": "^1.9.0",
+    "lodash": "^4.17.11",
+    "mongoose": "^5.2.14",
+    "morgan": "^1.9.1",
     "n-custom-errors": "^2.0.0",
-    "n-params-processor": "^2.3.0",
+    "n-params-processor": "^2.5.1",
     "nconf": "^0.10.0",
     "serve-favicon": "^2.5.0",
-    "winston": "^2.4.3"
+    "winston": "^2.4.4"
   },
   "devDependencies": {
-    "eslint": "^5.2.0",
+    "eslint": "^5.5.0",
     "mocha": "^5.2.0",
-    "n-assert": "^3.0.0",
-    "nodemon": "^1.18.3",
-    "nyc": "^12.0.2",
-    "should": "^13.2.1",
-    "sinon": "^5.1.1",
-    "supertest": "^3.1.0"
+    "n-assert": "^3.1.0",
+    "nodemon": "^1.18.4",
+    "nyc": "^13.0.1",
+    "should": "^13.2.3",
+    "sinon": "^6.3.3",
+    "supertest": "^3.3.0"
   },
   "repository": {
     "type": "git",
