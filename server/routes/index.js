@@ -16,6 +16,7 @@ module.exports = (app) => {
       return res.status(err.statusCode).send(errData);
     }
 
+    // istanbul ignore next
     switch (process.env.NODE_ENV) {
       case 'test':
       case 'development':

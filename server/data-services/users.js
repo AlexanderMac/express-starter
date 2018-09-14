@@ -6,14 +6,14 @@ const commonUtil = require('../util');
 
 const User = mongoose.model('user');
 
-exports.getUser = async ({ filter, fields }) => {
+exports.getUserOne = async ({ filter, fields }) => {
   let user = await User.findOne(filter, fields);
   return commonUtil.getObjectOrThrowError(user, 'user');
 };
 
-exports.getUserOrNull = async (params) => {
+exports.getUserOneOrNull = async (params) => {
   try {
-    let user = await exports.getUser(params);
+    let user = await exports.getUserOne(params);
     return user;
   } catch (err) {
     return commonUtil.processObjectNotFoundError(err);
@@ -29,7 +29,7 @@ exports.createUser = ({ userData }) => {
 };
 
 exports.findAndUpdateUser = async ({ filter, userData }) => {
-  let user = await exports.getUser({ filter });
+  let user = await exports.getUserOne({ filter });
 
   _.extend(user, userData);
 
@@ -41,6 +41,6 @@ exports.saveUser = ({ user }) => {
 };
 
 exports.deleteUser = async (params) => {
-  let user = await exports.getUser(params);
+  let user = await exports.getUserOne(params);
   return user.remove();
 };

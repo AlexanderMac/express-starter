@@ -12,6 +12,7 @@ const app = express();
 require('./express')(app);
 require('./routes')(app);
 
+// istanbul ignore next
 if (app.get('env') !== 'test') {
   db.connect();
 

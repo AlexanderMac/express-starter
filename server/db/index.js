@@ -13,6 +13,7 @@ require('./models/user');
 
 const conn = mongoose.connection;
 
+// istanbul ignore next
 if (process.env.NODE_ENV !== 'test') {
   conn.on('error', (err) => {
     logger.error('mongodb connection error', err);
@@ -30,7 +31,7 @@ if (process.env.NODE_ENV !== 'test') {
 exports.conn = conn;
 
 exports.connect = () => {
-  return mongoose.connect(config.get('db'));
+  return mongoose.connect(config.get('db'), { useNewUrlParser: true });
 };
 
 exports.disconnect = () => {

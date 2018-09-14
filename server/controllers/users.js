@@ -20,7 +20,7 @@ exports.getUserById = async (req, res, next) => {
     let dataBuilder = new DataBuilder({ source: req.params });
     dataBuilder.parseObjectId({ name: '_id', required: true });
 
-    let user = await usersSrvc.getUser({
+    let user = await usersSrvc.getUserOne({
       filter: dataBuilder.build(),
       fields: 'name email'
     });

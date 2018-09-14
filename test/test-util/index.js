@@ -27,7 +27,7 @@ after(async function() {
 function _clearDbs() {
   let mongoDel = _(mongoose.models)
     .keys()
-    .map(model => mongoose.model(model).remove())
+    .map(model => mongoose.model(model).deleteMany())
     .value();
 
   return Promise.all(mongoDel);

@@ -10,6 +10,7 @@ module.exports = (app) => {
   app.set('port', config.get('port'));
   app.set('view engine', 'pug');
 
+  // istanbul ignore next
   if (process.env.NODE_ENV !== 'test') {
     app.use(morgan('dev'));
   }
