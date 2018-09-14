@@ -8,8 +8,8 @@
     "npm": "^5"
   },
   "scripts": {
-    "start": "nodemon --config .nodemon.json ./server/app.js",
-    "lint": "eslint -f stylish 'server/**/*.js' 'test/**/*.js'",
+    "start": "nodemon --config .nodemon.json ./src/app.js",
+    "lint": "eslint -f stylish 'src/**/*.js' 'test/**/*.js'",
     "test": "NODE_ENV=test mocha",
     "coverage": "nyc npm test"
   },

@@ -55,7 +55,7 @@ npm lint
 
 ### Project structure
 - [config] - app configuration options
-- [server]
+- [src]
   - [controllers] - controllers
   - [db] - database manager and models
   - [data-services] - local data services

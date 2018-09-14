@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const request  = require('supertest');
 const should   = require('should');
 const nassert  = require('n-assert');
-const app      = require('../../../server/app');
+const app      = require('../../../src/app');
 
 const User = mongoose.model('user');
 
