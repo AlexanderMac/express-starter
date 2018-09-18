@@ -8,7 +8,6 @@ const config     = require('../config/environment');
 module.exports = (app) => {
   app.set('views', config.get('viewsPath'));
   app.set('port', config.get('port'));
-  app.set('view engine', 'pug');
 
   // istanbul ignore next
   if (process.env.NODE_ENV !== 'test') {
