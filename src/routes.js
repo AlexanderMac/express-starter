@@ -1,9 +1,9 @@
 'use strict';
 
-const logger = require('../util/logger');
+const logger = require('./_common/utils/logger');
 
 module.exports = (app) => {
-  require('./users')(app);
+  require('./users/routes')(app);
 
   app.use((req, res) => {
     res.status(404).send({ message: 'Invalid end point' });
@@ -29,6 +29,5 @@ module.exports = (app) => {
     err = new Error('Unexpected server error');
     err.statusCode = err.statusCode || 500;
     next(err);
-    // TODO: how to terminate the app?
   });
 };

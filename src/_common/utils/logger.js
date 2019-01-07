@@ -2,7 +2,7 @@
 
 const _       = require('lodash');
 const winston = require('winston');
-const config  = require('../../config/environment');
+const config  = require('../../../config/environment');
 
 const transports = _.map(config.get('winston:transports'), (transportOpts, transportName) => {
   switch (transportName) {

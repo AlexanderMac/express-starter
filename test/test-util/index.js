@@ -3,9 +3,9 @@
 const _         = require('lodash');
 const Promise   = require('bluebird');
 const mongoose  = require('mongoose');
-const mongoDb   = require('../../src/db');
-require('../../src/util/errors');
-require('../../src/util/promisify');
+const mongoDb   = require('../../src/_common/db');
+require('../../src/_common/utils/errors');
+require('../../src/_common/utils/promisify');
 
 before(async function() {
   this.timeout(0);

@@ -1,7 +1,7 @@
 'use strict';
 
 const DataBuilder = require('n-params-processor').DataBuilder;
-const usersSrvc   = require('../data-services/users');
+const usersSrvc   = require('./data-service');
 
 exports.getUsers = async (req, res, next) => {
   try {

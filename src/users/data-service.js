@@ -2,7 +2,7 @@
 
 const _          = require('lodash');
 const mongoose   = require('mongoose');
-const commonUtil = require('../util');
+const commonUtil = require('../_common/utils');
 
 const User = mongoose.model('user');
 
