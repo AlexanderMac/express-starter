@@ -4,8 +4,8 @@
   "description": "Express-starter",
   "private": true,
   "engines": {
-    "node": "^8",
-    "npm": "^5"
+    "node": ">8",
+    "npm": ">5"
   },
   "scripts": {
     "start": "nodemon --config .nodemon.json ./src/app.js",
@@ -14,29 +14,27 @@
     "coverage": "nyc npm test"
   },
   "dependencies": {
-    "bluebird": "^3.5.3",
-    "body-parser": "^1.18.3",
-    "cookie-parser": "^1.4.3",
-    "express": "^4.16.4",
-    "helmet": "^3.15.0",
-    "lodash": "^4.17.11",
-    "mongoose": "^5.4.2",
+    "bluebird": "^3.7.1",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "helmet": "^3.21.2",
+    "lodash": "^4.17.15",
+    "mongoose": "^5.7.12",
     "morgan": "^1.9.1",
-    "n-custom-errors": "^2.0.1",
-    "n-params-processor": "^2.5.1",
+    "n-params-processor": "^4.1.1",
     "nconf": "^0.10.0",
-    "serve-favicon": "^2.5.0",
-    "winston": "^2.4.4"
+    "pug": "^2.0.4",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
-    "eslint": "^5.12.0",
-    "mocha": "^5.2.0",
-    "n-assert": "^3.1.0",
-    "nodemon": "^1.18.9",
-    "nyc": "^13.1.0",
+    "eslint": "^6.6.0",
+    "mocha": "^6.2.2",
+    "n-assert": "^5.0.2",
+    "nodemon": "^2.0.0",
+    "nyc": "^14.1.1",
     "should": "^13.2.3",
-    "sinon": "^6.3.5",
-    "supertest": "^3.3.0"
+    "sinon": "^7.5.0",
+    "supertest": "^4.0.2"
   },
   "repository": {
     "type": "git",

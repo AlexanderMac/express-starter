@@ -22,7 +22,6 @@
  - Testing - `mocha`, `should`, `supertest`, `sinon`
  - Logger - `winston, morgan`
  - Configuration: `n-conf`
- - Custom errors: `n-custom-errors`
 
 ### How to use
 ```sh
