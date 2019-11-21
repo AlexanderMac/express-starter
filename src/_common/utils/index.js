@@ -1,18 +1,16 @@
-'use strict';
-
-const _            = require('lodash');
-const customErrors = require('n-custom-errors');
+const _ = require('lodash');
+const errors = require('./errors');
 
 exports.getObjectOrThrowError = (obj, objType) => {
   if (!obj) {
     let name = _.camelCase(objType || 'object');
-    throw customErrors.getObjectNotFoundError(`${name} is not found`);
+    throw new errors.ObjectNotFoundError(`${name} is not found`);
   }
   return obj;
 };
 
 exports.processObjectNotFoundError = (err) => {
-  if (customErrors.isObjectNotFoundError(err)) {
+  if (err instanceof errors.ObjectNotFoundError) {
     return null;
   }
   throw err;
