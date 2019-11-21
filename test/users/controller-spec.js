@@ -1,11 +1,9 @@
-'use strict';
-
-const _        = require('lodash');
+const _ = require('lodash');
 const mongoose = require('mongoose');
-const request  = require('supertest');
-const should   = require('should');
-const nassert  = require('n-assert');
-const app      = require('../../src/app');
+const request = require('supertest');
+const should = require('should');
+const nassert = require('n-assert');
+const app = require('../../src/app');
 
 const User = mongoose.model('user');
 
@@ -231,6 +229,7 @@ describe('users / controller', () => {
         .expect(expectedStatus)
         .expect(res => {
           if (expectedStatus === 204) {
+            // eslint-disable-next-line no-unused-expressions
             should(res.headers['content-type']).is.undefined;
           } else {
             should(res.headers['content-type']).match(/application\/json/);
@@ -358,6 +357,7 @@ describe('users / controller', () => {
         .expect(expectedStatus)
         .expect(res => {
           if (expectedStatus === 204) {
+            // eslint-disable-next-line no-unused-expressions
             should(res.headers['content-type']).is.undefined;
           } else {
             should(res.headers['content-type']).match(/application\/json/);

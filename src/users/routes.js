@@ -1,5 +1,3 @@
-'use strict';
-
 const users = require('./controller');
 
 module.exports = (app) => {

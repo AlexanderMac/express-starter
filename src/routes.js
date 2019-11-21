@@ -1,5 +1,3 @@
-'use strict';
-
 const logger = require('./_common/utils/logger');
 
 module.exports = (app) => {

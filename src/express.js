@@ -1,9 +1,7 @@
-'use strict';
-
-const morgan     = require('morgan');
-const helmet     = require('helmet');
+const morgan = require('morgan');
+const helmet = require('helmet');
 const bodyParser = require('body-parser');
-const config     = require('../config/environment');
+const config = require('../config/environment');
 
 module.exports = (app) => {
   app.set('views', config.get('viewsPath'));
