@@ -10,7 +10,8 @@ install:
 
 script:
   - npm run lint
-  - nyc npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov
+  - npm run build:production
+  - npm run codecov && codecov
 
 services:
   - mongodb
