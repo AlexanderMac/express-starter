@@ -1,3 +1,4 @@
+const paramsProc = require('n-params-processor');
 const logger = require('./_common/utils/logger');
 
 module.exports = (app) => {
@@ -7,11 +8,16 @@ module.exports = (app) => {
     res.status(404).send({ message: 'Invalid end point' });
   });
 
-  // eslint-disable-next-line max-params
+  // eslint-disable-next-line max-params, no-unused-vars
   app.use((err, req, res, next) => {
+    if (err instanceof paramsProc.ParamsProcessorError) {
+      return res.status(422).send({ reason: err.message });
+    }
     if (err.statusCode < 500) {
-      let errData = { reason: err.message, info: err.info };
-      return res.status(err.statusCode).send(errData);
+      return res.status(err.statusCode).send({
+        reason: err.message,
+        info: err.info
+      });
     }
 
     // istanbul ignore next
@@ -24,8 +30,8 @@ module.exports = (app) => {
         logger.error('Unexpected server error', err);
         break;
     }
+
     err = new Error('Unexpected server error');
-    err.statusCode = err.statusCode || 500;
-    next(err);
+    res.status(err.statusCode || 500).send({ message: 'Unexpected server error' });
   });
 };

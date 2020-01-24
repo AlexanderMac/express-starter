@@ -1,13 +1,13 @@
 {
   "env": {
     "node": true,
-    "es2020": true
+    "es6": true
   },
   "parserOptions": {
-    "ecmaVersion": 2020,
+    "ecmaVersion": 2019,
     "sourceType": "module",
     "ecmaFeatures": {
-      "impliedStrict": true
+      "impliedStrict": false
     }
   },
   "extends": "eslint:recommended",

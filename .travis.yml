@@ -1,6 +1,5 @@
 language: node_js
 node_js:
-  - "8"
   - "10"
   - "12"
   - "node"
@@ -20,3 +19,7 @@ notifications:
   email:
     on_success: never # default: change
     on_failure: always # default: always
+
+cache:
+  directories:
+    - node_modules

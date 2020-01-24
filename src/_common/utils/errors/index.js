@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const paramsProc = require('n-params-processor');
 
 exports.AccessDeniedError = require('./access-denied');
 exports.BusinessLogicError = require('./business-logic');
@@ -17,5 +16,3 @@ exports.isKnownError = (err) => {
     .value();
   return !!knownErr;
 };
-
-paramsProc.registerCustomErrorType(exports.UnprocessableRequestError);
