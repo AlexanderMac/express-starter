@@ -30,8 +30,6 @@ module.exports = (app) => {
         logger.error('Unexpected server error', err);
         break;
     }
-
-    err = new Error('Unexpected server error');
     res.status(err.statusCode || 500).send({ message: 'Unexpected server error' });
   });
 };
