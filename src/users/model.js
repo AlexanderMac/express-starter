@@ -11,4 +11,12 @@ const userSchema = mongoose.Schema({
   }
 });
 
+userSchema.set('toJSON', {
+  transform: function(doc, user) {
+    user.userId = user._id;
+    delete user._id;
+    delete user.__v;
+  }
+});
+
 mongoose.model('user', userSchema);
