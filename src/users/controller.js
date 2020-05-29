@@ -1,4 +1,4 @@
-const DataBuilder = require('n-params-processor').DataBuilder;
+const userHelpers = require('./helpers');
 const usersSrvc = require('./data-service');
 
 exports.getUsers = async (req, res, next) => {
@@ -15,12 +15,8 @@ exports.getUsers = async (req, res, next) => {
 
 exports.getUserById = async (req, res, next) => {
   try {
-    let dataBuilder = new DataBuilder({ source: req.params });
-    dataBuilder.parseObjectId({ name: '_id', required: true });
-
     let user = await usersSrvc.getUserOne({
-      filter: dataBuilder.build(),
-      fields: 'name email'
+      filter: userHelpers.getSingleFilter(req.params)
     });
     res.send(user);
   } catch (err) {
@@ -30,11 +26,9 @@ exports.getUserById = async (req, res, next) => {
 
 exports.createUser = async (req, res, next) => {
   try {
-    let dataBuilder = new DataBuilder({ source: req.body });
-    dataBuilder.parseString({ name: 'name', required: true });
-    dataBuilder.parseEmail({ name: 'email', required: true });
-
-    let user = await usersSrvc.createUser({ userData: dataBuilder.build() });
+    let user = await usersSrvc.createUser({
+      userData: userHelpers.parseUserParams(req.body)
+    });
     res.status(201).send(user);
   } catch (err) {
     next(err);
@@ -43,16 +37,9 @@ exports.createUser = async (req, res, next) => {
 
 exports.updateUser = async (req, res, next) => {
   try {
-    let filterBuilder = new DataBuilder({ source: req.params });
-    filterBuilder.parseObjectId({ source: req.params, name: '_id', required: true });
-
-    let dataBuilder = new DataBuilder({ source: req.body });
-    dataBuilder.parseString({ name: 'name', required: true });
-    dataBuilder.parseEmail({ name: 'email', required: true });
-
     await usersSrvc.findAndUpdateUser({
-      filter: filterBuilder.build(),
-      userData: dataBuilder.build()
+      filter: userHelpers.getSingleFilter(req.params),
+      userData: userHelpers.parseUserParams(req.body)
     });
     res.status(204).end();
   } catch (err) {
@@ -62,10 +49,9 @@ exports.updateUser = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
   try {
-    let filterBuilder = new DataBuilder();
-    filterBuilder.parseObjectId({ source: req.params, name: '_id', required: true });
-
-    await usersSrvc.deleteUser({ filter: filterBuilder.build() });
+    await usersSrvc.deleteUser({
+      filter: userHelpers.getSingleFilter(req.params)
+    });
     res.status(204).end();
   } catch (err) {
     next(err);
