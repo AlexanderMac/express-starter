@@ -11,11 +11,11 @@ module.exports = (app) => {
   // eslint-disable-next-line max-params, no-unused-vars
   app.use((err, req, res, next) => {
     if (err instanceof paramsProc.ParamsProcessorError) {
-      return res.status(422).send({ reason: err.message });
+      return res.status(422).send({ message: err.message });
     }
     if (err.statusCode < 500) {
       return res.status(err.statusCode).send({
-        reason: err.message,
+        message: err.message,
         info: err.info
       });
     }
