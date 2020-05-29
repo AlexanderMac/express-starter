@@ -1,5 +1,5 @@
 {
-    "ui": "bdd",
-    "reporter": "dot",
-    "recursive": true
+  "ui": "bdd",
+  "reporter": "dot",
+  "recursive": true
 }
