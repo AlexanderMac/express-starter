@@ -28,8 +28,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install Dependencies
-      - run: npm install
-      - run: npm install -g codecov
+        run: npm install && npm install -g codecov
 
       - name: Lint codebase
         run: npm run lint
@@ -38,6 +37,5 @@ jobs:
         run: npm test
 
       - name: Code coverage
+        run: npm run coverage-gh
         uses: codecov/codecov-action@v1
-        with:
-          run: npm run coverage-gh
