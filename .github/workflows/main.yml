@@ -28,8 +28,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install Dependencies
-        run: npm install
-        run: npm install -g codecov
+      - run: npm install
+      - run: npm install -g codecov
 
       - name: Lint codebase
         run: npm run lint
