@@ -38,7 +38,6 @@ jobs:
         run: npm test
 
       - name: Code coverage
-        run: npm run coverage-gh
-      
-      - name: Upload coverage reports
         uses: codecov/codecov-action@v1
+        with:
+          run: npm run coverage-gh
