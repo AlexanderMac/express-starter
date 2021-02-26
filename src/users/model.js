@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const userSchema = mongoose.Schema({
   name: {
@@ -9,14 +9,14 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true
   }
-});
+})
 
 userSchema.set('toJSON', {
   transform: function(doc, user) {
-    user.userId = user._id;
-    delete user._id;
-    delete user.__v;
+    user.userId = user._id
+    delete user._id
+    delete user.__v
   }
-});
+})
 
-mongoose.model('user', userSchema);
+mongoose.model('user', userSchema)
