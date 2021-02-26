@@ -38,4 +38,6 @@ jobs:
 
       - name: Code coverage
         run: npm run coverage-gh
+      
+      - name: Upload coverage reports
         uses: codecov/codecov-action@v1
