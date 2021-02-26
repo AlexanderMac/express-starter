@@ -1,7 +1,7 @@
 # express-starter
-`Express` project template.
+Boilerplate for creating Express project.
 
-[![Build Status](https://travis-ci.org/AlexanderMac/express-starter.svg?branch=master)](https://travis-ci.org/AlexanderMac/express-starter)
+[![Build Status](https://github.com/AlexanderMac/express-starter/workflows/CI/badge.svg)](https://github.com/AlexanderMac/express-starter/actions?query=workflow%3ACI)
 [![Code Coverage](https://codecov.io/gh/AlexanderMac/express-starter/branch/master/graph/badge.svg)](https://codecov.io/gh/AlexanderMac/express-starter)
 
 ### Features
