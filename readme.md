@@ -17,7 +17,6 @@ Boilerplate for creating Express project.
  - Backend - `express`
  - View engine - `pug`
  - Database - `mongodb`
- - Promises - `bluebird`
  - Linter - `eshint`
  - Testing - `mocha`, `should`, `supertest`, `sinon`
  - Logger - `winston, morgan`

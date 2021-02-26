@@ -1,11 +1,9 @@
 const _ = require('lodash')
-const Promise = require('bluebird')
 const mongoose = require('mongoose')
 const sinon = require('sinon')
 const nassert = require('n-assert')
 const mongoDb = require('../../src/_common/db')
 require('../../src/_common/utils/errors')
-require('../../src/_common/utils/promisify')
 
 nassert.initSinon(sinon)
 

@@ -1,9 +1,6 @@
 const mongoose = require('mongoose')
 const config = require('../../../config/environment')
 const logger = require('../utils/logger')
-require('../utils/promisify')
-
-mongoose.Promise = Promise
 
 mongoose.models = {}
 

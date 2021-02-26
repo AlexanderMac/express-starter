@@ -4,7 +4,6 @@ const db = require('./_common/db')
 const logger = require('./_common/utils/logger')
 
 require('./_common/utils/errors')
-require('./_common/utils/promisify')
 
 const app = express()
 require('./express')(app)
