@@ -63,8 +63,8 @@ npm lint
     - [logger] - app logger
 - [test] - unit and functional tests
 
+### License
+[MIT License](LICENSE)
+
 ### Author
 Alexander Mac
-
-### License
-[MIT License](license)
