@@ -4,7 +4,7 @@
   "description": "Express-starter",
   "private": true,
   "engines": {
-    "node": ">=14",
+    "node": ">=16",
     "npm": ">=7"
   },
   "scripts": {
@@ -21,7 +21,7 @@
     "lodash": "^4.17.15",
     "mongoose": "^5.9.16",
     "morgan": "^1.10.0",
-    "n-params-processor": "^5.0.1",
+    "n-params-processor": "^6.0.0",
     "nconf": "^0.11.2",
     "pug": "^3.0.0",
     "winston": "^3.2.1"
@@ -29,11 +29,11 @@
   "devDependencies": {
     "eslint": "^7.1.0",
     "mocha": "^8.3.0",
-    "n-assert": "^5.0.2",
+    "n-assert": "^7.0.0",
     "nodemon": "^2.0.4",
     "nyc": "^15.0.1",
     "should": "^13.2.3",
-    "sinon": "^9.0.2",
+    "sinon": "^10.0.0",
     "supertest": "^6.1.3"
   },
   "repository": {
