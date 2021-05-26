@@ -1,6 +1,6 @@
-const users = require('./controller')
+import users from './controller.js'
 
-module.exports = (app) => {
+export default (app) => {
   app.get('/api/users/:userId', users.getUserById)
   app.get('/api/users', users.getUsers)
   app.post('/api/users', users.createUser)

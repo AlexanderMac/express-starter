@@ -1,17 +1,22 @@
-const _ = require('lodash')
-const errors = require('./errors')
+import { camelCase } from 'lodash-es'
+import errors from './errors/index.js'
 
-exports.getObjectOrThrowError = (obj, objType) => {
+function getObjectOrThrowError(obj, objType) {
   if (!obj) {
-    let name = _.camelCase(objType || 'object')
+    let name = camelCase(objType || 'object')
     throw new errors.ObjectNotFoundError(`${name} is not found`)
   }
   return obj
 }
 
-exports.processObjectNotFoundError = (err) => {
+function processObjectNotFoundError(err) {
   if (err instanceof errors.ObjectNotFoundError) {
     return null
   }
   throw err
+}
+
+export default {
+  getObjectOrThrowError,
+  processObjectNotFoundError
 }

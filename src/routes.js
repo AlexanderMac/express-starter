@@ -1,8 +1,9 @@
-const paramsProc = require('n-params-processor')
-const logger = require('./_common/utils/logger')
+import paramsProc from 'n-params-processor'
+import logger from './_common/utils/logger.js'
+import userRoutes from './users/routes.js'
 
-module.exports = (app) => {
-  require('./users/routes')(app)
+export default (app) => {
+  userRoutes(app)
 
   app.use((req, res) => {
     res.status(404).send({ message: 'Invalid end point' })

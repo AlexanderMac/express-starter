@@ -1,7 +1,7 @@
-const userHelpers = require('./helpers')
-const usersSrvc = require('./data-service')
+import userHelpers from './helpers.js'
+import usersSrvc from './data-service.js'
 
-exports.getUsers = async (req, res, next) => {
+async function getUsers(req, res, next) {
   try {
     let users = await usersSrvc.getUsers({
       filter: {},
@@ -13,7 +13,7 @@ exports.getUsers = async (req, res, next) => {
   }
 }
 
-exports.getUserById = async (req, res, next) => {
+async function getUserById(req, res, next) {
   try {
     let user = await usersSrvc.getUserOne({
       filter: userHelpers.getSingleFilter(req.params)
@@ -24,7 +24,7 @@ exports.getUserById = async (req, res, next) => {
   }
 }
 
-exports.createUser = async (req, res, next) => {
+async function createUser(req, res, next) {
   try {
     let user = await usersSrvc.createUser({
       userData: userHelpers.parseUserParams(req.body)
@@ -35,7 +35,7 @@ exports.createUser = async (req, res, next) => {
   }
 }
 
-exports.updateUser = async (req, res, next) => {
+async function updateUser(req, res, next) {
   try {
     await usersSrvc.findAndUpdateUser({
       filter: userHelpers.getSingleFilter(req.params),
@@ -47,7 +47,7 @@ exports.updateUser = async (req, res, next) => {
   }
 }
 
-exports.deleteUser = async (req, res, next) => {
+async function deleteUser(req, res, next) {
   try {
     await usersSrvc.deleteUser({
       filter: userHelpers.getSingleFilter(req.params)
@@ -56,4 +56,12 @@ exports.deleteUser = async (req, res, next) => {
   } catch (err) {
     next(err)
   }
+}
+
+export default {
+  getUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser
 }

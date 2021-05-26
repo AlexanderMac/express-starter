@@ -1,18 +1,29 @@
-const _ = require('lodash')
+import { chain } from 'lodash-es'
+import AccessDeniedError from './access-denied.js'
+import BusinessLogicError from './business-logic.js'
+import DuplicateObjectError from './duplicate-object.js'
+import ObjectNotFoundError from './object-not-found.js'
+import ThirdPartyServiceError from './third-party-service.js'
+import UnauthorizedRequestError from './unauthorized-request.js'
+import UnprocessableRequestError from './unprocessable-request.js'
 
-exports.AccessDeniedError = require('./access-denied')
-exports.BusinessLogicError = require('./business-logic')
-exports.DuplicateObjectError = require('./duplicate-object')
-exports.ObjectNotFoundError = require('./object-not-found')
-exports.ThirdPartyServiceError = require('./third-party-service')
-exports.UnauthorizedRequestError = require('./unauthorized-request')
-exports.UnprocessableRequestError = require('./unprocessable-request')
+const errors = {
+  AccessDeniedError,
+  BusinessLogicError,
+  DuplicateObjectError,
+  ObjectNotFoundError,
+  ThirdPartyServiceError,
+  UnauthorizedRequestError,
+  UnprocessableRequestError
+}
 
-exports.isKnownError = (err) => {
-  let knownErr = _.chain(exports)
+errors.isKnownError = (err) => {
+  let knownErr = chain(errors)
     .keys()
     .without('isKnownError')
-    .find(errName => err instanceof exports[errName])
+    .find(errName => err instanceof errors[errName])
     .value()
   return !!knownErr
 }
+
+export default errors

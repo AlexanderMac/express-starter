@@ -1,9 +1,9 @@
-const morgan = require('morgan')
-const helmet = require('helmet')
-const bodyParser = require('body-parser')
-const config = require('../config/environment')
+import morgan from 'morgan'
+import helmet from 'helmet'
+import bodyParser from 'body-parser'
+import config from '../config/environment/index.js'
 
-module.exports = (app) => {
+export default (app) => {
   app.set('views', config.get('viewsPath'))
   app.set('port', config.get('port'))
 

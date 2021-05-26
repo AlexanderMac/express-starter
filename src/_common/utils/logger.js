@@ -1,6 +1,6 @@
-const _ = require('lodash')
-const winston = require('winston')
-const config = require('../../../config/environment')
+import { map, cloneDeep } from 'lodash-es'
+import winston from 'winston'
+import config from '../../../config/environment/index.js'
 
 const { combine, colorize, simple } = winston.format
 
@@ -12,10 +12,10 @@ const errorFormat = winston.format(info => {
   return info
 })
 
-let logger = winston.createLogger({
+export default winston.createLogger({
   exitOnError: false,
-  transports: _.map(config.get('winston:transports'), (opts, transType) => {
-    opts = _.cloneDeep(opts)
+  transports: map(config.get('winston:transports'), (opts, transType) => {
+    opts = cloneDeep(opts)
     switch (transType) {
       case 'console':
         opts.format = combine(
@@ -29,5 +29,3 @@ let logger = winston.createLogger({
     }
   })
 })
-
-module.exports = logger

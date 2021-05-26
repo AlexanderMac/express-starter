@@ -1,6 +1,7 @@
-const DataBuilder = require('n-params-processor').DataBuilder
+import paramsProc from 'n-params-processor'
+const { DataBuilder } = paramsProc
 
-exports.getSingleFilter = (source) => {
+function getSingleFilter(source) {
   let dataBuilder = new DataBuilder({ source })
   dataBuilder.parseObjectId({ name: 'userId', required: true })
 
@@ -9,10 +10,15 @@ exports.getSingleFilter = (source) => {
   }
 }
 
-exports.parseUserParams = (source) => {
+function parseUserParams(source) {
   let dataBuilder = new DataBuilder({ source })
   dataBuilder.parseString({ name: 'name', required: true })
   dataBuilder.parseEmail({ name: 'email', required: true })
 
   return dataBuilder.build()
+}
+
+export default {
+  getSingleFilter,
+  parseUserParams
 }

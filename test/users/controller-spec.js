@@ -1,9 +1,9 @@
-const _ = require('lodash')
-const mongoose = require('mongoose')
-const request = require('supertest')
-const should = require('should')
-const nassert = require('n-assert')
-const app = require('../../src/app')
+import { sortBy, cloneDeep, map } from 'lodash-es'
+import mongoose from 'mongoose'
+import request from 'supertest'
+import should from 'should'
+import nassert from 'n-assert'
+import app from '../../src/app.js'
 
 const User = mongoose.model('user')
 
@@ -34,13 +34,13 @@ describe('users / controller', () => {
         .get('/api/users/')
         .expect(expectedStatus)
         .expect('Content-Type', /json/)
-        .expect(res => nassert.assert(_.sortBy(res.body, 'userId'), _.sortBy(expectedBody, 'userId')))
+        .expect(res => nassert.assert(sortBy(res.body, 'userId'), sortBy(expectedBody, 'userId')))
     }
 
     it('should return status 200 and list of users', () => {
       let expectedStatus = 200
-      let expectedBody = _.map(initialUsers, user => {
-        let userCopy = _.cloneDeep(user)
+      let expectedBody = map(initialUsers, user => {
+        let userCopy = cloneDeep(user)
         userCopy.userId = user._id // rewrite id after clone
         delete userCopy._id
         return userCopy
@@ -102,7 +102,7 @@ describe('users / controller', () => {
     it('should return status 200 and user', () => {
       let userId = initialUsers[0]._id
       let expectedStatus = 200
-      let expectedBody = _.cloneDeep(initialUsers[0])
+      let expectedBody = cloneDeep(initialUsers[0])
       expectedBody.userId = userId
       delete expectedBody._id
 

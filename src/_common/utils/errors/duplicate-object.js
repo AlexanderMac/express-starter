@@ -1,4 +1,6 @@
-module.exports = class DuplicateObjectError extends require('./_app') {
+import AppError from './_app.js'
+
+export default class DuplicateObjectError extends AppError {
   constructor (message) {
     super(message || 'Duplicate Object', 409)
   }

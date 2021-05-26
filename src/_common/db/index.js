@@ -1,10 +1,10 @@
-const mongoose = require('mongoose')
-const config = require('../../../config/environment')
-const logger = require('../utils/logger')
+import mongoose from 'mongoose'
+import config from '../../../config/environment/index.js'
+import logger from '../utils/logger.js'
 
 mongoose.models = {}
 
-require('../../users/model')
+import '../../users/model.js'
 
 const conn = mongoose.connection
 
@@ -23,12 +23,16 @@ if (process.env.NODE_ENV !== 'test') {
   })
 }
 
-exports.conn = conn
-
-exports.connect = () => {
+function connect() {
   return mongoose.connect(config.get('db'), { useNewUrlParser: true })
 }
 
-exports.disconnect = () => {
+function disconnect() {
   return conn.close()
+}
+
+export default {
+  conn,
+  connect,
+  disconnect
 }

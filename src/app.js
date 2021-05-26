@@ -1,13 +1,15 @@
-const express = require('express')
-const config = require('../config/environment')
-const db = require('./_common/db')
-const logger = require('./_common/utils/logger')
+import express from 'express'
+import config from '../config/environment/index.js'
+import db from './_common/db/index.js'
+import logger from './_common/utils/logger.js'
 
-require('./_common/utils/errors')
+import './_common/utils/errors/index.js'
+import appExpress from './express.js'
+import appRoutes from './routes.js'
 
 const app = express()
-require('./express')(app)
-require('./routes')(app)
+appExpress(app)
+appRoutes(app)
 
 // istanbul ignore next
 if (app.get('env') !== 'test') {
@@ -18,4 +20,4 @@ if (app.get('env') !== 'test') {
   })
 }
 
-module.exports = app
+export default app

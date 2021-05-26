@@ -1,9 +1,9 @@
-const _ = require('lodash')
-const mongoose = require('mongoose')
-const sinon = require('sinon')
-const nassert = require('n-assert')
-const mongoDb = require('../../src/_common/db')
-require('../../src/_common/utils/errors')
+import { chain } from 'lodash-es'
+import mongoose from 'mongoose'
+import sinon from 'sinon'
+import nassert from 'n-assert'
+import mongoDb from '../../src/_common/db/index.js'
+import '../../src/_common/utils/errors/index.js'
 
 nassert.initSinon(sinon)
 
@@ -28,7 +28,7 @@ after(async function() {
 })
 
 function _clearDbs() {
-  let mongoDel = _(mongoose.models)
+  let mongoDel = chain(mongoose.models)
     .keys()
     .map(model => mongoose.model(model).deleteMany())
     .value()

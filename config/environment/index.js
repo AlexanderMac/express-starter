@@ -1,9 +1,11 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
-const _ = require('lodash')
-const nconf = require('nconf')
-const path = require('path')
+import { each, isObject, isArray, isNumber, isBoolean, isUndefined } from 'lodash-es'
+import nconf from 'nconf'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const envConfigFilepath = path.join(__dirname, process.env.NODE_ENV + '.json')
 const defConfigFilepath = path.join(__dirname, 'default.json')
 
@@ -18,12 +20,12 @@ nconf.set('rootPath', rootPath)
 nconf.set('viewsPath', path.join(rootPath, 'src', 'views'))
 
 function _convertKeysLoLowerCase(obj) {
-  _.each(obj, (value, key) => {
+  each(obj, (value, key) => {
     delete obj[key]
     key = key.toLowerCase()
     obj[key] = value
 
-    if (_.isObject(value) && !_.isArray(value)) {
+    if (isObject(value) && !isArray(value)) {
       _convertKeysLoLowerCase(value)
     }
   })
@@ -34,16 +36,16 @@ function _convertKeysLoLowerCase(obj) {
 // eslint-disable-next-line max-statements
 function get(key) {
   let value = nconf.get(key.toUpperCase())
-  if (_.isUndefined(value)) {
+  if (isUndefined(value)) {
     value = nconf.get(key)
-    if (_.isUndefined(value)) {
+    if (isUndefined(value)) {
       return undefined
     }
   }
-  if (_.isNumber(value) || _.isBoolean(value) || _.isArray(value)) {
+  if (isNumber(value) || isBoolean(value) || isArray(value)) {
     return value
   }
-  if (_.isObject(value)) {
+  if (isObject(value)) {
     return _convertKeysLoLowerCase(value)
   }
   if (value.match(/^\d$/g)) {
@@ -58,4 +60,6 @@ function get(key) {
   return value
 }
 
-exports.get = get
+export default {
+  get
+}

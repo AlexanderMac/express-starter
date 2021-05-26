@@ -1,44 +1,54 @@
-const _ = require('lodash')
-const mongoose = require('mongoose')
-const commonUtil = require('../_common/utils')
+import { extend } from 'lodash-es'
+import mongoose from 'mongoose'
+import commonUtil from '../_common/utils/index.js'
 
 const User = mongoose.model('user')
 
-exports.getUserOne = async ({ filter, fields }) => {
+async function getUserOne({ filter, fields }) {
   let user = await User.findOne(filter, fields)
   return commonUtil.getObjectOrThrowError(user, 'user')
 }
 
-exports.getUserOneOrNull = async (params) => {
+async function getUserOneOrNull(params) {
   try {
-    let user = await exports.getUserOne(params)
+    let user = await getUserOne(params)
     return user
   } catch (err) {
     return commonUtil.processObjectNotFoundError(err)
   }
 }
 
-exports.getUsers = ({ filter, fields }) => {
+function getUsers({ filter, fields }) {
   return User.find(filter, fields)
 }
 
-exports.createUser = ({ userData }) => {
+function createUser({ userData }) {
   return User.create(userData)
 }
 
-exports.findAndUpdateUser = async ({ filter, userData }) => {
-  let user = await exports.getUserOne({ filter })
+async function findAndUpdateUser({ filter, userData }) {
+  let user = await getUserOne({ filter })
 
-  _.extend(user, userData)
+  extend(user, userData)
 
-  return exports.saveUser({ user })
+  return saveUser({ user })
 }
 
-exports.saveUser = ({ user }) => {
+function saveUser({ user }) {
   return user.save()
 }
 
-exports.deleteUser = async (params) => {
-  let user = await exports.getUserOne(params)
+async function deleteUser(params) {
+  let user = await getUserOne(params)
   return user.remove()
+}
+
+export default {
+  getUserOne,
+  getUserOneOrNull,
+  getUsers,
+  createUser,
+  findAndUpdateUser,
+  saveUser,
+  deleteUser
 }
