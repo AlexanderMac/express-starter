@@ -28,7 +28,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install pnpm
-        run: npm install -g pnpm && SHELL=$SHELL pnpm setup
+        run: npm install -g pnpm && PNPM_HOME=/tmp pnpm setup
 
       - name: Install Dependencies
         run: pnpm install && pnpm install -g codecov
