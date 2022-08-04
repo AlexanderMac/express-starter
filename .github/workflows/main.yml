@@ -27,8 +27,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Install pnpm
+        run: npm install -g pnpm && pnpm setup
+
       - name: Install Dependencies
-        run: npm install -g pnpm && pnpm install && pnpm install -g codecov
+        run: pnpm install && pnpm install -g codecov
 
       - name: Lint codebase
         run: pnpm lint
