@@ -20,16 +20,18 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install pnpm
-        run: npm install -g pnpm && export PNPM_HOME=/tmp
-
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        with:
+          version: 7
+  
       - name: Install Dependencies
         run: pnpm install && pnpm install -g codecov
 
