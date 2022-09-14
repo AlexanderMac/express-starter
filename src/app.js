@@ -13,7 +13,7 @@ appRoutes(app)
 
 // istanbul ignore next
 if (app.get('env') !== 'test') {
-  db.connect()
+  await db.connect()
 
   app.listen(app.get('port'), () => {
     logger.info(`Express server started, environment=${config.get('env')}, listening on port=${config.get('port')}`)

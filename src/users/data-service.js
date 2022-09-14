@@ -1,8 +1,6 @@
 import { extend } from 'lodash-es'
-import mongoose from 'mongoose'
 import commonUtil from '../_common/utils/index.js'
-
-const User = mongoose.model('user')
+import { User } from './model.js'
 
 async function getUserOne({ filter, fields }) {
   let user = await User.findOne(filter, fields)

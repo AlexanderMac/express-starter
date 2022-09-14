@@ -1,6 +1,6 @@
-import mongoose from 'mongoose'
+import { Schema, model } from 'mongoose'
 
-const userSchema = mongoose.Schema({
+const userSchema = new Schema({
   name: {
     type: String,
     required: true
@@ -19,4 +19,4 @@ userSchema.set('toJSON', {
   }
 })
 
-mongoose.model('user', userSchema)
+export const User = model('User', userSchema)

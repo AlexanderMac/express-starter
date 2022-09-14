@@ -2,8 +2,6 @@ import mongoose from 'mongoose'
 import config from '../../../config/environment/index.js'
 import logger from '../utils/logger.js'
 
-mongoose.models = {}
-
 import '../../users/model.js'
 
 const conn = mongoose.connection
@@ -24,7 +22,7 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 function connect() {
-  return mongoose.connect(config.get('db'), { useNewUrlParser: true })
+  return mongoose.connect(config.get('db'))
 }
 
 function disconnect() {

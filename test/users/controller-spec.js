@@ -1,11 +1,9 @@
 import { sortBy, cloneDeep, map } from 'lodash-es'
-import mongoose from 'mongoose'
 import request from 'supertest'
 import should from 'should'
 import nassert from 'n-assert'
 import app from '../../src/app.js'
-
-const User = mongoose.model('user')
+import { User } from '../../src/users/model.js'
 
 describe('users / controller', () => {
   describe('getUsers', () => {
