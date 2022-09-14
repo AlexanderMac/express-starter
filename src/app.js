@@ -1,8 +1,8 @@
 import express from 'express'
+
 import config from '../config/environment/index.js'
 import db from './_common/db/index.js'
 import logger from './_common/utils/logger.js'
-
 import './_common/utils/errors/index.js'
 import appExpress from './express.js'
 import appRoutes from './routes.js'

@@ -2,12 +2,13 @@ import { sortBy, cloneDeep, map } from 'lodash-es'
 import request from 'supertest'
 import should from 'should'
 import nassert from 'n-assert'
+
 import app from '../../src/app.js'
 import { User } from '../../src/users/model.js'
 
 describe('users / controller', () => {
   describe('getUsers', () => {
-    let initialUsers = [
+    const initialUsers = [
       {
         _id: nassert.getObjectId(),
         name: 'user1',
@@ -36,9 +37,9 @@ describe('users / controller', () => {
     }
 
     it('should return status 200 and list of users', () => {
-      let expectedStatus = 200
-      let expectedBody = map(initialUsers, user => {
-        let userCopy = cloneDeep(user)
+      const expectedStatus = 200
+      const expectedBody = map(initialUsers, user => {
+        const userCopy = cloneDeep(user)
         userCopy.userId = user._id // rewrite id after clone
         delete userCopy._id
         return userCopy
@@ -49,7 +50,7 @@ describe('users / controller', () => {
   })
 
   describe('getUserById', () => {
-    let initialUsers = [
+    const initialUsers = [
       {
         _id: nassert.getObjectId(),
         name: 'user1',
@@ -78,9 +79,9 @@ describe('users / controller', () => {
     }
 
     it('should return status 422 when req.params.userId is invalid', () => {
-      let userId = 'Invalid Id'
-      let expectedStatus = 422
-      let expectedBody = {
+      const userId = 'Invalid Id'
+      const expectedStatus = 422
+      const expectedBody = {
         message: 'userId must be a valid ObjectId'
       }
 
@@ -88,9 +89,9 @@ describe('users / controller', () => {
     })
 
     it('should return status 404 when user is not found by req.params.userId', () => {
-      let userId = nassert.getObjectId()
-      let expectedStatus = 404
-      let expectedBody = {
+      const userId = nassert.getObjectId()
+      const expectedStatus = 404
+      const expectedBody = {
         message: 'user is not found'
       }
 
@@ -98,9 +99,9 @@ describe('users / controller', () => {
     })
 
     it('should return status 200 and user', () => {
-      let userId = initialUsers[0]._id
-      let expectedStatus = 200
-      let expectedBody = cloneDeep(initialUsers[0])
+      const userId = initialUsers[0]._id
+      const expectedStatus = 200
+      const expectedBody = cloneDeep(initialUsers[0])
       expectedBody.userId = userId
       delete expectedBody._id
 
@@ -109,7 +110,7 @@ describe('users / controller', () => {
   })
 
   describe('createUser', () => {
-    let initialUsers = [
+    const initialUsers = [
       {
         _id: nassert.getObjectId(),
         name: 'user1',
@@ -140,8 +141,8 @@ describe('users / controller', () => {
 
     it('should return status 422 when req.body is empty', () => {
       let userData
-      let expectedStatus = 422
-      let expectedBody = {
+      const expectedStatus = 422
+      const expectedBody = {
         message: 'name is required'
       }
 
@@ -149,11 +150,11 @@ describe('users / controller', () => {
     })
 
     it('should return status 422 when req.body.name is undefined', () => {
-      let userData = {
+      const userData = {
         email: 'new-user@mail.com'
       }
-      let expectedStatus = 422
-      let expectedBody = {
+      const expectedStatus = 422
+      const expectedBody = {
         message: 'name is required'
       }
 
@@ -161,11 +162,11 @@ describe('users / controller', () => {
     })
 
     it('should return status 422 when req.body.email is undefined', () => {
-      let userData = {
+      const userData = {
         name: 'new-user'
       }
-      let expectedStatus = 422
-      let expectedBody = {
+      const expectedStatus = 422
+      const expectedBody = {
         message: 'email is required'
       }
 
@@ -173,12 +174,12 @@ describe('users / controller', () => {
     })
 
     it('should return status 422 when req.body.email is not valid email', () => {
-      let userData = {
+      const userData = {
         name: 'new-user',
         email: 'invalidEmail'
       }
-      let expectedStatus = 422
-      let expectedBody = {
+      const expectedStatus = 422
+      const expectedBody = {
         message: 'email must be a valid email address'
       }
 
@@ -186,12 +187,12 @@ describe('users / controller', () => {
     })
 
     it('should return status 200 and create a new user when req.body is valid', () => {
-      let userData = {
+      const userData = {
         name: 'new-user',
         email: 'new-user@mail.com'
       }
-      let expectedStatus = 201
-      let expectedBody = {
+      const expectedStatus = 201
+      const expectedBody = {
         userId: '_mock_',
         name: 'new-user',
         email: 'new-user@mail.com'
@@ -202,7 +203,7 @@ describe('users / controller', () => {
   })
 
   describe('updateUser', () => {
-    let initialUsers = [
+    const initialUsers = [
       {
         _id: nassert.getObjectId(),
         name: 'user1',
@@ -238,13 +239,13 @@ describe('users / controller', () => {
     }
 
     it('should return status 422 when req.params.userId is invalid', () => {
-      let userId = 'InvalidId'
-      let userData = {
+      const userId = 'InvalidId'
+      const userData = {
         name: 'user1-new',
         email: 'user1-new@mail.com'
       }
-      let expectedStatus = 422
-      let expectedBody = {
+      const expectedStatus = 422
+      const expectedBody = {
         message: 'userId must be a valid ObjectId'
       }
 
@@ -252,10 +253,10 @@ describe('users / controller', () => {
     })
 
     it('should return status 422 when req.body is empty', () => {
-      let userId = initialUsers[0]._id
+      const userId = initialUsers[0]._id
       let userData
-      let expectedStatus = 422
-      let expectedBody = {
+      const expectedStatus = 422
+      const expectedBody = {
         message: 'name is required'
       }
 
@@ -263,12 +264,12 @@ describe('users / controller', () => {
     })
 
     it('should return status 422 when req.body.name is undefined', () => {
-      let userId = initialUsers[0]._id
-      let userData = {
+      const userId = initialUsers[0]._id
+      const userData = {
         email: 'user1-new@mail.com'
       }
-      let expectedStatus = 422
-      let expectedBody = {
+      const expectedStatus = 422
+      const expectedBody = {
         message: 'name is required'
       }
 
@@ -276,12 +277,12 @@ describe('users / controller', () => {
     })
 
     it('should return status 422 when req.body.email is undefined', () => {
-      let userId = initialUsers[0]._id
-      let userData = {
+      const userId = initialUsers[0]._id
+      const userData = {
         name: 'user1-new'
       }
-      let expectedStatus = 422
-      let expectedBody = {
+      const expectedStatus = 422
+      const expectedBody = {
         message: 'email is required'
       }
 
@@ -289,13 +290,13 @@ describe('users / controller', () => {
     })
 
     it('should return status 422 when req.body.email is not valid email', () => {
-      let userId = initialUsers[0]._id
-      let userData = {
+      const userId = initialUsers[0]._id
+      const userData = {
         name: 'user1-new',
         email: 'invalidEmail'
       }
-      let expectedStatus = 422
-      let expectedBody = {
+      const expectedStatus = 422
+      const expectedBody = {
         message: 'email must be a valid email address'
       }
 
@@ -303,13 +304,13 @@ describe('users / controller', () => {
     })
 
     it('should return status 404 when user is not found by req.params.userId', () => {
-      let userId = nassert.getObjectId()
-      let userData = {
+      const userId = nassert.getObjectId()
+      const userData = {
         name: 'user1-new',
         email: 'user1-new@mail.com'
       }
-      let expectedStatus = 404
-      let expectedBody = {
+      const expectedStatus = 404
+      const expectedBody = {
         message: 'user is not found'
       }
 
@@ -317,20 +318,20 @@ describe('users / controller', () => {
     })
 
     it('should return status 200 and update an user when req.body is valid', () => {
-      let userId = initialUsers[0]._id
-      let userData = {
+      const userId = initialUsers[0]._id
+      const userData = {
         name: 'user1-new',
         email: 'user1-new@mail.com'
       }
-      let expectedStatus = 204
-      let expectedBody = {}
+      const expectedStatus = 204
+      const expectedBody = {}
 
       return test({ userId, userData, expectedStatus, expectedBody })
     })
   })
 
   describe('deleteUser', () => {
-    let initialUsers = [
+    const initialUsers = [
       {
         _id: nassert.getObjectId(),
         name: 'user1',
@@ -365,9 +366,9 @@ describe('users / controller', () => {
     }
 
     it('should return status 422 when req.params.userId is invalid', () => {
-      let userId = 'Invalid Id'
-      let expectedStatus = 422
-      let expectedBody = {
+      const userId = 'Invalid Id'
+      const expectedStatus = 422
+      const expectedBody = {
         message: 'userId must be a valid ObjectId'
       }
 
@@ -375,9 +376,9 @@ describe('users / controller', () => {
     })
 
     it('should return status 404 when user is not found by req.params.userId', () => {
-      let userId = nassert.getObjectId()
-      let expectedStatus = 404
-      let expectedBody = {
+      const userId = nassert.getObjectId()
+      const expectedStatus = 404
+      const expectedBody = {
         message: 'user is not found'
       }
 
@@ -385,9 +386,9 @@ describe('users / controller', () => {
     })
 
     it('should return status 204 and delete user', () => {
-      let userId = initialUsers[0]._id
-      let expectedStatus = 204
-      let expectedBody = {}
+      const userId = initialUsers[0]._id
+      const expectedStatus = 204
+      const expectedBody = {}
 
       return test({ userId, expectedStatus, expectedBody })
     })

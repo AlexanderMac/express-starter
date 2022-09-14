@@ -3,7 +3,7 @@ import usersSrvc from './data-service.js'
 
 async function getUsers(req, res, next) {
   try {
-    let users = await usersSrvc.getUsers({
+    const users = await usersSrvc.getUsers({
       filter: {},
       fields: 'name email'
     })
@@ -15,7 +15,7 @@ async function getUsers(req, res, next) {
 
 async function getUserById(req, res, next) {
   try {
-    let user = await usersSrvc.getUserOne({
+    const user = await usersSrvc.getUserOne({
       filter: userHelpers.getSingleFilter(req.params)
     })
     res.send(user)
@@ -26,7 +26,7 @@ async function getUserById(req, res, next) {
 
 async function createUser(req, res, next) {
   try {
-    let user = await usersSrvc.createUser({
+    const user = await usersSrvc.createUser({
       userData: userHelpers.parseUserParams(req.body)
     })
     res.status(201).send(user)

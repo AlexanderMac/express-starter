@@ -1,6 +1,7 @@
 import morgan from 'morgan'
 import helmet from 'helmet'
 import bodyParser from 'body-parser'
+
 import config from '../config/environment/index.js'
 
 export default (app) => {

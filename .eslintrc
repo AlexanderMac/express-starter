@@ -49,7 +49,7 @@
     "no-use-before-define": "off",
     "no-useless-call": "warn",
     "object-curly-spacing": ["error", "always", { "objectsInObjects": false }],
-    "prefer-const": "off",
+    "prefer-const": "error",
     "prefer-rest-params": "error",
     "prefer-spread": "error",
     "require-await": "warn",

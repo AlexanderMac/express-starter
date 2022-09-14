@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
+
 import config from '../../../config/environment/index.js'
 import logger from '../utils/logger.js'
-
 import '../../users/model.js'
 
 const conn = mongoose.connection

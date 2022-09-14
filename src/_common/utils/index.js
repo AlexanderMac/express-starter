@@ -1,9 +1,10 @@
 import { camelCase } from 'lodash-es'
+
 import errors from './errors/index.js'
 
 function getObjectOrThrowError(obj, objType) {
   if (!obj) {
-    let name = camelCase(objType || 'object')
+    const name = camelCase(objType || 'object')
     throw new errors.ObjectNotFoundError(`${name} is not found`)
   }
   return obj

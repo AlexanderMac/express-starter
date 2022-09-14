@@ -1,7 +1,7 @@
-import { chain } from 'lodash-es'
 import mongoose from 'mongoose'
 import sinon from 'sinon'
 import nassert from 'n-assert'
+
 import mongoDb from '../../src/_common/db/index.js'
 import '../../src/_common/utils/errors/index.js'
 
@@ -28,7 +28,7 @@ after(async function() {
 })
 
 function _clearDbs() {
-  let mongoDel = mongoose.modelNames().map(modelName => mongoose.model(modelName).deleteMany())
+  const mongoDel = mongoose.modelNames().map(modelName => mongoose.model(modelName).deleteMany())
 
   return Promise.all(mongoDel)
 }

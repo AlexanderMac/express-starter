@@ -1,5 +1,6 @@
 import { map, cloneDeep } from 'lodash-es'
 import winston from 'winston'
+
 import config from '../../../config/environment/index.js'
 
 const { combine, colorize, simple } = winston.format

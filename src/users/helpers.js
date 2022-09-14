@@ -1,8 +1,9 @@
 import paramsProc from 'n-params-processor'
+
 const { DataBuilder } = paramsProc
 
 function getSingleFilter(source) {
-  let dataBuilder = new DataBuilder({ source })
+  const dataBuilder = new DataBuilder({ source })
   dataBuilder.parseObjectId({ name: 'userId', required: true })
 
   return {
@@ -11,7 +12,7 @@ function getSingleFilter(source) {
 }
 
 function parseUserParams(source) {
-  let dataBuilder = new DataBuilder({ source })
+  const dataBuilder = new DataBuilder({ source })
   dataBuilder.parseString({ name: 'name', required: true })
   dataBuilder.parseEmail({ name: 'email', required: true })
 
