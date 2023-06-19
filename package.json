@@ -8,11 +8,15 @@
     "pnpm": ">=8"
   },
   "scripts": {
+    "prepare": "husky install",
     "start": "ts-node-dev --rs --cls src/index.ts",
     "clean": "rm -rf ./build",
     "build": "pnpm clean && pnpm tsc",
     "lint": "eslint ./src ./test --ext .ts --fix",
+    "prettify": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "pnpm lint && pnpm prettify",
     "test": "NODE_ENV=test mocha",
+    "test-ci": "NODE_ENV=test-ci mocha",
     "coverage": "nyc npm test",
     "coverage-gh": "nyc --reporter=lcov npm test && codecov"
   },
@@ -42,6 +46,8 @@
     "dotenv": "^16.1.4",
     "eslint": "^8.42.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
     "mocha": "^10.2.0",
     "n-assert": "^7.0.0",
     "nyc": "^15.1.0",

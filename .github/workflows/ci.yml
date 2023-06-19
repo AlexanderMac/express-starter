@@ -31,7 +31,7 @@ jobs:
       - name: Lint codebase
         run: pnpm lint
       - name: Test codebase
-        run: NODE_ENV=test-ci pnpm test
+        run: pnpm test-ci
       - name: Code coverage
         run: pnpm coverage-gh
       - name: Upload coverage reports
