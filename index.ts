@@ -5,7 +5,7 @@ import * as http from 'http'
 
 import db from './src/common/db'
 import { appConfig } from './src/config/app'
-import { app } from './src/index'
+import { createApp } from './src/express'
 import logger from './src/utils/logger'
 ;(async () => {
   try {
@@ -15,6 +15,7 @@ import logger from './src/utils/logger'
     await db.connect()
 
     logger.info('Initializing services...')
+    const app = createApp()
     const server = http.createServer(app)
 
     await once(server.listen(appConfig.port), 'listening')

@@ -4,8 +4,10 @@ import * as nassert from 'n-assert'
 import * as should from 'should'
 import * as request from 'supertest'
 
-import { app } from '../../src'
+import { createApp } from '../../src/express'
 import { User } from '../../src/users/model'
+
+const app = createApp()
 
 describe('users / controller', () => {
   describe('getUsers', () => {
