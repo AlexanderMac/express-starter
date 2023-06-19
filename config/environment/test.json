@@ -1,7 +1,7 @@
 {
   "port": 3000,
 
-  "db": "mongodb://localhost/express-starter-test",
+  "db": "mongodb://2.2.2.4:27017/express-starter-test",
 
   "winston": {
     "transports": {

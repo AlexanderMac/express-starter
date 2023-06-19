@@ -1,62 +1,71 @@
 {
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "simple-import-sort"],
+  "parserOptions": {
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "env": {
     "node": true,
     "es2022": true
   },
-  "parserOptions": {
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "impliedStrict": true
-    }
-  },
-  "extends": "eslint:recommended",
   "rules": {
-    "array-bracket-spacing": ["error", "never"],
-    "block-scoped-var": "error",
-    "brace-style": ["error", "1tbs"],
-    "camelcase": "error",
-    "comma-dangle": ["error", "never"],
-    "comma-spacing": ["error", { "before": false, "after": true }],
-    "computed-property-spacing": ["error", "never"],
-    "complexity": ["error", 12],
+    "brace-style": "error",
+    "no-constant-condition": "off",
+    "comma-dangle": ["error", "always-multiline"],
     "curly": "error",
-    "eol-last": "error",
-    "indent": ["error", 2, { "SwitchCase": 1, "MemberExpression": 1 }],
-    "eqeqeq": ["error", "smart"],
-    "keyword-spacing": ["error", { "before": true, "after": true }],
-    "max-depth": ["warn", 3],
-    "max-len": ["warn", 130],
-    "max-nested-callbacks": ["warn", 3],
-    "max-params": ["warn", 3],
-    "max-statements": ["warn", 15],
-    "new-cap": "off",
-    "no-console": "error",
-    "no-duplicate-imports": "error",
-    "no-else-return": "error",
-    "no-eq-null": "error",
-    "no-extend-native": "error",
-    "no-extra-parens": "warn",
-    "no-invalid-this": "error",
-    "no-lone-blocks": "warn",
-    "no-mixed-spaces-and-tabs": "error",
-    "no-multi-spaces": "error",
-    "no-return-await": "warn",
-    "no-shadow": "error",
-    "no-trailing-spaces": "error",
-    "no-throw-literal": "error",
-    "no-unused-expressions": "error",
-    "no-unused-vars": "error",
-    "no-use-before-define": "off",
-    "no-useless-call": "warn",
-    "object-curly-spacing": ["error", "always", { "objectsInObjects": false }],
-    "prefer-const": "error",
-    "prefer-rest-params": "error",
-    "prefer-spread": "error",
-    "require-await": "warn",
-    "semi": ["warn", "never"],
-    "space-infix-ops": "error",
-    "space-unary-ops": "error",
-    "strict": "error",
-    "quotes": ["error", "single", "avoid-escape"]
+    "handle-callback-err": "error",
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "global-require": "error",
+    "key-spacing": ["error", { "beforeColon": false }],
+    "linebreak-style": "off",
+    "max-len": [
+      "error", {
+        "code": 120,
+        "ignoreRegExpLiterals": true,
+        "ignoreUrls": true,
+        "ignoreComments": true
+      }
+    ],
+    "max-params": ["error", 6],
+    "no-case-declarations": "off",
+    "no-lonely-if": "error",
+    "no-multiple-empty-lines": "error",
+    "no-new-require": "error",
+    "no-path-concat": "error",
+    "object-curly-spacing": ["error", "always"],
+    "semi": ["error", "always"],
+    "quotes": ["error", "single", { "avoidEscape": true }],
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-empty-interface": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          // Side effect imports.
+          ["^\\u0000"],
+          // Node.js builtins prefixed with `node:`.
+          ["^node:"],
+          // Packages.
+          // Things that start with a letter (or digit or underscore), or `@` followed by a letter.
+          ["^@?\\w"],
+          // Absolute imports and other imports such as Vue-style `@/foo`.
+          // Anything not matched in another group.
+          ["^"],
+          // Relative imports.
+          // Anything that starts with a dot.
+          ["^\\."]
+        ]
+      }
+    ]
   }
 }
