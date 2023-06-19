@@ -5,7 +5,7 @@ on:
 env:
   NODE_ENV: test
   PORT: 3000
-  DB_CONNECTION_URL: mongodb://127.0.0.1:27127/express-starter-test
+  DB_CONNECTION_URL: mongodb://127.0.0.1:27017/express-starter-test
   WINSTON_TRANSPORTS: console
   WINSTON_TRANSPORTS_CONSOLE_LEVEL: error
 

@@ -4,11 +4,12 @@ import mongoose from 'mongoose'
 
 import { appConfig } from '../../config/app'
 import logger from '../../utils/logger'
+import { NodeEnv } from '../enums/env'
 
 const conn = mongoose.connection
 
 // istanbul ignore next
-if (process.env.NODE_ENV !== 'test') {
+if (appConfig.nodeEnv !== NodeEnv.test) {
   conn.on('error', err => {
     logger.error('mongodb connection error', err)
   })

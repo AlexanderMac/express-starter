@@ -19,6 +19,7 @@
     "no-constant-condition": "off",
     "comma-dangle": ["error", "always-multiline"],
     "curly": "error",
+    "no-console": "error",
     "handle-callback-err": "error",
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "global-require": "error",

@@ -1,11 +1,11 @@
-import '../../src/_common/utils/errors'
+import '../../env'
 
 import mongoose from 'mongoose'
 // @ts-ignore
 import * as nassert from 'n-assert'
 import sinon from 'sinon'
 
-import db from '../../src/_common/db'
+import db from '../../src/common/db'
 
 nassert.initSinon(sinon)
 

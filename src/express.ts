@@ -2,13 +2,14 @@ import { Application, json, urlencoded } from 'express'
 import helmet from 'helmet'
 import * as morgan from 'morgan'
 
+import { NodeEnv } from './common/enums/env'
 import { appConfig } from './config/app'
 
 export default (app: Application) => {
   app.set('port', appConfig.port)
 
   // istanbul ignore next
-  if (process.env.NODE_ENV !== 'test') {
+  if (appConfig.nodeEnv !== NodeEnv.test) {
     app.use(morgan('dev'))
   }
   app.use(helmet())

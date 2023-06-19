@@ -18,8 +18,13 @@ function loadEnvConfig(env: string) {
 }
 
 if (process.env.NODE_ENV !== NodeEnv.production) {
+  let nodeEnv = process.env.NODE_ENV
   loadEnvConfig('.env')
-  switch (process.env.APP_ENV) {
+  // need that because the app can be started without NODE_ENV
+  if (!nodeEnv) {
+    nodeEnv = process.env.NODE_ENV
+  }
+  switch (nodeEnv) {
     case NodeEnv.test:
       loadEnvConfig('.env.test')
       break
