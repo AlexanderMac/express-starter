@@ -1,32 +1,28 @@
-import { cloneDeep,map } from 'lodash';
-import * as winston from 'winston';
+import { cloneDeep, map } from 'lodash'
+import * as winston from 'winston'
 
-import { get } from '../../../config/environment';
+import { get } from '../../../config/environment'
 
-const { combine, colorize, simple } = winston.format;
+const { combine, colorize, simple } = winston.format
 
 const errorFormat = winston.format(info => {
   if (info.message instanceof Error) {
-    info.message = info.message.stack;
+    info.message = info.message.stack
   }
 
-  return info;
-});
+  return info
+})
 
 export default winston.createLogger({
   exitOnError: false,
   transports: map(get('winston:transports'), (opts, transType) => {
-    opts = cloneDeep(opts);
+    opts = cloneDeep(opts)
     switch (transType) {
       case 'console':
-        opts.format = combine(
-          errorFormat(),
-          colorize(),
-          simple(),
-        );
-        return new winston.transports.Console(opts);
+        opts.format = combine(errorFormat(), colorize(), simple())
+        return new winston.transports.Console(opts)
       default:
-        throw new Error('Unknown logger transport type: ' + transType);
+        throw new Error('Unknown logger transport type: ' + transType)
     }
   }),
-});
+})

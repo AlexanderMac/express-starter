@@ -1,23 +1,23 @@
-import { camelCase } from 'lodash';
+import { camelCase } from 'lodash'
 
-import { errors } from './errors';
+import { errors } from './errors'
 
 function getObjectOrThrowError(obj: any, objType: string) {
   if (!obj) {
-    const name = camelCase(objType || 'object');
-    throw new errors.ObjectNotFoundError(`${name} is not found`);
+    const name = camelCase(objType || 'object')
+    throw new errors.ObjectNotFoundError(`${name} is not found`)
   }
-  return obj;
+  return obj
 }
 
 function processObjectNotFoundError(err: Error) {
   if (err instanceof errors.ObjectNotFoundError) {
-    return null;
+    return null
   }
-  throw err;
+  throw err
 }
 
 export default {
   getObjectOrThrowError,
   processObjectNotFoundError,
-};
+}

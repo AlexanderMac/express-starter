@@ -1,7 +1,7 @@
-import AppError from './_app';
+import AppError from './_app'
 
 export default class DuplicateObjectError extends AppError {
-  constructor (message?: string) {
-    super(message || 'Duplicate Object', 409);
+  constructor(message?: string) {
+    super(message || 'Duplicate Object', 409)
   }
 }

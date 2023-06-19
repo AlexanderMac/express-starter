@@ -3,10 +3,10 @@
     "mocha": true
   },
   "rules": {
-    "max-len": 0,
-    "max-nested-callbacks": 0,
-    "max-params": 0,
-    "max-statements": 0,
+    "max-len": "off",
+    "max-nested-callbacks": "off",
+    "max-params": "off",
+    "max-statements": "off",
     "no-invalid-this": "off",
     "no-use-before-define": ["off", "nofunc"],
     "no-unused-expressions": "off"
