@@ -20,14 +20,20 @@
     "strictBindCallApply": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
+    "typeRoots": [
+      "src/@types",
+      "node_modules/@types"
+    ],
     "paths": {
       "@src": ["src"],
       "@src/*": ["src/*"],
     }
   },
   "include": [
-    "src/**/*",
-    "test/**/*"
+    "env.ts",
+    "index.ts",
+    "src/**/*.ts",
+    "test/**/*.ts"
   ],
   "exclude": [
     "node_modules"

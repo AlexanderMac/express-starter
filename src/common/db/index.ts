@@ -2,8 +2,8 @@ import '../../users/model'
 
 import mongoose from 'mongoose'
 
-import { get } from '../../../config/environment'
-import logger from '../utils/logger'
+import { appConfig } from '../../config/app'
+import logger from '../../utils/logger'
 
 const conn = mongoose.connection
 
@@ -14,7 +14,7 @@ if (process.env.NODE_ENV !== 'test') {
   })
 
   conn.on('connected', () => {
-    logger.info(`Connected to mongodb: ${get('db')}`)
+    logger.info(`Connected to mongodb: ${appConfig.port}`)
   })
 
   conn.on('disconnected', () => {
@@ -23,7 +23,7 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 function connect() {
-  return mongoose.connect(get('db'))
+  return mongoose.connect(appConfig.dbConnectionUrl)
 }
 
 function disconnect() {

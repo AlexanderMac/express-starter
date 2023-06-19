@@ -29,3 +29,7 @@ node_modules
 .jsbeautifyrc
 tsd.json
 typings
+
+# Env files
+.env
+.env.test

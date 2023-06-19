@@ -39,7 +39,7 @@
     "no-new-require": "error",
     "no-path-concat": "error",
     "object-curly-spacing": ["error", "always"],
-    "semi": ["error", "always"],
+    "semi": "off",
     "quotes": ["error", "single", { "avoidEscape": true }],
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-empty-interface": "off",

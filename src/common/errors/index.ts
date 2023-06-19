@@ -1,3 +1,5 @@
+import { camelCase } from 'lodash'
+
 import AccessDeniedError from './access-denied'
 import BusinessLogicError from './business-logic'
 import DuplicateObjectError from './duplicate-object'
@@ -26,4 +28,19 @@ export function isKnownError(err: Error) {
     err instanceof UnauthorizedRequestError ||
     err instanceof UnprocessableRequestError
   )
+}
+
+export function getObjectOrThrowError(obj: any, objType: string) {
+  if (!obj) {
+    const name = camelCase(objType || 'object')
+    throw new errors.ObjectNotFoundError(`${name} is not found`)
+  }
+  return obj
+}
+
+export function processObjectNotFoundError(err: Error) {
+  if (err instanceof errors.ObjectNotFoundError) {
+    return null
+  }
+  throw err
 }

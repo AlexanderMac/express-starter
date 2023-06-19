@@ -1,11 +1,11 @@
 import { extend } from 'lodash'
 
-import commonUtil from '../_common/utils'
+import { getObjectOrThrowError, processObjectNotFoundError } from '../common/errors'
 import { User } from './model'
 
 async function getUserOne({ filter, fields }: any) {
   const user = await User.findOne(filter, fields)
-  return commonUtil.getObjectOrThrowError(user, 'user')
+  return getObjectOrThrowError(user, 'user')
 }
 
 async function getUserOneOrNull(params: any) {
@@ -13,7 +13,7 @@ async function getUserOneOrNull(params: any) {
     const user = await getUserOne(params)
     return user
   } catch (err: any) {
-    return commonUtil.processObjectNotFoundError(err)
+    return processObjectNotFoundError(err)
   }
 }
 

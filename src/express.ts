@@ -1,13 +1,11 @@
-import * as bodyParser from 'body-parser'
-import { Application } from 'express'
+import { Application, json, urlencoded } from 'express'
 import helmet from 'helmet'
 import * as morgan from 'morgan'
 
-import { get } from '../config/environment'
+import { appConfig } from './config/app'
 
 export default (app: Application) => {
-  app.set('views', get('viewsPath'))
-  app.set('port', get('port'))
+  app.set('port', appConfig.port)
 
   // istanbul ignore next
   if (process.env.NODE_ENV !== 'test') {
@@ -16,9 +14,9 @@ export default (app: Application) => {
   app.use(helmet())
   // TODO: uncomment for favicon:
   // app.use(favicon(path.join(config.get('rootPath'), 'client', 'images', 'favicon.ico')));
-  app.use(bodyParser.json())
+  app.use(json())
   app.use(
-    bodyParser.urlencoded({
+    urlencoded({
       extended: true,
     }),
   )

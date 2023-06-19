@@ -1,7 +1,7 @@
-import { cloneDeep, map } from 'lodash'
+import { cloneDeep, keys } from 'lodash'
 import * as winston from 'winston'
 
-import { get } from '../../../config/environment'
+import { appConfig } from '../config/app'
 
 const { combine, colorize, simple } = winston.format
 
@@ -15,8 +15,8 @@ const errorFormat = winston.format(info => {
 
 export default winston.createLogger({
   exitOnError: false,
-  transports: map(get('winston:transports'), (opts, transType) => {
-    opts = cloneDeep(opts)
+  transports: keys(appConfig.winston.transports).map(transType => {
+    const opts = cloneDeep(appConfig.winston.transports[transType])
     switch (transType) {
       case 'console':
         opts.format = combine(errorFormat(), colorize(), simple())
