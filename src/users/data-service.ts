@@ -3,12 +3,12 @@ import { extend } from 'lodash'
 import { getObjectOrThrowError, processObjectNotFoundError } from '../common/errors'
 import { User } from './model'
 
-async function getUserOne({ filter, fields }: any) {
+export async function getUserOne({ filter, fields }: any) {
   const user = await User.findOne(filter, fields)
   return getObjectOrThrowError(user, 'user')
 }
 
-async function getUserOneOrNull(params: any) {
+export async function getUserOneOrNull(params: any) {
   try {
     const user = await getUserOne(params)
     return user
@@ -17,15 +17,15 @@ async function getUserOneOrNull(params: any) {
   }
 }
 
-function getUsers({ filter, fields }: any) {
+export function getUsers({ filter, fields }: any) {
   return User.find(filter, fields)
 }
 
-function createUser({ userData }: any) {
+export function createUser({ userData }: any) {
   return User.create(userData)
 }
 
-async function findAndUpdateUser({ filter, userData }: any) {
+export async function findAndUpdateUser({ filter, userData }: any) {
   const user = await getUserOne({ filter })
 
   extend(user, userData)
@@ -33,21 +33,11 @@ async function findAndUpdateUser({ filter, userData }: any) {
   return saveUser({ user })
 }
 
-function saveUser({ user }: any) {
+export function saveUser({ user }: any) {
   return user.save()
 }
 
-async function deleteUser(params: any) {
+export async function deleteUser(params: any) {
   const user = await getUserOne(params)
   return user.deleteOne()
-}
-
-export default {
-  getUserOne,
-  getUserOneOrNull,
-  getUsers,
-  createUser,
-  findAndUpdateUser,
-  saveUser,
-  deleteUser,
 }

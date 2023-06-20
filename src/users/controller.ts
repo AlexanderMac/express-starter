@@ -1,11 +1,21 @@
-import { NextFunction, Request, Response } from 'express'
+import { NextFunction, Request, Response, Router } from 'express'
 
-import usersSrvc from './data-service'
-import userHelpers from './helpers'
+import * as userSrvc from './data-service'
+import { getSingleFilter, parseUserParams } from './helpers'
+
+export const usersRouter: Router = Router({
+  caseSensitive: true,
+})
+
+usersRouter.get('/:userId', getUserById)
+usersRouter.get('/', getUsers)
+usersRouter.post('/', createUser)
+usersRouter.put('/:userId', updateUser)
+usersRouter.delete('/:userId', deleteUser)
 
 export async function getUsers(req: Request, res: Response, next: NextFunction) {
   try {
-    const users = await usersSrvc.getUsers({
+    const users = await userSrvc.getUsers({
       filter: {},
       fields: 'name email',
     })
@@ -17,8 +27,8 @@ export async function getUsers(req: Request, res: Response, next: NextFunction) 
 
 export async function getUserById(req: Request, res: Response, next: NextFunction) {
   try {
-    const user = await usersSrvc.getUserOne({
-      filter: userHelpers.getSingleFilter(req.params),
+    const user = await userSrvc.getUserOne({
+      filter: getSingleFilter(req.params),
     })
     res.send(user)
   } catch (err) {
@@ -28,8 +38,8 @@ export async function getUserById(req: Request, res: Response, next: NextFunctio
 
 export async function createUser(req: Request, res: Response, next: NextFunction) {
   try {
-    const user = await usersSrvc.createUser({
-      userData: userHelpers.parseUserParams(req.body),
+    const user = await userSrvc.createUser({
+      userData: parseUserParams(req.body),
     })
     res.status(201).send(user)
   } catch (err) {
@@ -39,9 +49,9 @@ export async function createUser(req: Request, res: Response, next: NextFunction
 
 export async function updateUser(req: Request, res: Response, next: NextFunction) {
   try {
-    await usersSrvc.findAndUpdateUser({
-      filter: userHelpers.getSingleFilter(req.params),
-      userData: userHelpers.parseUserParams(req.body),
+    await userSrvc.findAndUpdateUser({
+      filter: getSingleFilter(req.params),
+      userData: parseUserParams(req.body),
     })
     res.status(204).end()
   } catch (err) {
@@ -51,8 +61,8 @@ export async function updateUser(req: Request, res: Response, next: NextFunction
 
 export async function deleteUser(req: Request, res: Response, next: NextFunction) {
   try {
-    await usersSrvc.deleteUser({
-      filter: userHelpers.getSingleFilter(req.params),
+    await userSrvc.deleteUser({
+      filter: getSingleFilter(req.params),
     })
     res.status(204).end()
   } catch (err) {
