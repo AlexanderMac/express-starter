@@ -2,7 +2,7 @@ import { Application, NextFunction, Request, Response } from 'express'
 import * as paramsProc from 'n-params-processor'
 
 import userRoutes from './users/routes'
-import logger from './utils/logger'
+import { logger } from './utils/logger'
 
 export default (app: Application) => {
   userRoutes(app)

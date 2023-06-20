@@ -3,16 +3,16 @@ import './env'
 import { once } from 'events'
 import * as http from 'http'
 
-import db from './src/common/db'
+import { connect } from './src/common/db'
 import { appConfig } from './src/config/app'
 import { createApp } from './src/express'
-import logger from './src/utils/logger'
+import { initUnhandledErrorListeners, logger } from './src/utils/logger'
 ;(async () => {
   try {
-    // TODO: initUnhandledErrorListeners()
+    initUnhandledErrorListeners()
 
     logger.info('Initializing data sources...')
-    await db.connect()
+    await connect()
 
     logger.info('Initializing services...')
     const app = createApp()

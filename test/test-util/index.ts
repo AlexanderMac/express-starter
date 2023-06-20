@@ -5,14 +5,14 @@ import mongoose from 'mongoose'
 import * as nassert from 'n-assert'
 import sinon from 'sinon'
 
-import db from '../../src/common/db'
+import { connect, disconnect } from '../../src/common/db'
 
 nassert.initSinon(sinon)
 
 before(async function () {
   // eslint-disable-next-line no-invalid-this
   this.timeout(0)
-  await db.connect()
+  await connect()
   await _clearDbs()
 })
 
@@ -26,7 +26,7 @@ after(async function () {
   // eslint-disable-next-line no-invalid-this
   this.timeout(0)
   await _clearDbs()
-  await db.disconnect()
+  await disconnect()
 })
 
 function _clearDbs() {

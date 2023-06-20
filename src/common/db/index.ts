@@ -3,36 +3,30 @@ import '../../users/model'
 import mongoose from 'mongoose'
 
 import { appConfig } from '../../config/app'
-import logger from '../../utils/logger'
+import { logger } from '../../utils/logger'
 import { NodeEnv } from '../enums/env'
 
-const conn = mongoose.connection
+export const connection = mongoose.connection
 
 // istanbul ignore next
 if (appConfig.nodeEnv !== NodeEnv.test) {
-  conn.on('error', err => {
+  connection.on('error', err => {
     logger.error('mongodb connection error', err)
   })
 
-  conn.on('connected', () => {
+  connection.on('connected', () => {
     logger.info(`Connected to mongodb: ${appConfig.port}`)
   })
 
-  conn.on('disconnected', () => {
+  connection.on('disconnected', () => {
     logger.info('Disconnected from mongodb')
   })
 }
 
-function connect() {
+export function connect() {
   return mongoose.connect(appConfig.dbConnectionUrl)
 }
 
-function disconnect() {
-  return conn.close()
-}
-
-export default {
-  conn,
-  connect,
-  disconnect,
+export function disconnect() {
+  return connection.close()
 }
