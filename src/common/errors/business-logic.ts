@@ -1,6 +1,6 @@
-import AppError from './_app'
+import { AppError } from './app-error'
 
-export default class BusinessLogicError extends AppError {
+export class BusinessLogicError extends AppError {
   constructor(message?: string) {
     super(message || 'Business Logic Error', 409)
   }

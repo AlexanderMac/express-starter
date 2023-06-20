@@ -1,6 +1,6 @@
-import AppError from './_app'
+import { AppError } from './app-error'
 
-export default class UnauthorizedRequestError extends AppError {
+export class UnauthorizedRequestError extends AppError {
   constructor(message?: string) {
     super(message || 'Unauthorized Request', 401)
   }

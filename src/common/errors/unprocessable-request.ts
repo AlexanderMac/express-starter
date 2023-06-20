@@ -1,6 +1,6 @@
-import AppError from './_app'
+import { AppError } from './app-error'
 
-export default class UnprocessableRequestError extends AppError {
+export class UnprocessableRequestError extends AppError {
   constructor(message?: string) {
     super(message || 'Unprocessable Request', 422)
   }

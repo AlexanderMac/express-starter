@@ -1,12 +1,12 @@
 import { camelCase } from 'lodash'
 
-import AccessDeniedError from './access-denied'
-import BusinessLogicError from './business-logic'
-import DuplicateObjectError from './duplicate-object'
-import ObjectNotFoundError from './object-not-found'
-import ThirdPartyServiceError from './third-party-service'
-import UnauthorizedRequestError from './unauthorized-request'
-import UnprocessableRequestError from './unprocessable-request'
+import { AccessDeniedError } from './access-denied'
+import { BusinessLogicError } from './business-logic'
+import { DuplicateObjectError } from './duplicate-object'
+import { ObjectNotFoundError } from './object-not-found'
+import { ThirdPartyServiceError } from './third-party-service'
+import { UnauthorizedRequestError } from './unauthorized-request'
+import { UnprocessableRequestError } from './unprocessable-request'
 
 export const errors = {
   AccessDeniedError,
@@ -30,6 +30,7 @@ export function isKnownError(err: Error) {
   )
 }
 
+// TODO: why?
 export function getObjectOrThrowError(obj: any, objType: string) {
   if (!obj) {
     const name = camelCase(objType || 'object')
@@ -38,6 +39,7 @@ export function getObjectOrThrowError(obj: any, objType: string) {
   return obj
 }
 
+// TODO: why?
 export function processObjectNotFoundError(err: Error) {
   if (err instanceof errors.ObjectNotFoundError) {
     return null

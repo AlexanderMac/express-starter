@@ -1,6 +1,6 @@
-import AppError from './_app'
+import { AppError } from './app-error'
 
-export default class AccessDeniedError extends AppError {
+export class AccessDeniedError extends AppError {
   constructor(message?: string) {
     super(message || 'Access Denied', 403)
   }

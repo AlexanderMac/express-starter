@@ -1,6 +1,6 @@
-import AppError from './_app'
+import { AppError } from './app-error'
 
-export default class ThirdPartyServiceError extends AppError {
+export class ThirdPartyServiceError extends AppError {
   constructor(message?: string) {
     super(message || 'Third-party Service Error', 423)
   }

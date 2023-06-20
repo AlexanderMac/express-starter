@@ -1,6 +1,6 @@
-import AppError from './_app'
+import { AppError } from './app-error'
 
-export default class ObjectNotFoundError extends AppError {
+export class ObjectNotFoundError extends AppError {
   constructor(message?: string) {
     super(message || 'Object not found', 404)
   }
