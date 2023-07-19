@@ -4,9 +4,9 @@ import { once } from 'events'
 import * as http from 'http'
 
 import { connect } from './src/common/db'
+import { initUnhandledErrorListeners, logger } from './src/common/utils/logger'
 import { appConfig } from './src/config/app'
 import { createApp } from './src/express'
-import { initUnhandledErrorListeners, logger } from './src/utils/logger'
 ;(async () => {
   try {
     initUnhandledErrorListeners()

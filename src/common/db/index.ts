@@ -3,8 +3,8 @@ import '../../users/model'
 import mongoose from 'mongoose'
 
 import { appConfig } from '../../config/app'
-import { logger } from '../../utils/logger'
 import { NodeEnv } from '../enums/env'
+import { logger } from '../utils/logger'
 
 export const connection = mongoose.connection
 

@@ -1,7 +1,7 @@
 import { cloneDeep, keys } from 'lodash'
 import * as winston from 'winston'
 
-import { appConfig } from '../config/app'
+import { appConfig } from '../../config/app'
 
 const { combine, colorize, simple } = winston.format
 
