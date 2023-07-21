@@ -5,22 +5,21 @@ Boilerplate for creating Express project.
 [![Code Coverage](https://codecov.io/gh/AlexanderMac/express-starter/branch/master/graph/badge.svg)](https://codecov.io/gh/AlexanderMac/express-starter)
 
 ### Features
-- Advanced project structure with separation for routes, controllers, data-services.
+- Solid project structure.
 - RESTful User CRUD API.
 - Parameters validation.
 - Promises everywhere.
-- Configuration per environment.
 - Functional and unit tests.
 - Clean code:)
 
-### Used packages
- - Backend - `express`
- - View engine - `pug`
- - Database - `mongodb`
- - Linter - `eshint`
- - Testing - `mocha`, `should`, `supertest`, `sinon`
- - Logger - `winston, morgan`
- - Configuration: `n-conf`
+### Set
+ - **Framework**: Express
+ - **Language**: TypeScript
+ - **Database**: MongoDB
+ - **Loggers**: winston, morgan
+ - **Configuration**: n-conf
+ - **Linters, Formatters**: ESLint, Prettier
+ - **Testing**: mocha, should, supertest, sinon
 
 ### How to use
 ```sh
@@ -30,38 +29,31 @@ git clone https://github.com/AlexanderMac/express-starter.git
 # Init your repo:
 cd express-starter && rm -rf .git && git init
 
+# Install pnpm when needed:
+npm install -g pnpm
+
 # Install dependencies:
-npm i
+pnpm i
 
-# Configure database:
-# Open `./config/environment/development.json` and change `db` key to your database connection string.
+# Initialize ENVVARs, clone .env.example file and add your values there
 
-# Start app:
-npm start
-
-# Run tests (one of the commands):
-npm test # run all tests
-npm test --grep 'test-name'
-npm test --filter 'path to test file/folder'
-
-# Run code coverage tool:
-npm run coverage
-
-# Run linter tool:
-npm lint
+# Start the app:
+pnpm start
 ```
 
-### Project structure
-- [config] - app configuration options
-- [src]
-  - [controllers] - controllers
-  - [db] - database manager and models
-  - [data-services] - local data services
-  - [routes] - API end points
-  - [services] - remote service wrappers
-  - [util]
-    - [logger] - app logger
-- [test] - unit and functional tests
+### Commands
+```sh
+pnpm start      # Start the app and watch for changes
+pnpm build      # transpile TypeScript to JavaScript
+pnpm lint       # run linter and fix found issues
+pnpm prettify   # run prettier
+pnpm format     # run linter and prettier
+# Run tests (one of the commands):
+pnpm test
+pnpm test -- --grep 'test-name'
+pnpm test -- --filter 'path to test file/folder'
+npm run coverage # Run code coverage tool
+```
 
 ### License
 [MIT License](LICENSE)
