@@ -6,7 +6,7 @@ Boilerplate for creating Express project.
 
 ### Features
 - Solid project structure.
-- RESTful User CRUD API.
+- RESTful Tasks CRUD.
 - Parameters validation.
 - Promises everywhere.
 - Functional and unit tests.

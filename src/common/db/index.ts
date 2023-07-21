@@ -1,4 +1,4 @@
-import '../../users/model'
+import '../../tasks/model'
 
 import mongoose from 'mongoose'
 

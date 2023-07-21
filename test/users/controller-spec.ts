@@ -5,246 +5,233 @@ import * as should from 'should'
 import * as request from 'supertest'
 
 import { createApp } from '../../src/express'
-import { UserDto } from '../../src/users/dto'
-import { User } from '../../src/users/model'
+import { TaskDto } from '../../src/tasks/dto'
+import { Task } from '../../src/tasks/model'
 
 const app = createApp()
 
-type UserModel = UserDto & {
+type TaskModel = TaskDto & {
   _id: string
 }
 
-type UserOutput = UserDto & {
-  userId: string
+type TaskOutput = TaskDto & {
+  taskId: string
 }
 
-describe('users / controller', () => {
-  function userModelToUserOutput(user: UserModel) {
-    const ret: UserOutput = {
-      userId: user._id,
-      name: user.name,
-      email: user.email,
+describe('tasks / controller', () => {
+  function taskModelToTaskOutput(task: TaskModel) {
+    const ret: TaskOutput = {
+      taskId: task._id,
+      name: task.name,
+      done: task.done,
     }
     return ret
   }
 
-  describe('getUsers', () => {
-    const initialUsers: UserModel[] = [
+  describe('getTasks', () => {
+    const initialTasks: TaskModel[] = [
       {
         _id: nassert.getObjectId(),
-        name: 'user1',
-        email: 'user1@mail.com',
+        name: 'task1',
+        done: false,
       },
       {
         _id: nassert.getObjectId(),
-        name: 'user2',
-        email: 'user2@mail.com',
+        name: 'task2',
+        done: true,
       },
       {
         _id: nassert.getObjectId(),
-        name: 'user3',
-        email: 'user3@mail.com',
+        name: 'task3',
+        done: true,
       },
     ]
 
     async function test(expectedStatus: number, expectedBody: any) {
-      await User.create(initialUsers)
+      await Task.create(initialTasks)
 
       return request(app)
-        .get('/api/users/')
+        .get('/api/tasks/')
         .expect(expectedStatus)
         .expect('Content-Type', /json/)
-        .expect(res => nassert.assert(sortBy(res.body, 'userId'), sortBy(expectedBody, 'userId')))
+        .expect(res => nassert.assert(sortBy(res.body, 'taskId'), sortBy(expectedBody, 'taskId')))
     }
 
-    it('should return status 200 and list of users', async () => {
+    it('should return status 200 and list of tasks', async () => {
       const expectedStatus = 200
-      const expectedBody = initialUsers.map(userModelToUserOutput)
+      const expectedBody = initialTasks.map(taskModelToTaskOutput)
 
       await test(expectedStatus, expectedBody)
     })
   })
 
-  describe('getUserById', () => {
-    const initialUsers: UserModel[] = [
+  describe('getTaskById', () => {
+    const initialTasks: TaskModel[] = [
       {
         _id: nassert.getObjectId(),
-        name: 'user1',
-        email: 'user1@mail.com',
+        name: 'task1',
+        done: false,
       },
       {
         _id: nassert.getObjectId(),
-        name: 'user2',
-        email: 'user2@mail.com',
+        name: 'task2',
+        done: true,
       },
       {
         _id: nassert.getObjectId(),
-        name: 'user3',
-        email: 'user3@mail.com',
+        name: 'task3',
+        done: true,
       },
     ]
 
-    async function test(userId: string, expectedStatus: number, expectedBody: any) {
-      await User.create(initialUsers)
+    async function test(taskId: string, expectedStatus: number, expectedBody: any) {
+      await Task.create(initialTasks)
 
       return request(app)
-        .get('/api/users/' + userId)
+        .get('/api/tasks/' + taskId)
         .expect(expectedStatus)
         .expect('Content-Type', /json/)
         .expect(res => nassert.assert(res.body, expectedBody))
     }
 
-    it('should return status 400 when params.userId is invalid', async () => {
-      const userId = 'Invalid Id'
+    it('should return status 400 when params.taskId is invalid', async () => {
+      const taskId = 'Invalid Id'
       const expectedStatus = 400
       const expectedBody = {
-        message: 'params.userId is invalid ObjectId',
+        message: 'params.taskId is invalid ObjectId',
       }
 
-      await test(userId, expectedStatus, expectedBody)
+      await test(taskId, expectedStatus, expectedBody)
     })
 
-    it('should return status 404 when user not found by params.userId', async () => {
-      const userId = nassert.getObjectId()
+    it('should return status 404 when task not found by params.taskId', async () => {
+      const taskId = nassert.getObjectId()
       const expectedStatus = 404
       const expectedBody = {
-        message: 'User not found',
+        message: 'Task not found',
       }
 
-      await test(userId, expectedStatus, expectedBody)
+      await test(taskId, expectedStatus, expectedBody)
     })
 
-    it('should return status 200 and a user', async () => {
+    it('should return status 200 and a task', async () => {
       const expectedStatus = 200
-      const expectedBody = userModelToUserOutput(initialUsers[0])
+      const expectedBody = taskModelToTaskOutput(initialTasks[0])
 
-      await test(expectedBody.userId, expectedStatus, expectedBody)
+      await test(expectedBody.taskId, expectedStatus, expectedBody)
     })
   })
 
-  describe('createUser', () => {
-    const initialUsers: UserModel[] = [
+  describe('createTask', () => {
+    const initialTasks: TaskModel[] = [
       {
         _id: nassert.getObjectId(),
-        name: 'user1',
-        email: 'user1@mail.com',
+        name: 'task1',
+        done: false,
       },
       {
         _id: nassert.getObjectId(),
-        name: 'user2',
-        email: 'user2@mail.com',
+        name: 'task2',
+        done: true,
       },
       {
         _id: nassert.getObjectId(),
-        name: 'user3',
-        email: 'user3@mail.com',
+        name: 'task3',
+        done: true,
       },
     ]
 
-    async function test(userData: Partial<UserOutput> | undefined, expectedStatus: number, expectedBody: any) {
-      await User.create(initialUsers)
+    async function test(taskData: Partial<TaskOutput> | undefined, expectedStatus: number, expectedBody: any) {
+      await Task.create(initialTasks)
 
       return request(app)
-        .post('/api/users')
-        .send(userData)
+        .post('/api/tasks')
+        .send(taskData)
         .expect(expectedStatus)
         .expect('Content-Type', /application\/json/)
         .expect(res => nassert.assert(res.body, expectedBody))
     }
 
     it('should return status 400 when body is empty', async () => {
-      const userData = undefined
+      const taskData = undefined
       const expectedStatus = 400
       const expectedBody = {
-        message: 'body.name is required\nbody.email is required',
+        message: 'body.name is required\nbody.done is required',
       }
 
-      await test(userData, expectedStatus, expectedBody)
+      await test(taskData, expectedStatus, expectedBody)
     })
 
     it('should return status 400 when body.name is undefined', async () => {
-      const userData = {
-        email: 'new-user@mail.com',
+      const taskData = {
+        done: false,
       }
       const expectedStatus = 400
       const expectedBody = {
         message: 'body.name is required',
       }
 
-      await test(userData, expectedStatus, expectedBody)
+      await test(taskData, expectedStatus, expectedBody)
     })
 
-    it('should return status 400 when body.email is undefined', async () => {
-      const userData = {
-        name: 'new-user',
+    it('should return status 400 when body.done is undefined', async () => {
+      const taskData = {
+        name: 'new-task',
       }
       const expectedStatus = 400
       const expectedBody = {
-        message: 'body.email is required',
+        message: 'body.done is required',
       }
 
-      await test(userData, expectedStatus, expectedBody)
+      await test(taskData, expectedStatus, expectedBody)
     })
 
-    it('should return status 400 when body.email is not valid email', async () => {
-      const userData = {
-        name: 'new-user',
-        email: 'invalidEmail',
-      }
-      const expectedStatus = 400
-      const expectedBody = {
-        message: 'body.email is invalid email',
-      }
-
-      await test(userData, expectedStatus, expectedBody)
-    })
-
-    it('should return status 200 and create a new user when body is valid', async () => {
-      const userData = {
-        name: 'new-user',
-        email: 'new-user@mail.com',
+    it('should return status 200 and create a new task when body is valid', async () => {
+      const taskData = {
+        name: 'new-task',
+        done: false,
       }
       const expectedStatus = 201
       const expectedBody = {
-        userId: '_mock_',
-        name: 'new-user',
-        email: 'new-user@mail.com',
+        taskId: '_mock_',
+        name: 'new-task',
+        done: false,
       }
 
-      await test(userData, expectedStatus, expectedBody)
+      await test(taskData, expectedStatus, expectedBody)
     })
   })
 
-  describe('updateUser', () => {
-    const initialUsers: UserModel[] = [
+  describe('updateTask', () => {
+    const initialTasks: TaskModel[] = [
       {
         _id: nassert.getObjectId(),
-        name: 'user1',
-        email: 'user1@mail.com',
+        name: 'task1',
+        done: false,
       },
       {
         _id: nassert.getObjectId(),
-        name: 'user2',
-        email: 'user2@mail.com',
+        name: 'task2',
+        done: true,
       },
       {
         _id: nassert.getObjectId(),
-        name: 'user3',
-        email: 'user3@mail.com',
+        name: 'task3',
+        done: true,
       },
     ]
 
     async function test(
-      userId: string,
-      userData: Partial<UserOutput> | undefined,
+      taskId: string,
+      taskData: Partial<TaskOutput> | undefined,
       expectedStatus: number,
       expectedBody: any,
     ) {
-      await User.create(initialUsers)
+      await Task.create(initialTasks)
 
       return request(app)
-        .put('/api/users/' + userId)
-        .send(userData)
+        .put('/api/tasks/' + taskId)
+        .send(taskData)
         .expect(expectedStatus)
         .expect(res => {
           if (expectedStatus === 204) {
@@ -256,122 +243,108 @@ describe('users / controller', () => {
         })
     }
 
-    it('should return status 400 when params.userId is invalid', async () => {
-      const userId = 'InvalidId'
-      const userData = {
-        name: 'user1-new',
-        email: 'user1-new@mail.com',
+    it('should return status 400 when params.taskId is invalid', async () => {
+      const taskId = 'InvalidId'
+      const taskData = {
+        name: 'task1-new',
+        done: false,
       }
       const expectedStatus = 400
       const expectedBody = {
-        message: 'params.userId is invalid ObjectId',
+        message: 'params.taskId is invalid ObjectId',
       }
 
-      await test(userId, userData, expectedStatus, expectedBody)
+      await test(taskId, taskData, expectedStatus, expectedBody)
     })
 
     it('should return status 400 when body is empty', async () => {
-      const userId = initialUsers[0]._id
-      const userData = undefined
+      const taskId = initialTasks[0]._id
+      const taskData = undefined
       const expectedStatus = 400
       const expectedBody = {
-        message: 'body.name is required\nbody.email is required',
+        message: 'body.name is required\nbody.done is required',
       }
 
-      await test(userId, userData, expectedStatus, expectedBody)
+      await test(taskId, taskData, expectedStatus, expectedBody)
     })
 
     it('should return status 400 when body.name is undefined', async () => {
-      const userId = initialUsers[0]._id
-      const userData = {
-        email: 'user1-new@mail.com',
+      const taskId = initialTasks[0]._id
+      const taskData = {
+        done: false,
       }
       const expectedStatus = 400
       const expectedBody = {
         message: 'body.name is required',
       }
 
-      await test(userId, userData, expectedStatus, expectedBody)
+      await test(taskId, taskData, expectedStatus, expectedBody)
     })
 
-    it('should return status 400 when body.email is undefined', async () => {
-      const userId = initialUsers[0]._id
-      const userData = {
-        name: 'user1-new',
+    it('should return status 400 when body.done is undefined', async () => {
+      const taskId = initialTasks[0]._id
+      const taskData = {
+        name: 'task1-new',
       }
       const expectedStatus = 400
       const expectedBody = {
-        message: 'body.email is required',
+        message: 'body.done is required',
       }
 
-      await test(userId, userData, expectedStatus, expectedBody)
+      await test(taskId, taskData, expectedStatus, expectedBody)
     })
 
-    it('should return status 400 when body.email is not valid email', async () => {
-      const userId = initialUsers[0]._id
-      const userData = {
-        name: 'user1-new',
-        email: 'invalidEmail',
-      }
-      const expectedStatus = 400
-      const expectedBody = {
-        message: 'body.email is invalid email',
-      }
-
-      await test(userId, userData, expectedStatus, expectedBody)
-    })
-
-    it('should return status 404 when user not found by params.userId', async () => {
-      const userId = nassert.getObjectId()
-      const userData = {
-        name: 'user1-new',
-        email: 'user1-new@mail.com',
+    it('should return status 404 when task not found by params.taskId', async () => {
+      const taskId = nassert.getObjectId()
+      const taskData = {
+        name: 'task1-new',
+        done: false,
       }
       const expectedStatus = 404
       const expectedBody = {
-        message: 'User not found',
+        message: 'Task not found',
       }
 
-      await test(userId, userData, expectedStatus, expectedBody)
+      await test(taskId, taskData, expectedStatus, expectedBody)
     })
 
-    it('should return status 200 and update the user when body is valid', async () => {
-      const userId = initialUsers[0]._id
-      const userData = {
-        name: 'user1-new',
-        email: 'user1-new@mail.com',
+    it('should return status 200 and update the task when body is valid', async () => {
+      const taskId = initialTasks[0]._id
+      const taskData = {
+        name: 'task1-new',
+        done: false,
       }
       const expectedStatus = 204
       const expectedBody = {}
 
-      await test(userId, userData, expectedStatus, expectedBody)
+      await test(taskId, taskData, expectedStatus, expectedBody)
     })
   })
 
-  describe('deleteUser', () => {
-    const initialUsers: UserModel[] = [
+  describe('deleteTask', () => {
+    const initialTasks: TaskModel[] = [
       {
         _id: nassert.getObjectId(),
-        name: 'user1',
-        email: 'user1@mail.com',
+        name: 'task1',
+        done: false,
       },
       {
         _id: nassert.getObjectId(),
-        name: 'user2',
-        email: 'user2@mail.com',
+        name: 'task2',
+        done: true,
       },
       {
         _id: nassert.getObjectId(),
-        name: 'user3',
-        email: 'user3@mail.com',
+        name: 'task3',
+        done: true,
       },
     ]
 
-    async function test(userId: string, expectedStatus: number, expectedBody: any) {
-      await User.create(initialUsers)
+    async function test(taskId: string, expectedStatus: number, expectedBody: any) {
+      await Task.create(initialTasks)
 
       return request(app)
-        .delete('/api/users/' + userId)
+        .delete('/api/tasks/' + taskId)
         .expect(expectedStatus)
         .expect(res => {
           if (expectedStatus === 204) {
@@ -383,32 +356,32 @@ describe('users / controller', () => {
         })
     }
 
-    it('should return status 400 when params.userId is invalid', async () => {
-      const userId = 'Invalid Id'
+    it('should return status 400 when params.taskId is invalid', async () => {
+      const taskId = 'Invalid Id'
       const expectedStatus = 400
       const expectedBody = {
-        message: 'params.userId is invalid ObjectId',
+        message: 'params.taskId is invalid ObjectId',
       }
 
-      await test(userId, expectedStatus, expectedBody)
+      await test(taskId, expectedStatus, expectedBody)
     })
 
-    it('should return status 404 when user not found by params.userId', async () => {
-      const userId = nassert.getObjectId()
+    it('should return status 404 when task not found by params.taskId', async () => {
+      const taskId = nassert.getObjectId()
       const expectedStatus = 404
       const expectedBody = {
-        message: 'User not found',
+        message: 'Task not found',
       }
 
-      await test(userId, expectedStatus, expectedBody)
+      await test(taskId, expectedStatus, expectedBody)
     })
 
-    it('should return status 204 and delete the user', async () => {
-      const userId = initialUsers[0]._id
+    it('should return status 204 and delete the task', async () => {
+      const taskId = initialTasks[0]._id
       const expectedStatus = 204
       const expectedBody = {}
 
-      await test(userId, expectedStatus, expectedBody)
+      await test(taskId, expectedStatus, expectedBody)
     })
   })
 })

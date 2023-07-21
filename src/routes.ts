@@ -1,9 +1,9 @@
 import { Router } from 'express'
 
-import { usersRouter } from './users/controller'
+import { tasksRouter } from './tasks/controller'
 
 export const appRouter: Router = Router({
   caseSensitive: true,
 })
 
-appRouter.use('/users', usersRouter)
+appRouter.use('/tasks', tasksRouter)
