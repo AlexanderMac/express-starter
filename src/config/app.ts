@@ -11,7 +11,7 @@ export const appConfig = {
 
 function parseWinstonTransports(): Record<string, any> {
   const transports = (process.env.WINSTON_TRANSPORTS ?? '').split(',')
-  return transports.reduce((result, transportName) => {
+  return transports.reduce((result: Record<string, any>, transportName: string) => {
     const transportNameUp = transportName.toUpperCase()
     return {
       [transportName]: {

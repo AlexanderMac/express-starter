@@ -1,17 +1,35 @@
-import { cloneDeep, map, sortBy } from 'lodash'
+import { sortBy } from 'lodash'
 // @ts-ignore
 import * as nassert from 'n-assert'
 import * as should from 'should'
 import * as request from 'supertest'
 
 import { createApp } from '../../src/express'
+import { UserDto } from '../../src/users/dto'
 import { User } from '../../src/users/model'
 
 const app = createApp()
 
+type UserModel = UserDto & {
+  _id: string
+}
+
+type UserOutput = UserDto & {
+  userId: string
+}
+
 describe('users / controller', () => {
+  function userModelToUserOutput(user: UserModel) {
+    const ret: UserOutput = {
+      userId: user._id,
+      name: user.name,
+      email: user.email,
+    }
+    return ret
+  }
+
   describe('getUsers', () => {
-    const initialUsers = [
+    const initialUsers: UserModel[] = [
       {
         _id: nassert.getObjectId(),
         name: 'user1',
@@ -29,7 +47,7 @@ describe('users / controller', () => {
       },
     ]
 
-    async function test({ expectedStatus, expectedBody }: any) {
+    async function test(expectedStatus: number, expectedBody: any) {
       await User.create(initialUsers)
 
       return request(app)
@@ -39,21 +57,16 @@ describe('users / controller', () => {
         .expect(res => nassert.assert(sortBy(res.body, 'userId'), sortBy(expectedBody, 'userId')))
     }
 
-    it('should return status 200 and list of users', () => {
+    it('should return status 200 and list of users', async () => {
       const expectedStatus = 200
-      const expectedBody = map(initialUsers, user => {
-        const userCopy = cloneDeep(user) as any
-        userCopy.userId = user._id // rewrite id after clone
-        delete userCopy._id
-        return userCopy
-      })
+      const expectedBody = initialUsers.map(userModelToUserOutput)
 
-      return test({ expectedStatus, expectedBody })
+      await test(expectedStatus, expectedBody)
     })
   })
 
   describe('getUserById', () => {
-    const initialUsers = [
+    const initialUsers: UserModel[] = [
       {
         _id: nassert.getObjectId(),
         name: 'user1',
@@ -71,7 +84,7 @@ describe('users / controller', () => {
       },
     ]
 
-    async function test({ userId, expectedStatus, expectedBody }: any) {
+    async function test(userId: string, expectedStatus: number, expectedBody: any) {
       await User.create(initialUsers)
 
       return request(app)
@@ -81,39 +94,36 @@ describe('users / controller', () => {
         .expect(res => nassert.assert(res.body, expectedBody))
     }
 
-    it('should return status 422 when req.params.userId is invalid', () => {
+    it('should return status 400 when params.userId is invalid', async () => {
       const userId = 'Invalid Id'
-      const expectedStatus = 422
+      const expectedStatus = 400
       const expectedBody = {
-        message: 'userId must be a valid ObjectId',
+        message: 'params.userId is invalid ObjectId',
       }
 
-      return test({ userId, expectedStatus, expectedBody })
+      await test(userId, expectedStatus, expectedBody)
     })
 
-    it('should return status 404 when user is not found by req.params.userId', () => {
+    it('should return status 404 when user not found by params.userId', async () => {
       const userId = nassert.getObjectId()
       const expectedStatus = 404
       const expectedBody = {
-        message: 'user is not found',
+        message: 'User not found',
       }
 
-      return test({ userId, expectedStatus, expectedBody })
+      await test(userId, expectedStatus, expectedBody)
     })
 
-    it('should return status 200 and user', () => {
-      const userId = initialUsers[0]._id
+    it('should return status 200 and a user', async () => {
       const expectedStatus = 200
-      const expectedBody = cloneDeep(initialUsers[0]) as any
-      expectedBody.userId = userId
-      delete expectedBody._id
+      const expectedBody = userModelToUserOutput(initialUsers[0])
 
-      return test({ userId, expectedStatus, expectedBody })
+      await test(expectedBody.userId, expectedStatus, expectedBody)
     })
   })
 
   describe('createUser', () => {
-    const initialUsers = [
+    const initialUsers: UserModel[] = [
       {
         _id: nassert.getObjectId(),
         name: 'user1',
@@ -131,7 +141,7 @@ describe('users / controller', () => {
       },
     ]
 
-    async function test({ userData, expectedStatus, expectedBody }: any) {
+    async function test(userData: Partial<UserOutput> | undefined, expectedStatus: number, expectedBody: any) {
       await User.create(initialUsers)
 
       return request(app)
@@ -142,54 +152,54 @@ describe('users / controller', () => {
         .expect(res => nassert.assert(res.body, expectedBody))
     }
 
-    it('should return status 422 when req.body is empty', () => {
-      const userData = null
-      const expectedStatus = 422
+    it('should return status 400 when body is empty', async () => {
+      const userData = undefined
+      const expectedStatus = 400
       const expectedBody = {
-        message: 'name is required',
+        message: 'body.name is required\nbody.email is required',
       }
 
-      return test({ userData, expectedStatus, expectedBody })
+      await test(userData, expectedStatus, expectedBody)
     })
 
-    it('should return status 422 when req.body.name is undefined', () => {
+    it('should return status 400 when body.name is undefined', async () => {
       const userData = {
         email: 'new-user@mail.com',
       }
-      const expectedStatus = 422
+      const expectedStatus = 400
       const expectedBody = {
-        message: 'name is required',
+        message: 'body.name is required',
       }
 
-      return test({ userData, expectedStatus, expectedBody })
+      await test(userData, expectedStatus, expectedBody)
     })
 
-    it('should return status 422 when req.body.email is undefined', () => {
+    it('should return status 400 when body.email is undefined', async () => {
       const userData = {
         name: 'new-user',
       }
-      const expectedStatus = 422
+      const expectedStatus = 400
       const expectedBody = {
-        message: 'email is required',
+        message: 'body.email is required',
       }
 
-      return test({ userData, expectedStatus, expectedBody })
+      await test(userData, expectedStatus, expectedBody)
     })
 
-    it('should return status 422 when req.body.email is not valid email', () => {
+    it('should return status 400 when body.email is not valid email', async () => {
       const userData = {
         name: 'new-user',
         email: 'invalidEmail',
       }
-      const expectedStatus = 422
+      const expectedStatus = 400
       const expectedBody = {
-        message: 'email must be a valid email address',
+        message: 'body.email is invalid email',
       }
 
-      return test({ userData, expectedStatus, expectedBody })
+      await test(userData, expectedStatus, expectedBody)
     })
 
-    it('should return status 200 and create a new user when req.body is valid', () => {
+    it('should return status 200 and create a new user when body is valid', async () => {
       const userData = {
         name: 'new-user',
         email: 'new-user@mail.com',
@@ -201,12 +211,12 @@ describe('users / controller', () => {
         email: 'new-user@mail.com',
       }
 
-      return test({ userData, expectedStatus, expectedBody })
+      await test(userData, expectedStatus, expectedBody)
     })
   })
 
   describe('updateUser', () => {
-    const initialUsers = [
+    const initialUsers: UserModel[] = [
       {
         _id: nassert.getObjectId(),
         name: 'user1',
@@ -224,7 +234,12 @@ describe('users / controller', () => {
       },
     ]
 
-    async function test({ userId, userData, expectedStatus, expectedBody }: any) {
+    async function test(
+      userId: string,
+      userData: Partial<UserOutput> | undefined,
+      expectedStatus: number,
+      expectedBody: any,
+    ) {
       await User.create(initialUsers)
 
       return request(app)
@@ -241,72 +256,72 @@ describe('users / controller', () => {
         })
     }
 
-    it('should return status 422 when req.params.userId is invalid', () => {
+    it('should return status 400 when params.userId is invalid', async () => {
       const userId = 'InvalidId'
       const userData = {
         name: 'user1-new',
         email: 'user1-new@mail.com',
       }
-      const expectedStatus = 422
+      const expectedStatus = 400
       const expectedBody = {
-        message: 'userId must be a valid ObjectId',
+        message: 'params.userId is invalid ObjectId',
       }
 
-      return test({ userId, userData, expectedStatus, expectedBody })
+      await test(userId, userData, expectedStatus, expectedBody)
     })
 
-    it('should return status 422 when req.body is empty', () => {
+    it('should return status 400 when body is empty', async () => {
       const userId = initialUsers[0]._id
-      const userData = null
-      const expectedStatus = 422
+      const userData = undefined
+      const expectedStatus = 400
       const expectedBody = {
-        message: 'name is required',
+        message: 'body.name is required\nbody.email is required',
       }
 
-      return test({ userId, userData, expectedStatus, expectedBody })
+      await test(userId, userData, expectedStatus, expectedBody)
     })
 
-    it('should return status 422 when req.body.name is undefined', () => {
+    it('should return status 400 when body.name is undefined', async () => {
       const userId = initialUsers[0]._id
       const userData = {
         email: 'user1-new@mail.com',
       }
-      const expectedStatus = 422
+      const expectedStatus = 400
       const expectedBody = {
-        message: 'name is required',
+        message: 'body.name is required',
       }
 
-      return test({ userId, userData, expectedStatus, expectedBody })
+      await test(userId, userData, expectedStatus, expectedBody)
     })
 
-    it('should return status 422 when req.body.email is undefined', () => {
+    it('should return status 400 when body.email is undefined', async () => {
       const userId = initialUsers[0]._id
       const userData = {
         name: 'user1-new',
       }
-      const expectedStatus = 422
+      const expectedStatus = 400
       const expectedBody = {
-        message: 'email is required',
+        message: 'body.email is required',
       }
 
-      return test({ userId, userData, expectedStatus, expectedBody })
+      await test(userId, userData, expectedStatus, expectedBody)
     })
 
-    it('should return status 422 when req.body.email is not valid email', () => {
+    it('should return status 400 when body.email is not valid email', async () => {
       const userId = initialUsers[0]._id
       const userData = {
         name: 'user1-new',
         email: 'invalidEmail',
       }
-      const expectedStatus = 422
+      const expectedStatus = 400
       const expectedBody = {
-        message: 'email must be a valid email address',
+        message: 'body.email is invalid email',
       }
 
-      return test({ userId, userData, expectedStatus, expectedBody })
+      await test(userId, userData, expectedStatus, expectedBody)
     })
 
-    it('should return status 404 when user is not found by req.params.userId', () => {
+    it('should return status 404 when user not found by params.userId', async () => {
       const userId = nassert.getObjectId()
       const userData = {
         name: 'user1-new',
@@ -314,13 +329,13 @@ describe('users / controller', () => {
       }
       const expectedStatus = 404
       const expectedBody = {
-        message: 'user is not found',
+        message: 'User not found',
       }
 
-      return test({ userId, userData, expectedStatus, expectedBody })
+      await test(userId, userData, expectedStatus, expectedBody)
     })
 
-    it('should return status 200 and update an user when req.body is valid', () => {
+    it('should return status 200 and update the user when body is valid', async () => {
       const userId = initialUsers[0]._id
       const userData = {
         name: 'user1-new',
@@ -329,12 +344,12 @@ describe('users / controller', () => {
       const expectedStatus = 204
       const expectedBody = {}
 
-      return test({ userId, userData, expectedStatus, expectedBody })
+      await test(userId, userData, expectedStatus, expectedBody)
     })
   })
 
   describe('deleteUser', () => {
-    const initialUsers = [
+    const initialUsers: UserModel[] = [
       {
         _id: nassert.getObjectId(),
         name: 'user1',
@@ -352,7 +367,7 @@ describe('users / controller', () => {
       },
     ]
 
-    async function test({ userId, expectedStatus, expectedBody }: any) {
+    async function test(userId: string, expectedStatus: number, expectedBody: any) {
       await User.create(initialUsers)
 
       return request(app)
@@ -368,32 +383,32 @@ describe('users / controller', () => {
         })
     }
 
-    it('should return status 422 when req.params.userId is invalid', () => {
+    it('should return status 400 when params.userId is invalid', async () => {
       const userId = 'Invalid Id'
-      const expectedStatus = 422
+      const expectedStatus = 400
       const expectedBody = {
-        message: 'userId must be a valid ObjectId',
+        message: 'params.userId is invalid ObjectId',
       }
 
-      return test({ userId, expectedStatus, expectedBody })
+      await test(userId, expectedStatus, expectedBody)
     })
 
-    it('should return status 404 when user is not found by req.params.userId', () => {
+    it('should return status 404 when user not found by params.userId', async () => {
       const userId = nassert.getObjectId()
       const expectedStatus = 404
       const expectedBody = {
-        message: 'user is not found',
+        message: 'User not found',
       }
 
-      return test({ userId, expectedStatus, expectedBody })
+      await test(userId, expectedStatus, expectedBody)
     })
 
-    it('should return status 204 and delete user', () => {
+    it('should return status 204 and delete the user', async () => {
       const userId = initialUsers[0]._id
       const expectedStatus = 204
       const expectedBody = {}
 
-      return test({ userId, expectedStatus, expectedBody })
+      await test(userId, expectedStatus, expectedBody)
     })
   })
 })

@@ -1,12 +1,17 @@
 import { NextFunction, Request, Response } from 'express'
-import * as paramsProc from 'n-params-processor'
+import { lowerFirst } from 'lodash'
+import { z } from 'zod'
 
 import { logger } from '../utils/logger'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function errorMiddleware(err: any, req: Request, res: Response, next: NextFunction) {
-  if (err instanceof paramsProc.ParamsProcessorError) {
-    return res.status(422).send({ message: err.message })
+  if (err instanceof z.ZodError) {
+    const messages = err.errors.reduce((acc, error) => {
+      acc.push(error.path.join('.') + ' is ' + lowerFirst(error.message))
+      return acc
+    }, [] as string[])
+    return res.status(400).send({ message: messages.join('\n') })
   }
   if (err.statusCode < 500) {
     return res.status(err.statusCode).send({

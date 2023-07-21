@@ -20,7 +20,7 @@ import { createApp } from './src/express'
 
     await once(server.listen(appConfig.port), 'listening')
     logger.info(`The app has been started on port ${appConfig.port}.`)
-  } catch (error) {
-    logger.error(error as Error)
+  } catch (err: any) {
+    logger.error(err)
   }
 })()

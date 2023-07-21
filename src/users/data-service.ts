@@ -1,43 +1,33 @@
 import { extend } from 'lodash'
 
-import { getObjectOrThrowError, processObjectNotFoundError } from '../common/errors'
+import { ObjectNotFoundError } from '../common/errors/object-not-found'
+import { UserDto } from './dto'
 import { User } from './model'
 
-export async function getUserOne({ filter, fields }: any) {
-  const user = await User.findOne(filter, fields)
-  return getObjectOrThrowError(user, 'user')
-}
-
-export async function getUserOneOrNull(params: any) {
-  try {
-    const user = await getUserOne(params)
+export async function getUserById(userId: string, fields?: string[]) {
+  const user = await User.findOne({ _id: userId }, fields)
+  if (user) {
     return user
-  } catch (err: any) {
-    return processObjectNotFoundError(err)
   }
+  throw new ObjectNotFoundError('User not found')
 }
 
-export function getUsers({ filter, fields }: any) {
-  return User.find(filter, fields)
+export function getAllUsers(fields?: string[]) {
+  return User.find({}, fields)
 }
 
-export function createUser({ userData }: any) {
+export function createUser(userData: UserDto) {
   return User.create(userData)
 }
 
-export async function findAndUpdateUser({ filter, userData }: any) {
-  const user = await getUserOne({ filter })
-
+export async function updateUser(userId: string, userData: UserDto) {
+  const user = await getUserById(userId)
   extend(user, userData)
 
-  return saveUser({ user })
-}
-
-export function saveUser({ user }: any) {
   return user.save()
 }
 
-export async function deleteUser(params: any) {
-  const user = await getUserOne(params)
+export async function deleteUserById(userId: string) {
+  const user = await getUserById(userId)
   return user.deleteOne()
 }
