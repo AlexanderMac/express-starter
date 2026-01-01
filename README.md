@@ -1,4 +1,7 @@
 # express-starter
+
+## WARNING :warning:: This repo is not maintained anymore.
+
 Boilerplate for creating Express project.
 
 [![Build Status](https://github.com/AlexanderMac/express-starter/workflows/CI/badge.svg)](https://github.com/AlexanderMac/express-starter/actions?query=workflow%3ACI)
